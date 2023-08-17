@@ -9,3 +9,32 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Administrador {
+  id        Int          @id @default(autoincrement())
+  nome      String
+  email     String       @unique
+  senha     String
+  funcionarios Funcionario[]
+  fichas       Ficha[]
+}
+
+model Funcionario {
+  id           Int          @id @default(autoincrement())
+  nome         String
+  cargo        String
+  dataContrato DateTime
+  administradorId Int
+  administrador Administrador @relation(fields: [administradorId], references: [id])
+  fichas       Ficha[]
+}
+
+model Ficha {
+  id           Int          @id @default(autoincrement())
+  dataRegistro DateTime     @default(now())
+  conteudo     String
+  funcionarioId Int
+  funcionario  Funcionario  @relation(fields: [funcionarioId], references: [id])
+  administradorId Int
+  administrador Administrador @relation(fields: [administradorId], references: [id])
+}
