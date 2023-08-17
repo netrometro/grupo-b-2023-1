@@ -11,30 +11,38 @@ datasource db {
 }
 
 model Administrador {
-  id        Int          @id @default(autoincrement())
-  nome      String
-  email     String       @unique
-  senha     String
-  funcionarios Funcionario[]
-  fichas       Ficha[]
-}
-
-model Funcionario {
-  id           Int          @id @default(autoincrement())
+  id           Int      @id @default(autoincrement())
   nome         String
-  cargo        String
-  dataContrato DateTime
-  administradorId Int
-  administrador Administrador @relation(fields: [administradorId], references: [id])
-  fichas       Ficha[]
+  cpf          String   @unique
+  email        String   @unique
+  empresas     Empresa[]
 }
 
-model Ficha {
-  id           Int          @id @default(autoincrement())
-  dataRegistro DateTime     @default(now())
-  conteudo     String
-  funcionarioId Int
-  funcionario  Funcionario  @relation(fields: [funcionarioId], references: [id])
+model Empresa {
+  id           Int      @id @default(autoincrement())
+  nome         String
+  cnpj         String   @unique
+  endereco     String
+  cep          String
+  fichas       FichaFuncionario[]
   administradorId Int
   administrador Administrador @relation(fields: [administradorId], references: [id])
+}
+
+model FichaFuncionario {
+  id            Int        @id @default(autoincrement())
+  nome          String
+  email         String
+  nascimento    DateTime
+  nacionalidade String
+  cpf           String     @unique
+  rg            String     @unique
+  cargo         String
+  endereco      String
+  pispasep      String
+  admissao      DateTime
+  formacao      String
+  ctps          String
+  empresaId     Int
+  empresa       Empresa    @relation(fields: [empresaId], references: [id])
 }
