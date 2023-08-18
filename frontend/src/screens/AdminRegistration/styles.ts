@@ -5,6 +5,13 @@ const stylesAdminRegistration = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
   },
+  body: {
+    width: '100%',
+    marginTop: 20,
+  },
+  inputs: {
+    gap: 10,
+  },
 });
 
 export default stylesAdminRegistration;
