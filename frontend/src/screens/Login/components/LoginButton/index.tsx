@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Touchable, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import stylesLoginButton from './styles';
 
 interface ComponentProps {
