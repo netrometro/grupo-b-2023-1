@@ -4,6 +4,7 @@ import Logo from '../../components/Logo';
 import Input from '../../components/Input';
 import PasswordInput from '../../components/PasswordInput';
 import LoginButton from './components/LoginButton';
+import SignUpButton from './components/SignUpButton';
 
 export default function Login() {
   return (
@@ -19,6 +20,7 @@ export default function Login() {
         </View>
         <View>
           <LoginButton onPress={() => {}} />
+          <SignUpButton onPress={() => {}} />
         </View>
       </View>
     </View>
