@@ -3,6 +3,7 @@ import stylesLogin from './styles';
 import Logo from '../../components/Logo';
 import Input from '../../components/Input';
 import PasswordInput from '../../components/PasswordInput';
+import LoginButton from './components/LoginButton';
 
 export default function Login() {
   return (
@@ -15,6 +16,9 @@ export default function Login() {
         <View style={stylesLogin.inputs}>
           <Input label="E-mail:" placeholder="email@email.com" onChange={() => {}} error={false} />
           <PasswordInput label="Senha:" placeholder="********" onChange={() => {}} error={false} />
+        </View>
+        <View>
+          <LoginButton onPress={() => {}} />
         </View>
       </View>
     </View>
