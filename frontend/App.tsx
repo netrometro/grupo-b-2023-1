@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import Login from './src/screens/Login';
 import Dashboard from './src/screens/Dashboard';
 import AdminRegistration from './src/screens/AdminRegistration';
+import AdminEditInfo from './src/screens/AdminEditInfo';
 
 export default function App() {
   return (
@@ -10,7 +11,8 @@ export default function App() {
       <StatusBar style="light" />
       {/* <Login /> */}
       {/* <Dashboard /> */}
-      <AdminRegistration />
+      {/* <AdminRegistration /> */}
+      <AdminEditInfo />
     </View>
   );
 }
