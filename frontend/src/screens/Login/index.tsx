@@ -2,6 +2,7 @@ import { View, Text } from 'react-native';
 import stylesLogin from './styles';
 import Logo from '../../components/Logo';
 import Input from '../../components/Input';
+import PasswordInput from '../../components/PasswordInput';
 
 export default function Login() {
   return (
@@ -13,6 +14,7 @@ export default function Login() {
         <Text style={stylesLogin.tagLine}>Modernize, Otimize, Controle!</Text>
         <View style={stylesLogin.inputs}>
           <Input label="E-mail:" placeholder="email@email.com" onChange={() => {}} error={false} />
+          <PasswordInput label="Senha:" placeholder="********" onChange={() => {}} error={false} />
         </View>
       </View>
     </View>

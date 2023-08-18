@@ -11,18 +11,16 @@ interface ComponentProps {
 export default function Input({ placeholder, label, onChange, error }: ComponentProps) {
   return (
     <View style={stylesInput.container}>
-      <View style={stylesInput.container}>
-        <Text style={stylesInput.label}>{label}</Text>
-        <View style={stylesInput.inputBox}>
-          <TextInput
-            placeholder={placeholder}
-            cursorColor={'#4F67D8'}
-            style={stylesInput.input}
-            onChange={onChange}
-          />
-        </View>
-        {error ? <Text style={stylesInput.errorMessage}>Erro</Text> : <></>}
+      <Text style={stylesInput.label}>{label}</Text>
+      <View style={stylesInput.inputBox}>
+        <TextInput
+          placeholder={placeholder}
+          cursorColor={'#4F67D8'}
+          style={stylesInput.input}
+          onChange={onChange}
+        />
       </View>
+      {error ? <Text style={stylesInput.errorMessage}>Erro</Text> : <></>}
     </View>
   );
 }
