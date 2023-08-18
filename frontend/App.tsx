@@ -6,7 +6,7 @@ import Dashboard from './src/screens/Dashboard';
 export default function App() {
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+      <StatusBar style="light" />
       {/* <Login /> */}
       <Dashboard />
     </View>
