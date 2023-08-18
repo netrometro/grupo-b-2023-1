@@ -9,6 +9,8 @@ const stylesLogin = StyleSheet.create({
     height: 200,
     borderBottomLeftRadius: 60,
     borderBottomRightRadius: 60,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
   },
 });
 
