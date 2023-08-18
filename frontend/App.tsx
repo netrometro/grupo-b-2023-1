@@ -4,17 +4,10 @@ import Login from './src/screens/Login';
 import Dashboard from './src/screens/Dashboard';
 import AdminRegistration from './src/screens/AdminRegistration';
 import AdminEditInfo from './src/screens/AdminEditInfo';
+import { Routes } from './src/routes';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <StatusBar style="light" />
-      {/* <Login /> */}
-      {/* <Dashboard /> */}
-      {/* <AdminRegistration /> */}
-      <AdminEditInfo />
-    </View>
-  );
+  return <Routes />;
 }
 
 const styles = StyleSheet.create({
