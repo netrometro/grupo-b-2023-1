@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 const stylesLogin = StyleSheet.create({
   container: {
     width: '100%',
+    gap: 30,
   },
   background: {
     backgroundColor: '#4F67D8',
@@ -30,6 +31,9 @@ const stylesLogin = StyleSheet.create({
     color: '#4F67D8',
     fontWeight: '700',
     fontSize: 18,
+  },
+  inputs: {
+    width: '100%',
   },
 });
 
