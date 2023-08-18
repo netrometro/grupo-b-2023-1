@@ -8,6 +8,7 @@ export default function Login() {
       <View style={stylesLogin.background}>
         <Logo />
       </View>
+      <View style={stylesLogin.loginBox}></View>
     </View>
   );
 }

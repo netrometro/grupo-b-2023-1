@@ -15,6 +15,17 @@ const stylesLogin = StyleSheet.create({
     elevation: 20,
     shadowColor: '#000',
   },
+  loginBox: {
+    backgroundColor: 'white',
+    height: 400,
+    marginHorizontal: 20,
+    borderRadius: 20,
+    elevation: 20,
+    shadowColor: '#000',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 30,
+  },
 });
 
 export default stylesLogin;
