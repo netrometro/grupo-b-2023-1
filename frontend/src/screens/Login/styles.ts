@@ -11,6 +11,9 @@ const stylesLogin = StyleSheet.create({
     borderBottomRightRadius: 60,
     alignItems: 'center',
     justifyContent: 'flex-end',
+    paddingBottom: 10,
+    elevation: 20,
+    shadowColor: '#000',
   },
 });
 

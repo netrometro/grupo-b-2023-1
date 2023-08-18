@@ -6,6 +6,8 @@ const stylesLogo = StyleSheet.create({
     height: 90,
     width: 90,
     borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   container: {
     alignItems: 'center',
