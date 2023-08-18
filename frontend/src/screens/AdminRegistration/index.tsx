@@ -4,6 +4,7 @@ import Navbar from '../../components/Navbar';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { useState } from 'react';
+import PasswordInput from '../../components/PasswordInput';
 
 export default function AdminRegistration() {
   const [email, setEmail] = useState('');
@@ -29,11 +30,11 @@ export default function AdminRegistration() {
             placeholder="email@email.com"
             onChange={(value: string) => setEmail(value)}
           />
-          <Input
+          <PasswordInput
             error={false}
             label="Senha:"
-            placeholder="********"
             onChange={(value: string) => setPassword(value)}
+            placeholder="********"
           />
           <Input
             error={false}
