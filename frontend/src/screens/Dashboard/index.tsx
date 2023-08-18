@@ -8,7 +8,7 @@ export default function Dashboard() {
     <View style={stylesDashboard.container}>
       <DashboardNavbar />
       <View>
-        <Button />
+        <Button onPress={() => {}} text="Minhas informações" />
       </View>
     </View>
   );
