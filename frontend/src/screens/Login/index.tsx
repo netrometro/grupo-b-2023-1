@@ -8,7 +8,9 @@ export default function Login() {
       <View style={stylesLogin.background}>
         <Logo />
       </View>
-      <View style={stylesLogin.loginBox}></View>
+      <View style={stylesLogin.loginBox}>
+        <Text style={stylesLogin.tagLine}>Modernize, Otimize, Controle!</Text>
+      </View>
     </View>
   );
 }

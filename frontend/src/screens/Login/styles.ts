@@ -26,6 +26,11 @@ const stylesLogin = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 30,
   },
+  tagLine: {
+    color: '#4F67D8',
+    fontWeight: '700',
+    fontSize: 18,
+  },
 });
 
 export default stylesLogin;
