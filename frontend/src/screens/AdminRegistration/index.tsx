@@ -2,6 +2,7 @@ import { View } from 'react-native';
 import stylesAdminRegistration from './styles';
 import Navbar from '../../components/Navbar';
 import Input from '../../components/Input';
+import Button from '../../components/Button';
 
 export default function AdminRegistration() {
   return (
@@ -14,6 +15,7 @@ export default function AdminRegistration() {
           <Input error={false} label="Nome:" placeholder="Nome Completo" onChange={() => {}} />
           <Input error={false} label="CPF:" placeholder="000.000.000-00" onChange={() => {}} />
         </View>
+        <Button text="CADASTRAR" onPress={() => {}} />
       </View>
     </View>
   );
