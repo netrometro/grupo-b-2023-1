@@ -5,6 +5,7 @@ export default function Logo() {
   return (
     <View style={stylesLogo.container}>
       <View style={stylesLogo.background}></View>
+      <Text style={stylesLogo.logoText}>OptiStaff</Text>
     </View>
   );
 }

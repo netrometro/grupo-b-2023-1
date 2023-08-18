@@ -10,6 +10,12 @@ const stylesLogo = StyleSheet.create({
   container: {
     alignItems: 'center',
   },
+  logoText: {
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 20,
+    marginTop: 5,
+  },
 });
 
 export default stylesLogo;
