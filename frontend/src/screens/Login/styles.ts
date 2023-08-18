@@ -34,6 +34,7 @@ const stylesLogin = StyleSheet.create({
   },
   inputs: {
     width: '100%',
+    gap: 10,
   },
 });
 

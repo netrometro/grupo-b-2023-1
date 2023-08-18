@@ -6,7 +6,7 @@ import { useState } from 'react';
 interface ComponentProps {
   placeholder: string;
   label: string;
-  onChange: () => void;
+  onChange: (value: string) => void;
   error: boolean;
 }
 
@@ -26,7 +26,7 @@ export default function PasswordInput({ placeholder, label, onChange, error }: C
           placeholder={placeholder}
           cursorColor={'#4F67D8'}
           style={stylesPasswordInput.input}
-          onChange={onChange}
+          onChangeText={onChange}
           secureTextEntry={!visibility}
         />
         <TouchableOpacity onPress={toggleVisibility}>

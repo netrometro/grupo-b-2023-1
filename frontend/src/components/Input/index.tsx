@@ -4,7 +4,7 @@ import stylesInput from './styles';
 interface ComponentProps {
   placeholder: string;
   label: string;
-  onChange: () => void;
+  onChange: (value: string) => void;
   error: boolean;
 }
 
@@ -17,7 +17,7 @@ export default function Input({ placeholder, label, onChange, error }: Component
           placeholder={placeholder}
           cursorColor={'#4F67D8'}
           style={stylesInput.input}
-          onChange={onChange}
+          onChangeText={onChange}
         />
       </View>
       {error ? <Text style={stylesInput.errorMessage}>Erro</Text> : <></>}
