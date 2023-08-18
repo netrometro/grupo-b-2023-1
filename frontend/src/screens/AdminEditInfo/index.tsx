@@ -57,6 +57,7 @@ export default function AdminEditInfo() {
             }}
           />
           <Button
+            isRed={true}
             text="DELETAR CONTA"
             onPress={() => {
               console.log(data);

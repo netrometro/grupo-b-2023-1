@@ -4,7 +4,6 @@ const stylesButton = StyleSheet.create({
   background: {
     height: 40,
     width: 250,
-    backgroundColor: '#4F67D8',
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
