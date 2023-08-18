@@ -1,7 +1,15 @@
 import { StyleSheet } from 'react-native';
 
 const stylesLogin = StyleSheet.create({
-  container: {},
+  container: {
+    width: '100%',
+  },
+  background: {
+    backgroundColor: '#4F67D8',
+    height: 200,
+    borderBottomLeftRadius: 60,
+    borderBottomRightRadius: 60,
+  },
 });
 
 export default stylesLogin;
