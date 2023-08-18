@@ -7,3 +7,4 @@ async function empRoutes(server: FastifyInstance) {
 }
 
 export default empRoutes;
+

@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const FichaFuncionarioSchema = z.object({
+  id: z.number(),
   nome: z.string(),
   email: z.string().email(),
   nascimento: z.string().transform((val) => new Date(val)),
