@@ -12,7 +12,7 @@ export default function Login() {
       <View style={stylesLogin.loginBox}>
         <Text style={stylesLogin.tagLine}>Modernize, Otimize, Controle!</Text>
         <View style={stylesLogin.inputs}>
-          <Input label="E-mail:" placeholder="email@email.com" onChange={() => {}} />
+          <Input label="E-mail:" placeholder="email@email.com" onChange={() => {}} error={false} />
         </View>
       </View>
     </View>
