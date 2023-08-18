@@ -7,7 +7,7 @@ export default function Dashboard() {
   return (
     <View style={stylesDashboard.container}>
       <DashboardNavbar />
-      <View>
+      <View style={stylesDashboard.body}>
         <Button onPress={() => {}} text="Minhas informações" />
       </View>
     </View>
