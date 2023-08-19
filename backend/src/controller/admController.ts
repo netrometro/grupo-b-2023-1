@@ -20,7 +20,7 @@ exports.createAdm = async (req: FastifyRequest, res: FastifyReply) => {
     select: {
       id: true,
       email: false,
-      senha: true,
+      senha: false,
       cpf: false,
     },
   });
