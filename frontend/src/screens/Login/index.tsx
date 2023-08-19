@@ -53,12 +53,14 @@ export default function Login() {
             placeholder="email@email.com"
             onChange={(value: string) => setEmail(value)}
             error={false}
+            value={email}
           />
           <PasswordInput
             label="Senha:"
             placeholder="********"
             onChange={(value: string) => setPassword(value)}
             error={false}
+            value={password}
           />
         </View>
         <View>
