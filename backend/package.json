@@ -20,6 +20,7 @@
     "@fastify/formbody": "^7.4.0",
     "@prisma/client": "^5.1.1",
     "axios": "^1.4.0",
+    "bcrypt": "^5.1.1",
     "fastify": "^4.21.0",
     "zod": "^3.22.1"
   }
