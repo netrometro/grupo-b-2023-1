@@ -31,7 +31,6 @@ export default function Dashboard() {
   const { navigate } = useNavigation<Nav>();
 
   const handleMyInformations = () => {
-    console.log('cliquei no minhas informações');
     navigate('adminEditInfo');
   };
 
@@ -39,7 +38,6 @@ export default function Dashboard() {
     <View style={stylesDashboard.container}>
       <DashboardNavbar />
       <View style={stylesDashboard.body}>
-        <Text>Olá {user?.nome}</Text>
         <Button onPress={handleMyInformations} text="Minhas informações" />
       </View>
     </View>

@@ -26,13 +26,12 @@ export default function Login() {
   };
 
   const handleClickLogin = async () => {
-    console.log(data);
     try {
       const response = await api.post('/auth', data);
       await AsyncStorage.setItem('adminId', String(response.data.id));
       navigate('dashboard');
     } catch (error) {
-      console.log('deu errado');
+      ToastAndroid.show('Ocorreu um erro', ToastAndroid.LONG);
     }
   };
 

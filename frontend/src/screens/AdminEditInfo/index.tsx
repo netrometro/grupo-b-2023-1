@@ -8,7 +8,6 @@ import PasswordInput from '../../components/PasswordInput';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from '../../services/api';
-import { User } from '../../interfaces/user';
 
 export default function AdminEditInfo() {
   const [email, setEmail] = useState('');
@@ -69,7 +68,6 @@ export default function AdminEditInfo() {
       ToastAndroid.show('Dados alterados com sucesso!', ToastAndroid.LONG);
       navigate('dashboard');
     } catch (error) {
-      console.log(error);
       ToastAndroid.show('Ocorreu um erro!', ToastAndroid.LONG);
     }
   };
