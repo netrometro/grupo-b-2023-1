@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { ToastAndroid, View, Text, Alert } from 'react-native';
 import stylesAdminEditInfo from './styles';
 import Navbar from '../../components/Navbar';
 import Input from '../../components/Input';
@@ -15,22 +15,20 @@ export default function AdminEditInfo() {
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [cpf, setCpf] = useState('');
-  const [user, setUser] = useState<User>();
+  const [adminId, setAdminId] = useState('');
 
   useEffect(() => {
     const admin = async () => {
       const id = await AsyncStorage.getItem('adminId');
+      if (id !== null) {
+        setAdminId(id);
+      }
       try {
         const response = await api.get(`/admin/${id}`);
 
-        setUser(response.data);
         setUsername(response.data.nome);
         setCpf(response.data.cpf);
         setEmail(response.data.email);
-        console.log(email);
-        setPassword(response.data.senha);
-        console.log(password);
-        console.log(response.data.senha);
       } catch (error) {
         console.log(error);
       }
@@ -45,21 +43,68 @@ export default function AdminEditInfo() {
 
   const { navigate } = useNavigation<Nav>();
 
-  const data = {
+  const dataWithPassword = {
     email: email,
-    password: password,
-    username: username,
+    senha: password,
+    nome: username,
     cpf: cpf,
   };
 
-  const handleSave = () => {
-    console.log('salvo com sucesso');
-    navigate('dashboard');
+  const dataWithoutPassword = {
+    email: email,
+    senha: null,
+    nome: username,
+    cpf: cpf,
   };
 
-  const handleDelete = () => {
-    console.log('Deletado com sucesso');
-    navigate('login');
+  const handleSave = async () => {
+    try {
+      if (password === '') {
+        console.log('Entrou no vazio');
+        console.log(dataWithoutPassword);
+        await api.put(`/admin/${adminId}`, dataWithoutPassword);
+      } else {
+        await api.put(`/admin/${adminId}`, dataWithPassword);
+      }
+      ToastAndroid.show('Dados alterados com sucesso!', ToastAndroid.LONG);
+      navigate('dashboard');
+    } catch (error) {
+      console.log(error);
+      ToastAndroid.show('Ocorreu um erro!', ToastAndroid.LONG);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await api.delete(`/admin/${adminId}`);
+      await AsyncStorage.removeItem('adminId');
+      ToastAndroid.show('Sua conta foi deletada!', ToastAndroid.LONG);
+      navigate('login');
+    } catch (error) {
+      ToastAndroid.show('Ocorreu um erro', ToastAndroid.LONG);
+    }
+  };
+
+  const handleAlert = () => {
+    Alert.alert(
+      'Deseja deletar a sua conta?',
+      'Confirme se deseja deletar a sua conta, esta ação será irreversível.',
+      [
+        {
+          text: 'Cancelar',
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {
+          text: 'Confirmar',
+          onPress: handleDelete,
+        },
+      ],
+      {
+        cancelable: true,
+        onDismiss: () => {},
+      }
+    );
   };
 
   return (
@@ -100,10 +145,13 @@ export default function AdminEditInfo() {
             placeholder="********"
             value={password}
           />
+          <Text style={stylesAdminEditInfo.passwordText}>
+            *Caso não queira alterar a senha, mantenha o campo em branco
+          </Text>
         </View>
         <View style={stylesAdminEditInfo.buttons}>
           <Button text="SALVAR" onPress={handleSave} />
-          <Button isRed={true} text="DELETAR CONTA" onPress={handleDelete} />
+          <Button isRed={true} text="DELETAR CONTA" onPress={handleAlert} />
         </View>
       </View>
     </View>
