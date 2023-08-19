@@ -5,12 +5,19 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { useState } from 'react';
 import PasswordInput from '../../components/PasswordInput';
+import { useNavigation } from '@react-navigation/native';
 
 export default function AdminRegistration() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [cpf, setCpf] = useState('');
+
+  type Nav = {
+    navigate: (value: string) => void;
+  };
+
+  const { navigate } = useNavigation<Nav>();
 
   const data = {
     email: email,
@@ -19,9 +26,19 @@ export default function AdminRegistration() {
     cpf: cpf,
   };
 
+  const handleSignUp = () => {
+    console.log(data);
+    navigate('login');
+  };
+
   return (
     <View style={stylesAdminRegistration.container}>
-      <Navbar onPressArrowLeft={() => {}} text="Cadastre-se" />
+      <Navbar
+        onPressArrowLeft={() => {
+          navigate('login');
+        }}
+        text="Cadastre-se"
+      />
       <View style={stylesAdminRegistration.body}>
         <View style={stylesAdminRegistration.inputs}>
           <Input
@@ -49,12 +66,7 @@ export default function AdminRegistration() {
             onChange={(value: string) => setCpf(value)}
           />
         </View>
-        <Button
-          text="CADASTRAR"
-          onPress={() => {
-            console.log(data);
-          }}
-        />
+        <Button text="CADASTRAR" onPress={handleSignUp} />
       </View>
     </View>
   );

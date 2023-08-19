@@ -5,12 +5,19 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { useState } from 'react';
 import PasswordInput from '../../components/PasswordInput';
+import { useNavigation } from '@react-navigation/native';
 
 export default function AdminEditInfo() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [cpf, setCpf] = useState('');
+
+  type Nav = {
+    navigate: (value: string) => void;
+  };
+
+  const { navigate } = useNavigation<Nav>();
 
   const data = {
     email: email,
@@ -19,9 +26,24 @@ export default function AdminEditInfo() {
     cpf: cpf,
   };
 
+  const handleSave = () => {
+    console.log('salvo com sucesso');
+    navigate('dashboard');
+  };
+
+  const handleDelete = () => {
+    console.log('Deletado com sucesso');
+    navigate('login');
+  };
+
   return (
     <View style={stylesAdminEditInfo.container}>
-      <Navbar onPressArrowLeft={() => {}} text="Minhas informações" />
+      <Navbar
+        onPressArrowLeft={() => {
+          navigate('dashboard');
+        }}
+        text="Minhas informações"
+      />
       <View style={stylesAdminEditInfo.body}>
         <View style={stylesAdminEditInfo.inputs}>
           <Input
@@ -50,19 +72,8 @@ export default function AdminEditInfo() {
           />
         </View>
         <View style={stylesAdminEditInfo.buttons}>
-          <Button
-            text="CADASTRAR"
-            onPress={() => {
-              console.log(data);
-            }}
-          />
-          <Button
-            isRed={true}
-            text="DELETAR CONTA"
-            onPress={() => {
-              console.log(data);
-            }}
-          />
+          <Button text="SALVAR" onPress={handleSave} />
+          <Button isRed={true} text="DELETAR CONTA" onPress={handleDelete} />
         </View>
       </View>
     </View>

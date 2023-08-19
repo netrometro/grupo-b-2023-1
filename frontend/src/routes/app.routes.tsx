@@ -5,6 +5,14 @@ import Dashboard from '../screens/Dashboard';
 import AdminRegistration from '../screens/AdminRegistration';
 import AdminEditInfo from '../screens/AdminEditInfo';
 
+// export type RootStackParamList = {
+//   login: undefined;
+//   adminRegistration: undefined;
+//   dashboard: undefined;
+//   adminEditInfo: undefined;
+// };
+
+// const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
 const { Navigator, Screen } = createNativeStackNavigator();
 
 export default function AppRoutes() {

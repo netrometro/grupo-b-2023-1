@@ -6,10 +6,17 @@ import PasswordInput from '../../components/PasswordInput';
 import LoginButton from './components/LoginButton';
 import SignUpButton from './components/SignUpButton';
 import { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  type Nav = {
+    navigate: (value: string) => void;
+  };
+
+  const { navigate } = useNavigation<Nav>();
 
   const data = {
     email: email,
@@ -18,6 +25,11 @@ export default function Login() {
 
   const handleClickLogin = () => {
     console.log(data);
+    navigate('dashboard');
+  };
+
+  const handleLogin = () => {
+    navigate('adminRegistration');
   };
 
   return (
@@ -43,7 +55,7 @@ export default function Login() {
         </View>
         <View>
           <LoginButton onPress={handleClickLogin} />
-          <SignUpButton onPress={() => {}} />
+          <SignUpButton onPress={handleLogin} />
         </View>
       </View>
     </View>
