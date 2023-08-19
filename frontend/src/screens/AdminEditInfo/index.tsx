@@ -59,8 +59,6 @@ export default function AdminEditInfo() {
   const handleSave = async () => {
     try {
       if (password === '') {
-        console.log('Entrou no vazio');
-        console.log(dataWithoutPassword);
         await api.put(`/admin/${adminId}`, dataWithoutPassword);
       } else {
         await api.put(`/admin/${adminId}`, dataWithPassword);
@@ -79,6 +77,7 @@ export default function AdminEditInfo() {
       ToastAndroid.show('Sua conta foi deletada!', ToastAndroid.LONG);
       navigate('login');
     } catch (error) {
+      console.log();
       ToastAndroid.show('Ocorreu um erro', ToastAndroid.LONG);
     }
   };
