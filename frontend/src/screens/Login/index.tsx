@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { View, Text, Alert, ToastAndroid } from 'react-native';
 import stylesLogin from './styles';
 import Logo from '../../components/Logo';
 import Input from '../../components/Input';
@@ -7,6 +7,8 @@ import LoginButton from './components/LoginButton';
 import SignUpButton from './components/SignUpButton';
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { api } from '../../services/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -20,12 +22,17 @@ export default function Login() {
 
   const data = {
     email: email,
-    password: password,
+    senha: password,
   };
 
-  const handleClickLogin = () => {
-    console.log(data);
-    navigate('dashboard');
+  const handleClickLogin = async () => {
+    try {
+      const response = await api.post('/auth', data);
+      await AsyncStorage.setItem('adminId', String(response.data.id));
+      navigate('dashboard');
+    } catch (error) {
+      ToastAndroid.show('Ocorreu um erro', ToastAndroid.LONG);
+    }
   };
 
   const handleLogin = () => {
@@ -45,12 +52,14 @@ export default function Login() {
             placeholder="email@email.com"
             onChange={(value: string) => setEmail(value)}
             error={false}
+            value={email}
           />
           <PasswordInput
             label="Senha:"
             placeholder="********"
             onChange={(value: string) => setPassword(value)}
             error={false}
+            value={password}
           />
         </View>
         <View>

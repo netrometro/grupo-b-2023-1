@@ -1,10 +1,15 @@
 import { z } from "zod";
 
-const admSchema = z.object({
+export const admSchema = z.object({
   nome: z.string(),
   email: z.string().email(),
   senha: z.string(),
   cpf: z.string(),
 });
 
-export default admSchema;
+export const admSchemaEdit = z.object({
+  nome: z.string(),
+  email: z.string().email(),
+  senha: z.string().nullable(),
+  cpf: z.string(),
+});

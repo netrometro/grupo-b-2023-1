@@ -10,6 +10,17 @@ const stylesDashboardNavbar = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 15,
   },
+  content: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    justifyContent: 'space-between',
+  },
+  dashboardText: {
+    color: 'white',
+    fontWeight: '400',
+    fontSize: 18,
+  },
 });
 
 export default stylesDashboardNavbar;
