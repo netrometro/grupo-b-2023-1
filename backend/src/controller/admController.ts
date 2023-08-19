@@ -7,9 +7,12 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 exports.createAdm = async (req: FastifyRequest, res: FastifyReply) => {
+  console.log("primeiro print");
   const { nome, email, senha, cpf } = admSchema.parse(req.body);
 
+  console.log("segundo print");
   const hashedSenha = bcrypt.hashSync(senha, 10);
+  console.log("terceiro print");
 
   const administrador = await prisma.administrador.create({
     data: {
