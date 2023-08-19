@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { ToastAndroid, View } from 'react-native';
 import stylesAdminRegistration from './styles';
 import Navbar from '../../components/Navbar';
 import Input from '../../components/Input';
@@ -6,6 +6,7 @@ import Button from '../../components/Button';
 import { useState } from 'react';
 import PasswordInput from '../../components/PasswordInput';
 import { useNavigation } from '@react-navigation/native';
+import { api } from '../../services/api';
 
 export default function AdminRegistration() {
   const [email, setEmail] = useState('');
@@ -21,14 +22,19 @@ export default function AdminRegistration() {
 
   const data = {
     email: email,
-    password: password,
-    username: username,
+    senha: password,
+    nome: username,
     cpf: cpf,
   };
 
-  const handleSignUp = () => {
-    console.log(data);
-    navigate('login');
+  const handleSignUp = async () => {
+    try {
+      await api.post('/admin', data);
+      ToastAndroid.show('Cadastrado com sucesso!', ToastAndroid.LONG);
+      navigate('login');
+    } catch (error) {
+      ToastAndroid.show('Ocorreu um erro!', ToastAndroid.LONG);
+    }
   };
 
   return (
