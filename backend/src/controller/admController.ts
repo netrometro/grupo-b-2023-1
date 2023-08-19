@@ -50,8 +50,9 @@ exports.editAdm = async (req: FastifyRequest, res: FastifyReply) => {
 
   const { admId } = paramsSchema.parse(req.params);
 
-  console.log(req.body);
   const { nome, email, senha, cpf } = admSchema.parse(req.body);
+
+  const hashedSenha = bcrypt.hashSync(senha, 10);
 
   // let administrador = await prisma.memory.findUniqueOrThrow({
   //   where: {
@@ -66,8 +67,24 @@ exports.editAdm = async (req: FastifyRequest, res: FastifyReply) => {
     data: {
       nome,
       email,
-      senha,
+      senha: hashedSenha,
       cpf,
+    },
+  });
+
+  return administrador;
+};
+
+exports.getAdmin = async (req: FastifyRequest, res: FastifyReply) => {
+  const paramsSchema = z.object({
+    id: z.string(),
+  });
+
+  const { id } = paramsSchema.parse(req.params);
+
+  const administrador = await prisma.administrador.findUnique({
+    where: {
+      id: Number(id),
     },
   });
 
