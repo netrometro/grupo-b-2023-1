@@ -15,6 +15,7 @@ model Administrador {
   nome         String
   cpf          String   @unique
   email        String   @unique
+  senha     String
   empresas     Empresa[]
 }
 
