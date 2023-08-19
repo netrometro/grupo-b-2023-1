@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import admSchema from "../schema/admSchema";
+import { admSchema, admSchemaEdit } from "../schema/admSchema";
 import bcrypt from "bcrypt";
 import { z } from "zod";
 
@@ -50,29 +50,31 @@ exports.editAdm = async (req: FastifyRequest, res: FastifyReply) => {
   const paramsSchema = z.object({
     admId: z.string(),
   });
-
   const { admId } = paramsSchema.parse(req.params);
 
-  const { nome, email, senha, cpf } = admSchema.parse(req.body);
+  const { nome, email, senha, cpf } = admSchemaEdit.parse(req.body);
 
-  const hashedSenha = bcrypt.hashSync(senha, 10);
+  let dataToUpdate: {
+    nome: string;
+    email: string;
+    senha?: string;
+    cpf: string;
+  } = {
+    nome,
+    email,
+    cpf,
+  };
 
-  // let administrador = await prisma.memory.findUniqueOrThrow({
-  //   where: {
-  //     id: Number(admId),
-  //   },
-  // });
+  if (senha !== null) {
+    const hashedSenha = bcrypt.hashSync(senha, 10);
+    dataToUpdate.senha = hashedSenha;
+  }
 
   const administrador = await prisma.administrador.update({
     where: {
       id: Number(admId),
     },
-    data: {
-      nome,
-      email,
-      senha: hashedSenha,
-      cpf,
-    },
+    data: dataToUpdate,
   });
 
   return administrador;
