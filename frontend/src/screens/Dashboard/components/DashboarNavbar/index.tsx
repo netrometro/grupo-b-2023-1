@@ -2,6 +2,7 @@ import { TouchableOpacity, View } from 'react-native';
 import stylesDashboardNavbar from './styles';
 import { SignOut } from 'phosphor-react-native';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function DashboardNavbar() {
   type Nav = {
@@ -10,8 +11,8 @@ export default function DashboardNavbar() {
 
   const { navigate } = useNavigation<Nav>();
 
-  const handleSignOut = () => {
-    console.log('saindo');
+  const handleSignOut = async () => {
+    await AsyncStorage.removeItem('adminId');
     navigate('login');
   };
 
