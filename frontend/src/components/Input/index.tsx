@@ -6,9 +6,10 @@ interface ComponentProps {
   label: string;
   onChange: (value: string) => void;
   error: boolean;
+  value: string;
 }
 
-export default function Input({ placeholder, label, onChange, error }: ComponentProps) {
+export default function Input({ placeholder, label, onChange, error, value }: ComponentProps) {
   return (
     <View style={stylesInput.container}>
       <Text style={stylesInput.label}>{label}</Text>
@@ -18,6 +19,7 @@ export default function Input({ placeholder, label, onChange, error }: Component
           cursorColor={'#4F67D8'}
           style={stylesInput.input}
           onChangeText={onChange}
+          value={value}
         />
       </View>
       {error ? <Text style={stylesInput.errorMessage}>Erro</Text> : <></>}

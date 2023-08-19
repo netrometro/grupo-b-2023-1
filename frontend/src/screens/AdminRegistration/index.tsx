@@ -52,24 +52,28 @@ export default function AdminRegistration() {
             label="E-mail:"
             placeholder="email@email.com"
             onChange={(value: string) => setEmail(value)}
+            value={email}
           />
           <PasswordInput
             error={false}
             label="Senha:"
             onChange={(value: string) => setPassword(value)}
             placeholder="********"
+            value={password}
           />
           <Input
             error={false}
             label="Nome:"
             placeholder="Nome Completo"
             onChange={(value: string) => setUsername(value)}
+            value={username}
           />
           <Input
             error={false}
             label="CPF:"
             placeholder="000.000.000-00"
             onChange={(value: string) => setCpf(value)}
+            value={cpf}
           />
         </View>
         <Button text="CADASTRAR" onPress={handleSignUp} />
