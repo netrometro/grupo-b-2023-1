@@ -1,8 +1,9 @@
 import { FastifyInstance } from "fastify";
+const { createFicha } = require("../controller/fichaController");
+
 
 async function fichaRoutes(server: FastifyInstance) {
-
-    // adicione as rotas
+    server.post("/createFicha", createFicha);
 
 }
 
