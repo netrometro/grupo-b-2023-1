@@ -22,6 +22,9 @@ const stylesAdminEditInfo = StyleSheet.create({
   buttons: {
     gap: 10,
   },
+  passwordText: {
+    marginHorizontal: 40,
+  },
 });
 
 export default stylesAdminEditInfo;

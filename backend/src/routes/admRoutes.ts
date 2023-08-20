@@ -1,8 +1,16 @@
 import { FastifyInstance } from "fastify";
-const { createAdm } = require("../controller/admController");
+const {
+  createAdm,
+  deleteAdmById,
+  editAdm,
+  getAdmin,
+} = require("../controller/admController");
 
 async function userRoutes(server: FastifyInstance) {
-  server.post("/createadmin", createAdm);
+  server.post("/admin", createAdm);
+  server.delete("/admin/:id", deleteAdmById);
+  server.put("/admin/:admId", editAdm);
+  server.get("/admin/:id", getAdmin);
 }
 
 // adicionar mais rotas aqui

@@ -8,9 +8,16 @@ interface ComponentProps {
   label: string;
   onChange: (value: string) => void;
   error: boolean;
+  value: string;
 }
 
-export default function PasswordInput({ placeholder, label, onChange, error }: ComponentProps) {
+export default function PasswordInput({
+  placeholder,
+  label,
+  onChange,
+  error,
+  value,
+}: ComponentProps) {
   const [visibility, setVisibility] = useState(false);
 
   const toggleVisibility = () => {
@@ -28,6 +35,7 @@ export default function PasswordInput({ placeholder, label, onChange, error }: C
           style={stylesPasswordInput.input}
           onChangeText={onChange}
           secureTextEntry={!visibility}
+          value={value}
         />
         <TouchableOpacity onPress={toggleVisibility}>
           {visibility ? <Eye size={28} color="#4F67D8" /> : <EyeSlash size={28} color="#4F67D8" />}
