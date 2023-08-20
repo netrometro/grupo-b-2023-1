@@ -1,5 +1,6 @@
 import { View, Text, TextInput, Touchable, TouchableOpacity } from 'react-native';
 import stylesSignUpButton from './styles';
+import React from 'react';
 
 interface ComponentProps {
   onPress: () => void;

@@ -1,6 +1,7 @@
 import { Text, TouchableOpacity } from 'react-native';
 import stylesButton from './styles';
 import { useState } from 'react';
+import React from 'react';
 
 interface ComponentProps {
   onPress: () => void;

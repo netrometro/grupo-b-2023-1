@@ -4,7 +4,7 @@ CREATE TABLE "Administrador" (
     "nome" TEXT NOT NULL,
     "cpf" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "password" TEXT NOT NULL,
+    "senha" TEXT NOT NULL,
 
     CONSTRAINT "Administrador_pkey" PRIMARY KEY ("id")
 );

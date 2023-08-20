@@ -47,3 +47,4 @@ model FichaFuncionario {
   empresaId     Int
   empresa       Empresa    @relation(fields: [empresaId], references: [id])
 }
+

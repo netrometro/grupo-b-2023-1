@@ -7,6 +7,7 @@ import { useState } from 'react';
 import PasswordInput from '../../components/PasswordInput';
 import { useNavigation } from '@react-navigation/native';
 import { api } from '../../services/api';
+import React from 'react';
 
 export default function AdminRegistration() {
   const [email, setEmail] = useState('');
