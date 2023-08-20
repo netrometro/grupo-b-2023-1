@@ -4,6 +4,8 @@ import Login from '../screens/Login';
 import Dashboard from '../screens/Dashboard';
 import AdminRegistration from '../screens/AdminRegistration';
 import AdminEditInfo from '../screens/AdminEditInfo';
+import CompanyRegistration from '../screens/CompanyRegistration';
+import EmployeeList from '../screens/EmployeeList';
 
 // export type RootStackParamList = {
 //   login: undefined;
@@ -22,6 +24,8 @@ export default function AppRoutes() {
       <Screen name="adminRegistration" component={AdminRegistration} />
       <Screen name="dashboard" component={Dashboard} />
       <Screen name="adminEditInfo" component={AdminEditInfo} />
+      <Screen name="companyRegistration" component={CompanyRegistration}/>
+     {/*  <Screen name="emplyeeList" component={EmployeeList} /> */}
     </Navigator>
   );
 }
