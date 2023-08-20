@@ -1,6 +1,7 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import stylesNavbar from './styles';
 import { ArrowLeft } from 'phosphor-react-native';
+import React from 'react';
 
 interface ComponentProps {
   text: string;

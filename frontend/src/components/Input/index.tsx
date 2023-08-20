@@ -1,5 +1,6 @@
 import { View, Text, TextInput } from 'react-native';
 import stylesInput from './styles';
+import React from 'react';
 
 interface ComponentProps {
   placeholder: string;

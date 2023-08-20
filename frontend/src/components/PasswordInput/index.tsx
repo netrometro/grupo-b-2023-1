@@ -2,6 +2,7 @@ import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { Clock, Eye, EyeSlash } from 'phosphor-react-native';
 import stylesPasswordInput from './styles';
 import { useState } from 'react';
+import React from 'react';
 
 interface ComponentProps {
   placeholder: string;

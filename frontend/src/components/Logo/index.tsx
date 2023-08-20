@@ -1,6 +1,7 @@
 import { View, Text } from 'react-native';
 import stylesLogo from './styles';
 import { Clock } from 'phosphor-react-native';
+import React from 'react';
 
 export default function Logo() {
   return (

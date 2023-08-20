@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
 import { api } from '../../../../services/api';
+import React from 'react';
 
 export default function DashboardNavbar() {
   const [name, setName] = useState('');
