@@ -34,9 +34,32 @@ exports.createFicha = async (req: FastifyRequest, res: FastifyReply) => {
 
 
 //read ficha
+exports.showFicha = async (req: FastifyRequest, res: FastifyReply) => {
+    try {
+        const ficha = await prisma.fichaFuncionario.findMany();
+        res.status(200).send(ficha);
+    } catch (error) {
+        console.error("Erro ao buscar dados de funcionários", error);
+        res.status(500).send({ message: 'Erro ao buscar dados de funcionários' })
+    }
+
+}
 
 
 //update ficha
 
 
 //delete ficha
+exports.deleteFicha = async (req: FastifyRequest, res: FastifyReply) => {
+    const { id } = FichaFuncionarioSchema.parse(req.params); 
+    try {
+        const deletedFicha = await prisma.fichaFuncionario.delete({
+            where: { id: id }, 
+        });
+
+        res.status(200).send({ message: 'Ficha deletada', deletedFicha });
+    } catch (error) {
+        console.error('Erro ao deletar ficha:', error);
+        res.status(500).send({ message: 'Erro deletando ficha', error });
+    }
+};
