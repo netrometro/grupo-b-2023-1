@@ -1,4 +1,5 @@
-import { View, Text, TextInput } from 'react-native';
+import { View, Text, TextInput, KeyboardTypeOptions } from 'react-native';
+import { MaskedTextInput } from 'react-native-mask-text';
 import stylesInput from './styles';
 import React from 'react';
 
@@ -8,15 +9,27 @@ interface ComponentProps {
   onChange: (value: string) => void;
   error: boolean;
   value: string;
+  mask?: string;
+  keyboardType?: KeyboardTypeOptions;
 }
 
-export default function Input({ placeholder, label, onChange, error, value }: ComponentProps) {
+export default function Input({
+  placeholder,
+  label,
+  onChange,
+  error,
+  value,
+  mask,
+  keyboardType,
+}: ComponentProps) {
   return (
     <View style={stylesInput.container}>
       <Text style={stylesInput.label}>{label}</Text>
       <View style={stylesInput.inputBox}>
-        <TextInput
+        <MaskedTextInput
+          mask={mask}
           placeholder={placeholder}
+          keyboardType={keyboardType}
           cursorColor={'#4F67D8'}
           style={stylesInput.input}
           onChangeText={onChange}

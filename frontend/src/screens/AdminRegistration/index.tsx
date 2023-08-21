@@ -72,9 +72,11 @@ export default function AdminRegistration() {
           <Input
             error={false}
             label="CPF:"
+            mask="999.999.999-99"
             placeholder="000.000.000-00"
             onChange={(value: string) => setCpf(value)}
             value={cpf}
+            keyboardType="numeric"
           />
         </View>
         <Button text="CADASTRAR" onPress={handleSignUp} />
