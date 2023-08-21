@@ -1,11 +1,10 @@
 import { FastifyInstance } from "fastify";
-const { createFicha, deleteFicha, showFicha } = require("../controller/fichaController");
-
+const { createFicha, showFicha } = require("../controller/fichaController");
 
 async function fichaRoutes(server: FastifyInstance) {
-    server.post("/createFicha", createFicha);
-    server.delete("/deleteFicha", deleteFicha);
-    server.get("/showFicha", showFicha)
+
+    server.post("/createFicha/:empresaId", createFicha);
+    server.get("/showFicha/:id", showFicha)
 
 }
 

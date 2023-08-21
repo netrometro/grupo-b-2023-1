@@ -34,14 +34,14 @@ model FichaFuncionario {
   id            Int        @id @default(autoincrement())
   nome          String
   email         String
-  nascimento    DateTime
+  nascimento    String
   nacionalidade String
   cpf           String     @unique
   rg            String     @unique
   cargo         String
   endereco      String
   pispasep      String
-  admissao      DateTime
+  admissao      String
   formacao      String
   ctps          String
   empresaId     Int
