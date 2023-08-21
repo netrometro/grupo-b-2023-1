@@ -10,17 +10,21 @@ exports.auth = async (req: FastifyRequest, res: FastifyReply) => {
     email: z.string().email(),
     senha: z.string(),
   });
-  const { email, senha } = paramsSchema.parse(req.body);
-  const administrador = await prisma.administrador.findUnique({
-    where: {
-      email: email,
-    },
-  });
 
-  if (administrador && bcrypt.compareSync(senha, administrador.senha)) {
-    return { id: administrador.id };
-  } else
-    throw {
-      message: "Usuário ou senha inválido",
-    };
+  const { email, senha } = paramsSchema.parse(req.body);
+
+  try {
+    const administrador = await prisma.administrador.findUnique({
+      where: {
+        email: email,
+      },
+    });
+    if (administrador && bcrypt.compareSync(senha, administrador.senha)) {
+      return res.status(200).send({ id: administrador.id });
+    } else {
+      return res.status(400).send({ message: "E-mail ou senha inválidos" });
+    }
+  } catch (error) {
+    return res.status(500).send({ message: "Erro interno no servidors" });
+  }
 };
