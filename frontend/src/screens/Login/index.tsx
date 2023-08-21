@@ -30,17 +30,23 @@ export default function Login() {
   const handleClickLogin = async () => {
     try {
       setIsLoading(true);
-      const response = await api.post('/auth', data);
-      await AsyncStorage.setItem('adminId', String(response.data.id));
-      navigate('dashboard');
+      const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+      if (emailRegex.test(email) && password.length >= 8) {
+        console.log(emailRegex.test(email));
+        const response = await api.post('/auth', data);
+        await AsyncStorage.setItem('adminId', String(response.data.id));
+        navigate('dashboard');
+      } else {
+        ToastAndroid.show('E-mail/Senha fora dos padrões', ToastAndroid.LONG);
+      }
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
-      ToastAndroid.show('Ocorreu um erro', ToastAndroid.LONG);
+      Alert.alert('Erro', 'Ocorreu um erro, verifique o e-mail e a senha e tente novamente.');
     }
   };
 
-  const handleLogin = () => {
+  const handleRegister = () => {
     navigate('adminRegistration');
   };
 
@@ -72,7 +78,7 @@ export default function Login() {
         ) : (
           <View style={stylesLogin.buttonContainer}>
             <LoginButton onPress={handleClickLogin} />
-            <SignUpButton onPress={handleLogin} />
+            <SignUpButton onPress={handleRegister} />
           </View>
         )}
       </View>
