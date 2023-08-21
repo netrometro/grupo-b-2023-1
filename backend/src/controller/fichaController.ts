@@ -47,9 +47,6 @@ exports.createFicha = async (request: FastifyRequest, reply: FastifyReply) => {
 
 };
 
-
-
-
 //read ficha
 exports.showFicha = async (request: FastifyRequest, reply: FastifyReply) => {
     try {
@@ -86,20 +83,59 @@ exports.showFicha = async (request: FastifyRequest, reply: FastifyReply) => {
 
 
 //update ficha
+exports.updateFicha = async (request: FastifyRequest, reply: FastifyReply) => {
+    try {
+        const adminId = request.headers.authorization;
+        
+        if (!adminId) {
+            reply.status(401).send({ message: 'Autorização faltando' });
+            return;
+        }
+
+        const adminData = await prisma.administrador.findUnique({
+            where: { id: parseInt(adminId) },
+        });
+
+        if (!adminData) {
+            reply.status(401).send({ message: 'ID inválido' });
+            return;
+        }
+
+        const params = request.params as { empId: string, fichaId: string};
+        const fichaId = parseInt(params.fichaId);
+
+        const updatedFichaData: Partial<FichaFuncionarioData> = FichaFuncionarioSchema.parse(request.body);
+
+        delete updatedFichaData.cpf;
+        delete updatedFichaData.rg;
+
+        const updatedFicha = await prisma.fichaFuncionario.update({
+            where: { id: fichaId},
+            data: updatedFichaData,
+        });
+
+        reply.status(200).send(updatedFicha);
+    } catch (error) {
+        reply.status(500).send({ error });
+        console.log(error);
+    }
+};
 
 
 //delete ficha
-/* exports.deleteFicha = async (req: FastifyRequest, res: FastifyReply) => {
-    const { id } = FichaFuncionarioSchema.parse(req.params); 
+ exports.deleteFicha = async (request: FastifyRequest, reply: FastifyReply) => {
     try {
+        const params = request.params as { empId: string, fichaId: string};
+        const fichaId = parseInt(params.fichaId);
+
         const deletedFicha = await prisma.fichaFuncionario.delete({
-            where: { id: id }, 
+            where: { id: fichaId},
         });
 
-        res.status(200).send({ message: 'Ficha deletada', deletedFicha });
+        reply.status(200).send(deletedFicha);
     } catch (error) {
-        console.error('Erro ao deletar ficha:', error);
-        res.status(500).send({ message: 'Erro deletando ficha', error });
+        reply.status(500).send({ error });
+        console.log(error);
     }
 };
- */
+
