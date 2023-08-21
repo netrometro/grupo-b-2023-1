@@ -1,4 +1,4 @@
-import { View, Text, Alert, ToastAndroid } from 'react-native';
+import { View, Text, Alert, ToastAndroid, ActivityIndicator } from 'react-native';
 import stylesLogin from './styles';
 import Logo from '../../components/Logo';
 import Input from '../../components/Input';
@@ -14,6 +14,7 @@ import React from 'react';
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   type Nav = {
     navigate: (value: string) => void;
@@ -28,10 +29,13 @@ export default function Login() {
 
   const handleClickLogin = async () => {
     try {
+      setIsLoading(true);
       const response = await api.post('/auth', data);
       await AsyncStorage.setItem('adminId', String(response.data.id));
       navigate('dashboard');
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       ToastAndroid.show('Ocorreu um erro', ToastAndroid.LONG);
     }
   };
@@ -63,10 +67,14 @@ export default function Login() {
             value={password}
           />
         </View>
-        <View>
-          <LoginButton onPress={handleClickLogin} />
-          <SignUpButton onPress={handleLogin} />
-        </View>
+        {isLoading ? (
+          <ActivityIndicator size="large" color="#4F67D8" style={stylesLogin.loadingContainer} />
+        ) : (
+          <View style={stylesLogin.buttonContainer}>
+            <LoginButton onPress={handleClickLogin} />
+            <SignUpButton onPress={handleLogin} />
+          </View>
+        )}
       </View>
     </View>
   );
