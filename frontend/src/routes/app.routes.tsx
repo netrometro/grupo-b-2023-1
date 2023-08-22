@@ -6,16 +6,22 @@ import AdminRegistration from '../screens/AdminRegistration';
 import AdminEditInfo from '../screens/AdminEditInfo';
 import CompanyRegistration from '../screens/CompanyRegistration';
 import EmployeeList from '../screens/EmployeeList';
+import { Emp } from '../interfaces/emp';
+import SingleCompany from '../screens/CompanyDashboard';
+import CompanyDashboard from '../screens/CompanyDashboard';
 
-// export type RootStackParamList = {
-//   login: undefined;
-//   adminRegistration: undefined;
-//   dashboard: undefined;
-//   adminEditInfo: undefined;
-// };
+ export type RootStackParamList = {
+   login: undefined;
+   adminRegistration: undefined;
+   dashboard: undefined;
+   adminEditInfo: undefined;
+   companyRegistration: undefined;
+   companyDashboard: { companyId: number};
+ };
 
-// const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
-const { Navigator, Screen } = createNativeStackNavigator();
+const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
+
+/* const { Navigator, Screen } = createNativeStackNavigator(); */
 
 export default function AppRoutes() {
   return (
@@ -25,7 +31,7 @@ export default function AppRoutes() {
       <Screen name="dashboard" component={Dashboard} />
       <Screen name="adminEditInfo" component={AdminEditInfo} />
       <Screen name="companyRegistration" component={CompanyRegistration}/>
-     {/*  <Screen name="emplyeeList" component={EmployeeList} /> */}
+      <Screen name='companyDashboard' component={CompanyDashboard} />
     </Navigator>
   );
 }
