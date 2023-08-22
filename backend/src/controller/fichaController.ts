@@ -67,14 +67,14 @@ exports.createFicha = async (request: FastifyRequest, reply: FastifyReply) => {
       data: {
         nome,
         email,
-        nascimento: new Date(nascimento),
+        nascimento: new Date(nascimento.split("/").reverse().join("-")),
         nacionalidade,
         cpf,
         rg,
         cargo,
         endereco,
         pispasep,
-        admissao: new Date(nascimento),
+        admissao: new Date(admissao.split("/").reverse().join("-")),
         formacao,
         ctps,
         empresa: {
