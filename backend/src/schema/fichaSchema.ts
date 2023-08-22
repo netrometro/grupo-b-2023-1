@@ -1,5 +1,4 @@
 import { z } from "zod";
-
 export const FichaFuncionarioSchema = z.object({
   nome: z.string(),
   email: z.string().email(),
@@ -16,4 +15,3 @@ export const FichaFuncionarioSchema = z.object({
 });
 
 export type FichaFuncionarioData = z.infer<typeof FichaFuncionarioSchema>;
-
