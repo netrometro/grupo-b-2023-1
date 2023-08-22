@@ -6,6 +6,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './style';
 import stylesDashboardNavbar from '../../components/Navbar/styles'; // Importar o estilo do Navbar
 import { useNavigation } from '@react-navigation/native';
+import EmployeeList from '../EmployeeList';
+import Button from '../../components/Button';
 
 interface CompanyDashboardProps {
   route: { params: { companyId: number } };
@@ -42,6 +44,10 @@ const CompanyDashboard: React.FC<CompanyDashboardProps> = ({ route }) => {
 
   const { navigate, goBack } = useNavigation();
 
+  const handleRegistrationEmployee = () => {
+    navigate('fichaRegistration');
+  }
+
   return (
     <View style={styles.container}>
       <View style={stylesDashboardNavbar.container}>
@@ -64,6 +70,8 @@ const CompanyDashboard: React.FC<CompanyDashboardProps> = ({ route }) => {
       >
         <Text style={styles.backButtonText}>Voltar</Text>
       </TouchableOpacity>
+      <Button onPress={handleRegistrationEmployee} text='Adicionar funcionário'/>
+      <EmployeeList companyId={companyId}/>
     </View>
   );
 };

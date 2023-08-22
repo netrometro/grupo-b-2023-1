@@ -2,14 +2,14 @@ export interface Employer {
     id: number;
     nome: string;
     email: string;
-    nascimento: Date;
+    nascimento: string;
     nacionalidade: string;
     cpf: string;
     rg: string;
     cargo: string;
     endereco: string;
     pispasep: string;
-    admissao: Date;
+    admissao: string;
     formacao: string;
     ctps: string;   
 }
