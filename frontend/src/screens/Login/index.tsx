@@ -32,7 +32,6 @@ export default function Login() {
       setIsLoading(true);
       const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
       if (emailRegex.test(email) && password.length >= 8) {
-        console.log(emailRegex.test(email));
         const response = await api.post('/auth', data);
         await AsyncStorage.setItem('adminId', String(response.data.id));
         navigate('dashboard');
