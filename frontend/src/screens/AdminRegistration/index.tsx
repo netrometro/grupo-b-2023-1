@@ -1,4 +1,4 @@
-import { ToastAndroid, View } from 'react-native';
+import { ActivityIndicator, Alert, ToastAndroid, View } from 'react-native';
 import stylesAdminRegistration from './styles';
 import Navbar from '../../components/Navbar';
 import Input from '../../components/Input';
@@ -19,6 +19,7 @@ export default function AdminRegistration() {
   const [errorUsername, setErrorUsername] = useState(true);
   const [errorPassword, setErrorPassword] = useState(true);
   const [errorEmail, setErrorEmail] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   type Nav = {
     navigate: (value: string) => void;
@@ -34,12 +35,19 @@ export default function AdminRegistration() {
   };
 
   const handleSignUp = async () => {
-    try {
-      await api.post('/admin', data);
-      ToastAndroid.show('Cadastrado com sucesso!', ToastAndroid.LONG);
-      navigate('login');
-    } catch (error) {
-      ToastAndroid.show('Ocorreu um erro!', ToastAndroid.LONG);
+    if (!errorCpf && !errorUsername && !errorEmail && !errorPassword && true) {
+      try {
+        setIsLoading(true);
+        await api.post('/admin', data);
+        navigate('login');
+        ToastAndroid.show('Cadastrado com sucesso!', ToastAndroid.LONG);
+        setIsLoading(false);
+      } catch (error) {
+        Alert.alert('Erro', 'E-mail ou CPF já cadastrado.');
+        setIsLoading(false);
+      }
+    } else {
+      ToastAndroid.show('Preencha todos os campos!', ToastAndroid.LONG);
     }
   };
 
@@ -110,7 +118,11 @@ export default function AdminRegistration() {
             errorMessage="*Insira um CPF válido"
           />
         </View>
-        <Button text="CADASTRAR" onPress={handleSignUp} />
+        {isLoading ? (
+          <ActivityIndicator size="large" color="#4F67D8" />
+        ) : (
+          <Button text="CADASTRAR" onPress={handleSignUp} />
+        )}
       </View>
     </View>
   );
