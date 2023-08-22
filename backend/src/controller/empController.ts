@@ -162,7 +162,45 @@ async function editEmp(request: FastifyRequest, reply: FastifyReply) {
     }
 };
 
+async function getSingleEmp(request: FastifyRequest, reply: FastifyReply) {
+    try {
+        const adminId = request.headers.authorization;
+
+        if (!adminId) {
+            reply.status(401).send({ message: 'autorização faltando'});
+            return;
+        }
+
+        const adminData = await prisma.administrador.findUnique({
+            where: {
+                id: parseInt(adminId)
+            },
+            include: {
+                empresas: true
+            },
+        });
+
+        if (!adminData) {
+            reply.status(401).send({ message: 'id invalido'});
+            return;
+        }
+
+        const params = request.params as { id: string };
+        const empId = parseInt(params.id);
+
+        const targetEmp = adminData.empresas.find(emp => emp.id === empId);
+        if (!targetEmp) {
+            reply.status(404).send({ message: 'Empresa não encontrada' });
+            return;
+        }
+
+        reply.status(200).send(targetEmp);
+    } catch (error) {
+        reply.status(500).send({ message: 'erro interno' });
+    }
+};
+
 export default { 
-    createEmp, getEmp, deleteEmp, editEmp
+    createEmp, getEmp, deleteEmp, editEmp, getSingleEmp
 };
 
