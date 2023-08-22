@@ -84,18 +84,18 @@ export default function FichaRegistration(){
               />
               <View style={stylesFichaRegistration.body}>
                 <View style={stylesFichaRegistration.inputs}>
-                    <Input error={false} label="Nome:" placeholder="Nome Completo" onChange={(value: string) => setNome(value)} value={""}/>
-                    <Input error={false} label="E-mail:" placeholder="email@email.com" onChange={(value: string) => setEmail(value)} value={""}/>
-                    <Input error={false} label="Nascimento:" placeholder="dd/mm/aaaa" onChange={(value: string) => setNascimento(value)} value={""}/>
-                    <Input error={false} label="Nacionalidade:" placeholder="Nacionalidade" onChange={(value: string) => setNacionalidade(value)} value={""}/>
-                    <Input error={false} label="CPF:" placeholder="000.000.000-00" onChange={(value: string) => setCpf(value)} value={""}/>
-                    <Input error={false} label="RG:" placeholder="0.000.000" onChange={(value: string) => setRg(value)} value={""}/>
-                    <Input error={false} label="Cargo:" placeholder="Cargo exercido" onChange={(value: string) => setCargo(value)} value={""}/>
-                    <Input error={false} label="Endereço:" placeholder="Insira o endereço completo" onChange={(value: string) => setEndereco(value)} value={""}/>
-                    <Input error={false} label="Número do PIS/PASEP:" placeholder="0.000.000.000-0" onChange={(value: string) => setPispasep(value)} value={""}/>
-                    <Input error={false} label="Ano de Admissão:" placeholder="dd/mm/aaaa" onChange={(value: string) => setAdmissao(value)} value={""}/>
-                    <Input error={false} label="Formação:" placeholder="Insira a formação" onChange={(value: string) => setFormacao(value)} value={""}/>
-                    <Input error={false} label="CTPS:" placeholder="0000000/0000" onChange={(value: string) => setCtps(value)} value={""}/>
+                    <Input error={false} label="Nome:" placeholder="Nome Completo" onChange={(value: string) => setNome(value)} value={nome}/>
+                    <Input error={false} label="E-mail:" placeholder="email@email.com" onChange={(value: string) => setEmail(value)} value={email}/>
+                    <Input error={false} label="Nascimento:" placeholder="dd/mm/aaaa" onChange={(value: string) => setNascimento(value)} value={nascimento}/>
+                    <Input error={false} label="Nacionalidade:" placeholder="Nacionalidade" onChange={(value: string) => setNacionalidade(value)} value={nacionalidade}/>
+                    <Input error={false} label="CPF:" placeholder="000.000.000-00" onChange={(value: string) => setCpf(value)} value={cpf}/>
+                    <Input error={false} label="RG:" placeholder="0.000.000" onChange={(value: string) => setRg(value)} value={rg}/>
+                    <Input error={false} label="Cargo:" placeholder="Cargo exercido" onChange={(value: string) => setCargo(value)} value={cargo}/>
+                    <Input error={false} label="Endereço:" placeholder="Insira o endereço completo" onChange={(value: string) => setEndereco(value)} value={endereco}/>
+                    <Input error={false} label="Número do PIS/PASEP:" placeholder="0.000.000.000-0" onChange={(value: string) => setPispasep(value)} value={pispasep}/>
+                    <Input error={false} label="Ano de Admissão:" placeholder="dd/mm/aaaa" onChange={(value: string) => setAdmissao(value)} value={admissao}/>
+                    <Input error={false} label="Formação:" placeholder="Insira a formação" onChange={(value: string) => setFormacao(value)} value={formacao}/>
+                    <Input error={false} label="CTPS:" placeholder="0000000/0000" onChange={(value: string) => setCtps(value)} value={ctps}/>
                 </View>
                 <Button text="CADASTRAR FICHA" onPress={handleCreateEmployee}/>
               </View>
