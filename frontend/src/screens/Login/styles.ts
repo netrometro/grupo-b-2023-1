@@ -36,6 +36,12 @@ const stylesLogin = StyleSheet.create({
     width: '100%',
     gap: 10,
   },
+  buttonContainer: {
+    height: 80,
+  },
+  loadingContainer: {
+    height: 80,
+  },
 });
 
 export default stylesLogin;
