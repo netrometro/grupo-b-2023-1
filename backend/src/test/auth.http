@@ -1,4 +1,5 @@
-# Login do usuário (administrador)
+# Login do usuário (administrador), retorna o id do usuário.
+
 POST http://localhost:3333/auth
 Content-Type: application/json
 
