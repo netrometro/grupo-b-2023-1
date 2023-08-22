@@ -45,7 +45,7 @@ const CompanyDashboard: React.FC<CompanyDashboardProps> = ({ route }) => {
   const { navigate, goBack } = useNavigation();
 
   const handleRegistrationEmployee = () => {
-    navigate('fichaRegistration');
+    navigate('fichaRegistration', {companyId});
   }
 
   return (

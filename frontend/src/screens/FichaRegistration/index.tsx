@@ -9,8 +9,11 @@ import React from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from "../../services/api";
 
+interface FichaRegistrationProps {
+  route: { params: { companyId: number } };
+}
 
-export default function FichaRegistration(){
+const FichaRegistration: React.FC<FichaRegistrationProps> = ({ route }) => {
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [nascimento, setNascimento] = useState('');
@@ -23,6 +26,8 @@ export default function FichaRegistration(){
     const [admissao, setAdmissao] = useState('');
     const [formacao, setFormacao] = useState('');
     const [ctps, setCtps] = useState('');
+
+    const { companyId } = route.params;
 
     type Nav = {
         navigate: (value: string) => void;
@@ -45,7 +50,7 @@ export default function FichaRegistration(){
         ctps: ctps,
       };
       
-      const handleCreateEmployee = async () => {
+      const handleCreateEmployee = async (empresaId: number) => {
         try {
           const adminId = await AsyncStorage.getItem('adminId');
 
@@ -63,7 +68,7 @@ export default function FichaRegistration(){
             Authorization: adminId,
           }
 
-          await api.post("/createFicha/:empresaId", reqData, {headers});
+          await api.post(`/createFicha/${empresaId}`, reqData, {headers});
           ToastAndroid.show('Ficha Adicionada', ToastAndroid.LONG);
         } catch (error){
           console.error(error)
@@ -98,10 +103,11 @@ export default function FichaRegistration(){
                     <Input error={false} label="Formação:" placeholder="Insira a formação" onChange={(value: string) => setFormacao(value)} value={formacao}/>
                     <Input error={false} label="CTPS:" placeholder="0000000/0000" onChange={(value: string) => setCtps(value)} value={ctps}/>
                 </View>
-                <Button text="CADASTRAR FICHA" onPress={handleCreateEmployee}/>
+                <Button text="CADASTRAR FICHA" onPress={() => handleCreateEmployee(companyId)}/>
               </View>
               </ScrollView>
               
         </View>
       );
 }
+export default FichaRegistration;
