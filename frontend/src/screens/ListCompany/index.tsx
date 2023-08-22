@@ -71,7 +71,9 @@ const ListCompany: React.FC = () => {
           keyExtractor={(item) => item.nome}
           renderItem={({ item }) => (
             <TouchableOpacity 
-               style={stylesListCompany.companyItem} >
+               style={stylesListCompany.companyItem} 
+               onPress={() => navigate('companyDashboard', { companyId: item.id})}
+               >
               <Text style={stylesListCompany.companyName}>{item.nome}</Text>
               <Text style={stylesListCompany.companyInfo}>CNPJ: {item.cnpj}</Text>
               <Text style={stylesListCompany.companyInfo}>Endereço: {item.endereco}</Text>
@@ -89,4 +91,6 @@ const ListCompany: React.FC = () => {
   };
   
   export default ListCompany;
+
+
   
