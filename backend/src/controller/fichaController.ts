@@ -44,6 +44,7 @@ exports.createFicha = async (request: FastifyRequest, reply: FastifyReply) => {
       request.body
     );
     console.log("QUINTO print");
+    console.log(fichaData);
 
     const createdFicha = await prisma.fichaFuncionario.create({
       data: {
