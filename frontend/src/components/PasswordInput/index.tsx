@@ -10,6 +10,7 @@ interface ComponentProps {
   onChange: (value: string) => void;
   error: boolean;
   value: string;
+  errorMessage?: string;
 }
 
 export default function PasswordInput({
@@ -18,6 +19,7 @@ export default function PasswordInput({
   onChange,
   error,
   value,
+  errorMessage,
 }: ComponentProps) {
   const [visibility, setVisibility] = useState(false);
 
@@ -42,7 +44,7 @@ export default function PasswordInput({
           {visibility ? <Eye size={28} color="#4F67D8" /> : <EyeSlash size={28} color="#4F67D8" />}
         </TouchableOpacity>
       </View>
-      {error ? <Text style={stylesPasswordInput.errorMessage}>Erro</Text> : <></>}
+      {error ? <Text style={stylesPasswordInput.errorMessage}>{errorMessage}</Text> : <></>}
     </View>
   );
 }

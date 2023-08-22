@@ -8,12 +8,17 @@ import PasswordInput from '../../components/PasswordInput';
 import { useNavigation } from '@react-navigation/native';
 import { api } from '../../services/api';
 import React from 'react';
+import MaskedInput from '../../components/MaskedInput';
 
 export default function AdminRegistration() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [cpf, setCpf] = useState('');
+  const [errorCpf, setErrorCpf] = useState(true);
+  const [errorUsername, setErrorUsername] = useState(true);
+  const [errorPassword, setErrorPassword] = useState(true);
+  const [errorEmail, setErrorEmail] = useState(true);
 
   type Nav = {
     navigate: (value: string) => void;
@@ -38,6 +43,27 @@ export default function AdminRegistration() {
     }
   };
 
+  const onChangeCpf = (value: string) => {
+    setCpf(value);
+    setErrorCpf(value.length != 14);
+  };
+
+  const onChangeUsername = (value: string) => {
+    setUsername(value);
+    setErrorUsername(value.length < 4);
+  };
+
+  const onChangePassword = (value: string) => {
+    setPassword(value);
+    setErrorPassword(value.length < 8);
+  };
+
+  const onChangeEmail = (value: string) => {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    setEmail(value);
+    setErrorEmail(!emailRegex.test(value));
+  };
+
   return (
     <View style={stylesAdminRegistration.container}>
       <Navbar
@@ -49,34 +75,39 @@ export default function AdminRegistration() {
       <View style={stylesAdminRegistration.body}>
         <View style={stylesAdminRegistration.inputs}>
           <Input
-            error={false}
+            error={errorEmail}
             label="E-mail:"
+            keyboardType="email-address"
             placeholder="email@email.com"
-            onChange={(value: string) => setEmail(value)}
+            onChange={(value: string) => onChangeEmail(value)}
             value={email}
+            errorMessage="*Insira um e-mail válido"
           />
           <PasswordInput
-            error={false}
+            error={errorPassword}
             label="Senha:"
-            onChange={(value: string) => setPassword(value)}
+            onChange={(value: string) => onChangePassword(value)}
             placeholder="********"
             value={password}
+            errorMessage="*A senha precisa ter pelo menos 8 caracteres"
           />
           <Input
-            error={false}
+            error={errorUsername}
             label="Nome:"
             placeholder="Nome Completo"
-            onChange={(value: string) => setUsername(value)}
+            onChange={(value: string) => onChangeUsername(value)}
             value={username}
+            errorMessage="*O nome precisa ter pelo menos 4 caracteres"
           />
-          <Input
-            error={false}
+          <MaskedInput
+            error={errorCpf}
             label="CPF:"
             mask="999.999.999-99"
             placeholder="000.000.000-00"
-            onChange={(value: string) => setCpf(value)}
+            onChange={(value: string) => onChangeCpf(value)}
             value={cpf}
             keyboardType="numeric"
+            errorMessage="*Insira um CPF válido"
           />
         </View>
         <Button text="CADASTRAR" onPress={handleSignUp} />

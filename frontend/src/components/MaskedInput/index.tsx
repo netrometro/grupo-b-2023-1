@@ -1,5 +1,6 @@
 import { View, Text, TextInput, KeyboardTypeOptions } from 'react-native';
-import stylesInput from './styles';
+import { MaskedTextInput } from 'react-native-mask-text';
+import stylesMaskedInput from './styles';
 import React from 'react';
 
 interface ComponentProps {
@@ -13,29 +14,31 @@ interface ComponentProps {
   errorMessage?: string;
 }
 
-export default function Input({
+export default function MaskedInput({
   placeholder,
   label,
   onChange,
   error,
   value,
+  mask,
   keyboardType,
   errorMessage,
 }: ComponentProps) {
   return (
-    <View style={stylesInput.container}>
-      <Text style={stylesInput.label}>{label}</Text>
-      <View style={stylesInput.inputBox}>
-        <TextInput
+    <View style={stylesMaskedInput.container}>
+      <Text style={stylesMaskedInput.label}>{label}</Text>
+      <View style={stylesMaskedInput.inputBox}>
+        <MaskedTextInput
+          mask={mask}
           placeholder={placeholder}
           keyboardType={keyboardType}
           cursorColor={'#4F67D8'}
-          style={stylesInput.input}
+          style={stylesMaskedInput.input}
           onChangeText={onChange}
           value={value}
         />
       </View>
-      {error ? <Text style={stylesInput.errorMessage}>{errorMessage}</Text> : <></>}
+      {error ? <Text style={stylesMaskedInput.errorMessage}>{errorMessage}</Text> : <></>}
     </View>
   );
 }
