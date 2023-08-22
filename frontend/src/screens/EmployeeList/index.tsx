@@ -80,15 +80,14 @@ const EmployeeList: React.FC<Props> = ({companyId}) => {
           <TouchableOpacity style={stylesEmployeeList.employeeItem}>
             <Text style={stylesEmployeeList.employeeName}>{item.nome}</Text>
             <Text style={stylesEmployeeList.employeeInfo}>E-mail: {item.email}</Text>
-            <Text style={stylesEmployeeList.employeeInfo}>Nascimento: {item.nascimento.toLocaleDateString()}</Text>
+            <Text style={stylesEmployeeList.employeeInfo}>Nascimento: {item.nascimento}</Text>
             <Text style={stylesEmployeeList.employeeInfo}>nacionalidade: {item.nacionalidade}</Text>
             <Text style={stylesEmployeeList.employeeInfo}>CPF: {item.cpf}</Text>
             <Text style={stylesEmployeeList.employeeInfo}>RG: {item.rg}</Text>
             <Text style={stylesEmployeeList.employeeInfo}>Cargo: {item.cargo}</Text>
             <Text style={stylesEmployeeList.employeeInfo}>Endereço: {item.endereco}</Text>
             <Text style={stylesEmployeeList.employeeInfo}>PIS/PASEP: {item.pispasep}</Text>
-            <Text style={stylesEmployeeList.employeeInfo}>Admissão: {item.admissao.toLocaleDateString()
-            }</Text>
+            <Text style={stylesEmployeeList.employeeInfo}>Admissão: {item.admissao}</Text>
             <Text style={stylesEmployeeList.employeeInfo}>Formação: {item.formacao}</Text>
             <Text style={stylesEmployeeList.employeeInfo}>CTPS: {item.ctps}</Text>
             <Button
