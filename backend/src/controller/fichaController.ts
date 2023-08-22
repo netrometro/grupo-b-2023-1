@@ -45,6 +45,8 @@ exports.createFicha = async (request: FastifyRequest, reply: FastifyReply) => {
     );
     console.log("QUINTO print");
     console.log(fichaData);
+    console.log("Birthdate:", fichaData.nascimento);
+    console.log("Admission:", fichaData.admissao);
 
     const createdFicha = await prisma.fichaFuncionario.create({
       data: {
