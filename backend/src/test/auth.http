@@ -1,0 +1,8 @@
+# Login do usuário (administrador)
+POST http://localhost:3333/auth
+Content-Type: application/json
+
+{
+    "email" : "email@email.com",
+    "senha" : "12345678"
+}
