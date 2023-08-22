@@ -18,6 +18,8 @@ import CompanyDashboard from '../screens/CompanyDashboard';
    adminEditInfo: undefined;
    companyRegistration: undefined;
    companyDashboard: { companyId: number};
+   fichaRegistration: undefined;
+   employeeList: {companyId: string};
  };
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
@@ -34,6 +36,8 @@ export default function AppRoutes() {
       <Screen name="fichaRegistration" component={FichaRegistration}/>
       <Screen name="companyRegistration" component={CompanyRegistration}/>
       <Screen name='companyDashboard' component={CompanyDashboard} />
+     { <Screen name="employeeList" component={EmployeeList} />}
     </Navigator>
   );
 }
+

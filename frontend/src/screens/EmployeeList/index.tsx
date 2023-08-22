@@ -7,7 +7,9 @@ import Button from '../../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
-const EmployeeList: React.FC = () => {
+interface Props { companyId: number; }
+
+const EmployeeList: React.FC<Props> = ({companyId}) => {
   const [employees, setEmployees] = useState<Employer[]>([]); 
 
   useEffect(() => {
@@ -20,7 +22,7 @@ const EmployeeList: React.FC = () => {
           return;
         }
 
-        const response = await api.get(`/getEmployer`, {
+        const response = await api.get(`/showFicha/${companyId}`, {
           headers: {
             Authorization: adminId,
           },
@@ -51,7 +53,7 @@ const EmployeeList: React.FC = () => {
         Authorization: adminId,
       };
       
-      await api.delete(`/deleteFicha/${employeeId}`, { headers });
+      await api.delete(`/deleteFicha/${companyId}/${employeeId}`, { headers });
       ToastAndroid.show('Funcionário excluído', ToastAndroid.LONG);
             
       const updatedEmployees = employees.filter(employees => 
