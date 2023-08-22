@@ -9,3 +9,28 @@ Content-Type: application/json
     "senha" : "12345678",
     "cpf" : "123.456.789-99"
 }
+
+###
+
+#Editar um usuário (administrador), deve retornar um status code 200 em caso de sucesso e um 400 em caso de falha, com a mensagem de erro.
+PUT http://localhost:3333/admin/1
+Content-Type: application/json
+
+{
+    "nome" : "Nome Completo Editado",
+    "email" : "emailEditado@email.com",
+    "senha" : "12345678Editado",
+    "cpf" : "123.456.789-99Editado"
+}
+
+###
+
+#Retorna as informações de um usuário (administrador específico), deve retornar um status code 200 com as informações em caso de sucesso. Em caso de falha, vai retornar um status code 400 com a mensagem de que o usuário não existe.
+GET  http://localhost:3333/admin/1
+
+
+###
+
+#Deleta um usuário (administrador), deve retornar um status code 200 em caso de sucesso e deve retorna rum status code 400 em caso de usuário não existente.
+DELETE http://localhost:3333/admin/1
+
