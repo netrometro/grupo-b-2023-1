@@ -1,7 +1,7 @@
 import stylesFichaRegistration from "./styles";
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { ToastAndroid, View } from "react-native";
+import { ScrollView, ToastAndroid, View } from "react-native";
 import Navbar from "../../components/Navbar";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
@@ -82,7 +82,8 @@ export default function FichaRegistration(){
               }}
               text="Insira os dados de Cadastro do Funcionário"
               />
-              <View style={stylesFichaRegistration.body}>
+              <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={stylesFichaRegistration.body}>
                 <View style={stylesFichaRegistration.inputs}>
                     <Input error={false} label="Nome:" placeholder="Nome Completo" onChange={(value: string) => setNome(value)} value={nome}/>
                     <Input error={false} label="E-mail:" placeholder="email@email.com" onChange={(value: string) => setEmail(value)} value={email}/>
@@ -99,6 +100,8 @@ export default function FichaRegistration(){
                 </View>
                 <Button text="CADASTRAR FICHA" onPress={handleCreateEmployee}/>
               </View>
+              </ScrollView>
+              
         </View>
       );
 }
