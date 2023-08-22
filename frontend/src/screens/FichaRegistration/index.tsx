@@ -1,10 +1,13 @@
 import stylesFichaRegistration from "./styles";
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { View } from "react-native";
+import { ToastAndroid, View } from "react-native";
 import Navbar from "../../components/Navbar";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
+import React from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { api } from "../../services/api";
 
 
 export default function FichaRegistration(){
@@ -31,7 +34,7 @@ export default function FichaRegistration(){
         nome: nome,
         email: email,
         nascimento: nascimento,
-        nacionalidade: nascimento,
+        nacionalidade: nacionalidade,
         cpf: cpf,
         rg: rg,
         cargo: cargo,
@@ -40,6 +43,31 @@ export default function FichaRegistration(){
         admissao: admissao,
         formacao: formacao,
         ctps: ctps,
+      };
+      
+      const handleCreateEmployee = async () => {
+        try {
+          const adminId = await AsyncStorage.getItem('adminId');
+
+          if(!adminId){
+            console.error('ID inválido');
+            return;
+           } 
+
+          const reqData = {
+            ...data,
+            adminId: parseInt(adminId),
+          }
+
+          const headers = {
+            Authorization: adminId,
+          }
+
+          await api.post("/createFicha/:empresaId", reqData, {headers});
+          ToastAndroid.show('Ficha Adicionada', ToastAndroid.LONG);
+        } catch (error){
+          console.error(error)
+        }
       };
 
       const handleRegister = () => {
@@ -56,25 +84,21 @@ export default function FichaRegistration(){
               />
               <View style={stylesFichaRegistration.body}>
                 <View style={stylesFichaRegistration.inputs}>
-                    <Input error={false} label="Nome:" placeholder="Nome Completo" onChange={(value: string) => setNome(value)}/>
-                    <Input error={false} label="E-mail:" placeholder="email@email.com" onChange={(value: string) => setEmail(value)}/>
-                    <Input error={false} label="Nascimento:" placeholder="dd/mm/aaaa" onChange={(value: string) => setNascimento(value)}/>
-                    <Input error={false} label="Nacionalidade:" placeholder="Nacionalidade" onChange={(value: string) => setNacionalidade(value)}/>
-                    <Input error={false} label="CPF:" placeholder="000.000.000-00" onChange={(value: string) => setCpf(value)}/>
-                    <Input error={false} label="RG:" placeholder="0.000.000" onChange={(value: string) => setRg(value)}/>
-                    <Input error={false} label="Cargo:" placeholder="Cargo exercido" onChange={(value: string) => setCargo(value)}/>
-                    <Input error={false} label="Endereço:" placeholder="Insira o endereço completo" onChange={(value: string) => setEndereco(value)}/>
-                    <Input error={false} label="Número do PIS/PASEP:" placeholder="0.000.000.000-0" onChange={(value: string) => setPispasep(value)}/>
-                    <Input error={false} label="Ano de Admissão:" placeholder="dd/mm/aaaa" onChange={(value: string) => setAdmissao(value)}/>
-                    <Input error={false} label="Formação:" placeholder="Insira a formação" onChange={(value: string) => setFormacao(value)}/>
-                    <Input error={false} label="CTPS:" placeholder="0000000/0000" onChange={(value: string) => setCtps(value)}/>
-
+                    <Input error={false} label="Nome:" placeholder="Nome Completo" onChange={(value: string) => setNome(value)} value={""}/>
+                    <Input error={false} label="E-mail:" placeholder="email@email.com" onChange={(value: string) => setEmail(value)} value={""}/>
+                    <Input error={false} label="Nascimento:" placeholder="dd/mm/aaaa" onChange={(value: string) => setNascimento(value)} value={""}/>
+                    <Input error={false} label="Nacionalidade:" placeholder="Nacionalidade" onChange={(value: string) => setNacionalidade(value)} value={""}/>
+                    <Input error={false} label="CPF:" placeholder="000.000.000-00" onChange={(value: string) => setCpf(value)} value={""}/>
+                    <Input error={false} label="RG:" placeholder="0.000.000" onChange={(value: string) => setRg(value)} value={""}/>
+                    <Input error={false} label="Cargo:" placeholder="Cargo exercido" onChange={(value: string) => setCargo(value)} value={""}/>
+                    <Input error={false} label="Endereço:" placeholder="Insira o endereço completo" onChange={(value: string) => setEndereco(value)} value={""}/>
+                    <Input error={false} label="Número do PIS/PASEP:" placeholder="0.000.000.000-0" onChange={(value: string) => setPispasep(value)} value={""}/>
+                    <Input error={false} label="Ano de Admissão:" placeholder="dd/mm/aaaa" onChange={(value: string) => setAdmissao(value)} value={""}/>
+                    <Input error={false} label="Formação:" placeholder="Insira a formação" onChange={(value: string) => setFormacao(value)} value={""}/>
+                    <Input error={false} label="CTPS:" placeholder="0000000/0000" onChange={(value: string) => setCtps(value)} value={""}/>
                 </View>
-                <Button text="CADASTRAR FICHA" onPress={handleRegister}/>
-
+                <Button text="CADASTRAR FICHA" onPress={handleCreateEmployee}/>
               </View>
         </View>
-
       );
-
 }
