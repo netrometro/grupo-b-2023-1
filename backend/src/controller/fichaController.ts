@@ -40,17 +40,43 @@ exports.createFicha = async (request: FastifyRequest, reply: FastifyReply) => {
     const empresaId = parseInt(params.empresaId);
     console.log("terceiro print");
 
-    const fichaData: FichaFuncionarioData = FichaFuncionarioSchema.parse(
-      request.body
-    );
+    // const fichaData: FichaFuncionarioData = FichaFuncionarioSchema.parse(
+    //   request.body
+    // );
     console.log("QUINTO print");
-    console.log(fichaData);
-    console.log("Birthdate:", fichaData.nascimento);
-    console.log("Admission:", fichaData.admissao);
+    // console.log(fichaData);
+    // console.log("Birthdate:", fichaData.nascimento);
+    // console.log("Admission:", fichaData.admissao);
+
+    const {
+      nome,
+      email,
+      nascimento,
+      nacionalidade,
+      cpf,
+      rg,
+      cargo,
+      endereco,
+      pispasep,
+      admissao,
+      formacao,
+      ctps,
+    } = FichaFuncionarioSchema.parse(request.body);
 
     const createdFicha = await prisma.fichaFuncionario.create({
       data: {
-        ...fichaData,
+        nome,
+        email,
+        nascimento,
+        nacionalidade,
+        cpf,
+        rg,
+        cargo,
+        endereco,
+        pispasep,
+        admissao,
+        formacao,
+        ctps,
         empresa: {
           connect: { id: empresaId },
         },
