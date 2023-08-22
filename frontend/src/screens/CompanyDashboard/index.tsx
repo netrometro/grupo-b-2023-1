@@ -69,8 +69,8 @@ const CompanyDashboard: React.FC<CompanyDashboardProps> = ({ route }) => {
       onPress={() => navigate('dashboard')}
       >
         <Text style={styles.backButtonText}>Voltar</Text>
-        <Button onPress={handleRegistrationEmployee} text='Adicionar funcionário'/>
       </TouchableOpacity>
+      <Button onPress={handleRegistrationEmployee} text='Adicionar funcionário'/>
       <EmployeeList companyId={companyId}/>
     </View>
   );
