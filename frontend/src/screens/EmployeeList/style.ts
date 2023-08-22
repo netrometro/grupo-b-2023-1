@@ -26,4 +26,4 @@ const stylesEmployeeList = StyleSheet.create({
   },
 });
 
-export default stylesListCompany;
+export default stylesEmployeeList;
