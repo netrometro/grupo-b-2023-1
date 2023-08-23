@@ -147,15 +147,37 @@ exports.updateFicha = async (request: FastifyRequest, reply: FastifyReply) => {
     const params = request.params as { empId: string; fichaId: string };
     const fichaId = parseInt(params.fichaId);
 
-    const updatedFichaData: Partial<FichaFuncionarioData> =
-      FichaFuncionarioSchema.parse(request.body);
-
-    delete updatedFichaData.cpf;
-    delete updatedFichaData.rg;
+    const {
+      nome,
+      email,
+      nascimento,
+      nacionalidade,
+      cpf,
+      rg,
+      cargo,
+      endereco,
+      pispasep,
+      admissao,
+      formacao,
+      ctps,
+    } = FichaFuncionarioSchema.parse(request.body);
 
     const updatedFicha = await prisma.fichaFuncionario.update({
       where: { id: fichaId },
-      data: updatedFichaData,
+      data: {
+        nome,
+        email,
+        nascimento: new Date(nascimento.split("/").reverse().join("-")),
+        nacionalidade,
+        cpf,
+        rg,
+        cargo,
+        endereco,
+        pispasep,
+        admissao: new Date(admissao.split("/").reverse().join("-")),
+        formacao,
+        ctps,
+      },
     });
 
     reply.status(200).send(updatedFicha);
