@@ -1,4 +1,5 @@
 import { z } from "zod";
+
 export const FichaFuncionarioSchema = z.object({
   nome: z.string(),
   email: z.string().email(),

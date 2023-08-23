@@ -12,6 +12,8 @@ interface Props {
   employeeId: number;
 }
 
+
+
 const EmployeeList: React.FC<Props> = ({companyId, employeeId}) => {
   const [employees, setEmployees] = useState<Employer[]>([]); 
 
@@ -77,7 +79,7 @@ const EmployeeList: React.FC<Props> = ({companyId, employeeId}) => {
         keyExtractor={item => item.nome} 
         renderItem={({ item }) => (
           <TouchableOpacity style={stylesEmployeeList.employeeItem}
-          onPress={() => navigate('editEmployer', { companyId, employeeId})}
+          onPress={() => navigate('editEmployer', { companyId, employeeId: item.id})}
           >
             <Text style={stylesEmployeeList.employeeName}>{item.nome}</Text>
             <Text style={stylesEmployeeList.employeeInfo}>E-mail: {item.email}</Text>

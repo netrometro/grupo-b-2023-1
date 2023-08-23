@@ -9,15 +9,19 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import stylesEditEmployer from './style';
 
 interface EditEmployerProps {
-  companyId: number;
-  employeeId: number; 
-}
+    route: { params: { companyId: number, employeeId: number } };
+  }
+  
 
 interface RouteParams {
     editMode?: boolean;
 }
 
-export default function EditEmployer({ companyId, employeeId }: EditEmployerProps) {
+type Nav = {
+    navigate: (value: string, id: object) => void;
+}
+
+export default function EditEmployer({ route }: EditEmployerProps) {
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [nascimento, setNascimento] = useState('');
@@ -31,21 +35,23 @@ export default function EditEmployer({ companyId, employeeId }: EditEmployerProp
     const [formacao, setFormacao] = useState('');
     const [ctps, setCtps] = useState('');
   
-
-  const route = useRoute();
   const editMode = (route.params as RouteParams)?.editMode || false;
 
-  const { navigate } = useNavigation();
+  const companyId = route.params.companyId;
+  const employeeId = route.params.employeeId;
+  
+  const { navigate } = useNavigation<Nav>();
 
   useEffect(() => {
     if (editMode) {
       fetchEmployeeDetails();
     }
-  }, []);
+  }, [employeeId]);
 
   const fetchEmployeeDetails = async () => {
     try {
       const adminId = await AsyncStorage.getItem('adminId');
+
       if (!adminId) {
         console.error('ID inválido');
         return;
@@ -78,7 +84,7 @@ export default function EditEmployer({ companyId, employeeId }: EditEmployerProp
   const handleUpdateEmployee = async () => {
     try {
       const adminId = await AsyncStorage.getItem('adminId');
-      
+
       if (!adminId) {
         console.error('ID inválido');
         return;
@@ -103,9 +109,10 @@ export default function EditEmployer({ companyId, employeeId }: EditEmployerProp
         Authorization: adminId,
       };
 
+      console.log('id', employeeId);
+
       await api.put(`/updateFicha/${companyId}/${employeeId}`, reqData, { headers });
       ToastAndroid.show('Ficha Atualizada', ToastAndroid.LONG);
-      navigate('employeeList', { companyId }); 
     } catch (error) {
       console.error(error);
     }
