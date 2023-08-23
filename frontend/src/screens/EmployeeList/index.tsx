@@ -7,9 +7,12 @@ import Button from '../../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
-interface Props { companyId: number; }
+interface Props { 
+  companyId: number; 
+  employeeId: number;
+}
 
-const EmployeeList: React.FC<Props> = ({companyId}) => {
+const EmployeeList: React.FC<Props> = ({companyId, employeeId}) => {
   const [employees, setEmployees] = useState<Employer[]>([]); 
 
   useEffect(() => {
@@ -64,11 +67,7 @@ const EmployeeList: React.FC<Props> = ({companyId}) => {
     }
   };
 
- /*  const handleEditEmployee = async (employeeId: number) => {
-
-  
-  } */
-
+  const { navigate } = useNavigation();
 
   return (
     <View style={stylesEmployeeList.container}>
@@ -77,7 +76,9 @@ const EmployeeList: React.FC<Props> = ({companyId}) => {
         data={employees}
         keyExtractor={item => item.nome} 
         renderItem={({ item }) => (
-          <TouchableOpacity style={stylesEmployeeList.employeeItem}>
+          <TouchableOpacity style={stylesEmployeeList.employeeItem}
+          onPress={() => navigate('editEmployer', { companyId, employeeId})}
+          >
             <Text style={stylesEmployeeList.employeeName}>{item.nome}</Text>
             <Text style={stylesEmployeeList.employeeInfo}>E-mail: {item.email}</Text>
             <Text style={stylesEmployeeList.employeeInfo}>Nascimento: {item.nascimento}</Text>
@@ -95,9 +96,6 @@ const EmployeeList: React.FC<Props> = ({companyId}) => {
               onPress={() => handleDeleteEmployee(item.id)}
               isRed={true}
             />
-           {/*  <Button 
-            text="Editar"
-            onPress={() => handleEditEmployee()}/> */}
           </TouchableOpacity>
         )}
       />
@@ -106,3 +104,4 @@ const EmployeeList: React.FC<Props> = ({companyId}) => {
 };
 
 export default EmployeeList;
+

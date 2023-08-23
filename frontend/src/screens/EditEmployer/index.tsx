@@ -1,16 +1,23 @@
-import stylesFichaRegistration from "./styles";
-import { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { ScrollView, ToastAndroid, View } from "react-native";
-import Navbar from "../../components/Navbar";
-import Input from "../../components/Input";
-import Button from "../../components/Button";
-import React from "react";
+import React, { useState, useEffect } from 'react';
+import { View, ScrollView, ToastAndroid } from 'react-native';
+import Navbar from '../../components/Navbar';
+import Input from '../../components/Input';
+import Button from '../../components/Button';
+import { api } from '../../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { api } from "../../services/api";
+import { useNavigation, useRoute } from '@react-navigation/native';
+import stylesEditEmployer from './style';
 
+interface EditEmployerProps {
+  companyId: number;
+  employeeId: number; 
+}
 
-export default function FichaRegistration(){
+interface RouteParams {
+    editMode?: boolean;
+}
+
+export default function EditEmployer({ companyId, employeeId }: EditEmployerProps) {
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [nascimento, setNascimento] = useState('');
@@ -23,14 +30,61 @@ export default function FichaRegistration(){
     const [admissao, setAdmissao] = useState('');
     const [formacao, setFormacao] = useState('');
     const [ctps, setCtps] = useState('');
+  
 
-    type Nav = {
-        navigate: (value: string) => void;
-      };
-    
-      const { navigate } = useNavigation<Nav>();
+  const route = useRoute();
+  const editMode = (route.params as RouteParams)?.editMode || false;
 
-      const data = {
+  const { navigate } = useNavigation();
+
+  useEffect(() => {
+    if (editMode) {
+      fetchEmployeeDetails();
+    }
+  }, []);
+
+  const fetchEmployeeDetails = async () => {
+    try {
+      const adminId = await AsyncStorage.getItem('adminId');
+      if (!adminId) {
+        console.error('ID inválido');
+        return;
+      }
+
+      const response = await api.get(`/showFichaDetails/${companyId}/${employeeId}`, {
+        headers: {
+          Authorization: adminId,
+        },
+      });
+
+      const employeeDetails = response.data;
+      setNome(employeeDetails.nome);
+      setEmail(employeeDetails.email);
+      setNascimento(employeeDetails.nascimento);
+      setNacionalidade(employeeDetails.nacionalidade);
+      setCpf(employeeDetails.cpf);
+      setRg(employeeDetails.rg);
+      setCargo(employeeDetails.cargo);
+      setEndereco(employeeDetails.endereco);
+      setPispasep(employeeDetails.pis_pasep);
+      setAdmissao(employeeDetails.admissao);
+      setFormacao(employeeDetails.formacao);
+      setCtps(employeeDetails.ctps);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleUpdateEmployee = async () => {
+    try {
+      const adminId = await AsyncStorage.getItem('adminId');
+      
+      if (!adminId) {
+        console.error('ID inválido');
+        return;
+      }
+
+      const reqData = {
         nome: nome,
         email: email,
         nascimento: nascimento,
@@ -44,47 +98,29 @@ export default function FichaRegistration(){
         formacao: formacao,
         ctps: ctps,
       };
-      
-      const handleCreateEmployee = async () => {
-        try {
-          const adminId = await AsyncStorage.getItem('adminId');
 
-          if(!adminId){
-            console.error('ID inválido');
-            return;
-           } 
-
-          const reqData = {
-            ...data,
-            adminId: parseInt(adminId),
-          }
-
-          const headers = {
-            Authorization: adminId,
-          }
-
-          await api.post("/createFicha/:empresaId", reqData, {headers});
-          ToastAndroid.show('Ficha Adicionada', ToastAndroid.LONG);
-        } catch (error){
-          console.error(error)
-        }
+      const headers = {
+        Authorization: adminId,
       };
 
-      const handleRegister = () => {
-        console.log(data);
-        navigate('dashboard')
-      };
+      await api.put(`/updateFicha/${companyId}/${employeeId}`, reqData, { headers });
+      ToastAndroid.show('Ficha Atualizada', ToastAndroid.LONG);
+      navigate('employeeList', { companyId }); 
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-      return (
-        <View style={stylesFichaRegistration.container}>
-            <Navbar onPressArrowLeft={() => {
+  return (
+    <View style={stylesEditEmployer.container}>
+      <Navbar onPressArrowLeft={() => {
                 navigate('dashboard');
               }}
               text="Insira os dados de Cadastro do Funcionário"
               />
               <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={stylesFichaRegistration.body}>
-                <View style={stylesFichaRegistration.inputs}>
+                <View style={stylesEditEmployer.body}>
+                <View style={stylesEditEmployer.inputs}>
                     <Input error={false} label="Nome:" placeholder="Nome Completo" onChange={(value: string) => setNome(value)} value={nome}/>
                     <Input error={false} label="E-mail:" placeholder="email@email.com" onChange={(value: string) => setEmail(value)} value={email}/>
                     <Input error={false} label="Nascimento:" placeholder="dd/mm/aaaa" onChange={(value: string) => setNascimento(value)} value={nascimento}/>
@@ -98,11 +134,10 @@ export default function FichaRegistration(){
                     <Input error={false} label="Formação:" placeholder="Insira a formação" onChange={(value: string) => setFormacao(value)} value={formacao}/>
                     <Input error={false} label="CTPS:" placeholder="0000000/0000" onChange={(value: string) => setCtps(value)} value={ctps}/>
                 </View>
-                <Button text="CADASTRAR FICHA" onPress={handleCreateEmployee}/>
+                <Button text="CADASTRAR FICHA" onPress={handleUpdateEmployee} />
               </View>
               </ScrollView>
               
-        </View>
-      );
+    </View>
+  );
 }
-
