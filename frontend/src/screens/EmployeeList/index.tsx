@@ -7,22 +7,23 @@ import Button from '../../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
-interface Props { 
-  companyId: number; 
-  employeeId: number;
+type Nav = {
+  navigate: (value: string, ids: object) => void;
+};
+
+interface Props {
+  companyId: number;
 }
 
-
-
-const EmployeeList: React.FC<Props> = ({companyId, employeeId}) => {
-  const [employees, setEmployees] = useState<Employer[]>([]); 
+export default function EmployeeList({ companyId }: Props) {
+  const [employees, setEmployees] = useState<Employer[]>([]);
 
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
         const adminId = await AsyncStorage.getItem('adminId');
 
-        if (!adminId){
+        if (!adminId) {
           console.error('ID de administrador inválido');
           return;
         }
@@ -45,41 +46,41 @@ const EmployeeList: React.FC<Props> = ({companyId, employeeId}) => {
   const handleDeleteEmployee = async (employeeId: number) => {
     try {
       const adminId = await AsyncStorage.getItem('adminId');
-      
+
       if (!adminId) {
         console.error('id de administrador inválido');
         return;
       }
 
       console.log('delete id: ', employeeId);
-      console.log('adminId: ', adminId)
+      console.log('adminId: ', adminId);
 
       const headers = {
         Authorization: adminId,
       };
-      
+
       await api.delete(`/deleteFicha/${companyId}/${employeeId}`, { headers });
       ToastAndroid.show('Funcionário excluído', ToastAndroid.LONG);
-            
-      const updatedEmployees = employees.filter(employees => 
-       employees.id !== employeeId);
-       setEmployees(updatedEmployees);
+
+      const updatedEmployees = employees.filter((employees) => employees.id !== employeeId);
+      setEmployees(updatedEmployees);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const { navigate } = useNavigation();
+  const { navigate } = useNavigation<Nav>();
 
   return (
     <View style={stylesEmployeeList.container}>
       <Text>Fichas de Funcionários da Empresa</Text>
       <FlatList
         data={employees}
-        keyExtractor={item => item.nome} 
+        keyExtractor={(item) => item.nome}
         renderItem={({ item }) => (
-          <TouchableOpacity style={stylesEmployeeList.employeeItem}
-          onPress={() => navigate('editEmployer', { companyId, employeeId: item.id})}
+          <TouchableOpacity
+            style={stylesEmployeeList.employeeItem}
+            onPress={() => navigate('editEmployer', { companyId, employeeId: item.id })}
           >
             <Text style={stylesEmployeeList.employeeName}>{item.nome}</Text>
             <Text style={stylesEmployeeList.employeeInfo}>E-mail: {item.email}</Text>
@@ -93,17 +94,10 @@ const EmployeeList: React.FC<Props> = ({companyId, employeeId}) => {
             <Text style={stylesEmployeeList.employeeInfo}>Admissão: {item.admissao}</Text>
             <Text style={stylesEmployeeList.employeeInfo}>Formação: {item.formacao}</Text>
             <Text style={stylesEmployeeList.employeeInfo}>CTPS: {item.ctps}</Text>
-            <Button
-              text="Excluir"
-              onPress={() => handleDeleteEmployee(item.id)}
-              isRed={true}
-            />
+            <Button text="Excluir" onPress={() => handleDeleteEmployee(item.id)} isRed={true} />
           </TouchableOpacity>
         )}
       />
     </View>
   );
-};
-
-export default EmployeeList;
-
+}

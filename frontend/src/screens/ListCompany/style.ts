@@ -4,7 +4,7 @@ const stylesListCompany = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#F7F8FA', // Cor de fundo semelhante ao Dashboard
+    backgroundColor: '#F7F8FA',
   },
   companyItem: {
     backgroundColor: 'white',
@@ -22,7 +22,7 @@ const stylesListCompany = StyleSheet.create({
   companyInfo: {
     marginTop: 5,
     fontSize: 14,
-    color: '#6B7280', // Cor de texto semelhante ao Dashboard
+    color: '#6B7280',
   },
 });
 

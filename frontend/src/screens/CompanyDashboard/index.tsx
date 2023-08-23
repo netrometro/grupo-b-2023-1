@@ -13,7 +13,11 @@ interface CompanyDashboardProps {
   route: { params: { companyId: number } };
 }
 
-const CompanyDashboard: React.FC<CompanyDashboardProps> = ({ route }) => {
+type Nav = {
+  navigate: (value: string, ids?: object) => void;
+};
+
+export default function CompanyDashboard({ route }: CompanyDashboardProps) {
   const { companyId } = route.params;
   const [company, setCompany] = useState<Emp | null>(null);
 
@@ -42,11 +46,11 @@ const CompanyDashboard: React.FC<CompanyDashboardProps> = ({ route }) => {
     fetchCompany();
   }, [companyId]);
 
-  const { navigate, goBack } = useNavigation();
+  const { navigate } = useNavigation<Nav>();
 
   const handleRegistrationEmployee = () => {
-    navigate('fichaRegistration');
-  }
+    navigate('fichaRegistration', { companyId });
+  };
 
   return (
     <View style={styles.container}>
@@ -65,15 +69,11 @@ const CompanyDashboard: React.FC<CompanyDashboardProps> = ({ route }) => {
       ) : (
         <Text>Carregando informações da empresa...</Text>
       )}
-      <TouchableOpacity style={styles.backButton}
-      onPress={() => navigate('dashboard')}
-      >
+      <TouchableOpacity style={styles.backButton} onPress={() => navigate('dashboard')}>
         <Text style={styles.backButtonText}>Voltar</Text>
       </TouchableOpacity>
-      <Button onPress={handleRegistrationEmployee} text='Adicionar funcionário'/>
-      <EmployeeList companyId={companyId}/>
+      <Button onPress={handleRegistrationEmployee} text="Adicionar funcionário" />
+      <EmployeeList companyId={companyId} />
     </View>
   );
-};
-
-export default CompanyDashboard;
+}

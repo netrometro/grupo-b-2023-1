@@ -37,8 +37,8 @@ export default function Dashboard() {
   };
 
   const handleCreateCompany = () => {
-    navigate('companyRegistration')
-  }
+    navigate('companyRegistration');
+  };
 
   return (
     <View style={stylesDashboard.container}>

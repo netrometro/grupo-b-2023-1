@@ -6,9 +6,6 @@ import AdminRegistration from '../screens/AdminRegistration';
 import AdminEditInfo from '../screens/AdminEditInfo';
 import FichaRegistration from '../screens/FichaRegistration';
 import CompanyRegistration from '../screens/CompanyRegistration';
-import EmployeeList from '../screens/EmployeeList';
-import { Emp } from '../interfaces/emp';
-import SingleCompany from '../screens/CompanyDashboard';
 import CompanyDashboard from '../screens/CompanyDashboard';
 import EditEmployer from '../screens/EditEmployer';
 
@@ -18,15 +15,12 @@ export type RootStackParamList = {
   dashboard: undefined;
   adminEditInfo: undefined;
   companyRegistration: undefined;
-  companyDashboard: undefined;
-  fichaRegistration: undefined;
-  employeeList: { companyId: string };
-  editEmployer: { companyId: number; EmployeeId: number };
+  companyDashboard: { companyId: number };
+  fichaRegistration: { companyId: number };
+  editEmployer: { companyId: number; employeeId: number };
 };
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
-
-/* const { Navigator, Screen } = createNativeStackNavigator(); */
 
 export default function AppRoutes() {
   return (
@@ -38,7 +32,6 @@ export default function AppRoutes() {
       <Screen name="fichaRegistration" component={FichaRegistration} />
       <Screen name="companyRegistration" component={CompanyRegistration} />
       <Screen name="companyDashboard" component={CompanyDashboard} />
-      <Screen name="employeeList" component={EmployeeList} />
       <Screen name="editEmployer" component={EditEmployer} />
     </Navigator>
   );
