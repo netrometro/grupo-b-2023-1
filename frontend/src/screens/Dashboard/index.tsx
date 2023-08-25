@@ -1,11 +1,10 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import stylesDashboard from './styles';
 import DashboardNavbar from './components/DashboarNavbar';
-import Button from '../../components/Button';
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { api } from '../../services/api';
-import { User } from 'phosphor-react-native';
+import { Buildings, User } from 'phosphor-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UserInterface } from '../../interfaces/user';
 import React from 'react';
@@ -46,13 +45,18 @@ export default function Dashboard() {
     <View style={stylesDashboard.container}>
       <DashboardNavbar />
       <View style={stylesDashboard.body}>
-        <IconButton
-          onPress={() => {}}
-          text="Minhas informações"
-          icon={<User size={50} weight="bold" color="#4F67D8" />}
-        />
-        {/* <Button onPress={handleMyInformations} text="Minhas informações" /> */}
-        <Button onPress={handleCreateCompany} text="Adicionar Empresa" />
+        <View style={stylesDashboard.iconButtonContainer}>
+          <IconButton
+            onPress={handleMyInformations}
+            text="Minhas informações"
+            icon={<User size={38} weight="bold" color="#4F67D8" />}
+          />
+          <IconButton
+            onPress={handleCreateCompany}
+            text="Adicionar Empresa"
+            icon={<Buildings size={38} weight="bold" color="#4F67D8" />}
+          />
+        </View>
         <ListCompany />
       </View>
     </View>

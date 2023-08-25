@@ -8,6 +8,9 @@ const stylesDashboard = StyleSheet.create({
   body: {
     marginTop: 20,
   },
+  iconButtonContainer: {
+    flexDirection: 'row',
+  },
 });
 
 export default stylesDashboard;
