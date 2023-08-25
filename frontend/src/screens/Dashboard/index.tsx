@@ -5,13 +5,15 @@ import Button from '../../components/Button';
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { api } from '../../services/api';
+import { User } from 'phosphor-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { User } from '../../interfaces/user';
+import { UserInterface } from '../../interfaces/user';
 import React from 'react';
 import ListCompany from '../ListCompany';
+import IconButton from '../../components/IconButton';
 
 export default function Dashboard() {
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<UserInterface>();
   type Nav = {
     navigate: (value: string) => void;
   };
@@ -44,7 +46,12 @@ export default function Dashboard() {
     <View style={stylesDashboard.container}>
       <DashboardNavbar />
       <View style={stylesDashboard.body}>
-        <Button onPress={handleMyInformations} text="Minhas informações" />
+        <IconButton
+          onPress={() => {}}
+          text="Minhas informações"
+          icon={<User size={50} weight="bold" color="#4F67D8" />}
+        />
+        {/* <Button onPress={handleMyInformations} text="Minhas informações" /> */}
         <Button onPress={handleCreateCompany} text="Adicionar Empresa" />
         <ListCompany />
       </View>
