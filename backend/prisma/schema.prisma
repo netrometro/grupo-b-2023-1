@@ -46,5 +46,25 @@ model FichaFuncionario {
   ctps          String
   empresaId     Int
   empresa       Empresa    @relation(fields: [empresaId], references: [id])
+  demitido      Boolean    @default(false)
+  demissao      Demissao[] 
+  horasextreas HorasExtras[]
+
 }
 
+model Demissao {
+  id         Int            @id @default(autoincrement())
+  motivo     String
+  observacao String
+  funcionario FichaFuncionario? @relation(fields: [funcionarioId], references: [id])
+  funcionarioId Int?
+}
+
+model HorasExtras {
+  id         Int            @id @default(autoincrement())
+  data       DateTime
+  valorPorHoras Float
+  horas      Int
+  funcionario FichaFuncionario? @relation(fields: [funcionarioId], references: [id])
+  funcionarioId Int
+}
