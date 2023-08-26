@@ -160,6 +160,7 @@ exports.updateFicha = async (request: FastifyRequest, reply: FastifyReply) => {
       admissao,
       formacao,
       ctps,
+      demitido
     } = FichaFuncionarioSchema.parse(request.body);
 
     const updatedFicha = await prisma.fichaFuncionario.update({
@@ -177,6 +178,7 @@ exports.updateFicha = async (request: FastifyRequest, reply: FastifyReply) => {
         admissao: new Date(admissao.split("/").reverse().join("-")),
         formacao,
         ctps,
+        demitido
       },
     });
 
