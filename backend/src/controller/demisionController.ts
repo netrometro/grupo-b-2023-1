@@ -27,7 +27,9 @@ exports.getDemitidos = async(request: FastifyRequest, reply: FastifyReply) => {
 
         const demitidos = await prisma.fichaFuncionario.findMany({
             where: {
-                empresaId: empresaId,
+                empresaId: {
+                    equals: empresaId,
+                },
                 demitido: true,
             },
         });

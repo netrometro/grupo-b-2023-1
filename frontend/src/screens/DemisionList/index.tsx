@@ -41,7 +41,7 @@ const DemisionList: React.FC<Props> = ({ companyId }) => {
   return (
     <View>
       <FlatList
-        data={employees}
+        data={demitidos}
         keyExtractor={(item) => item.nome}
         renderItem={({ item }) => (
           <View
