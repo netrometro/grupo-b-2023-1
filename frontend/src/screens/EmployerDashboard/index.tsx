@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import EmployeeList from '../EmployeeList';
 import Button from '../../components/Button';
 import Navbar from '../../components/Navbar';
-import { ClockClockwise, UserPlus } from 'phosphor-react-native';
+import { ClockClockwise, PencilSimple, UserPlus, XCircle } from 'phosphor-react-native';
 import IconButton from '../../components/IconButton';
 
 type Nav = {
@@ -72,15 +72,25 @@ export default function EmployerDashboard() {
           )}
           <View style={stylesEmployerDashboard.iconsContainer}>
             <TouchableOpacity onPress={() => {}}>
-              <UserPlus weight="bold" size={32} color="#4F67D8" />
+              <PencilSimple weight="bold" size={32} color="#4F67D8" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {}}>
+              <XCircle weight="bold" size={32} color="#D84F4F" />
             </TouchableOpacity>
           </View>
         </View>
-        <IconButton
-          onPress={() => {}}
-          text="Horas Extras"
-          icon={<ClockClockwise size={38} weight="bold" color="#4F67D8" />}
-        />
+        <View style={stylesEmployerDashboard.iconButtonContainer}>
+          <IconButton
+            onPress={() => {}}
+            text="Horas Extras"
+            icon={<ClockClockwise size={38} weight="bold" color="#4F67D8" />}
+          />
+          <IconButton
+            onPress={() => {}}
+            text="Faltas"
+            icon={<XCircle size={38} weight="bold" color="#4F67D8" />}
+          />
+        </View>
       </View>
     </View>
   );

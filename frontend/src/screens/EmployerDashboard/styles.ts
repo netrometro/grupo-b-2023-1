@@ -41,7 +41,14 @@ const stylesEmployerDashboard = StyleSheet.create({
     marginTop: 20,
   },
   iconsContainer: {
-    alignItems: 'flex-end',
+    flexDirection: 'row',
+    gap: 15,
+    justifyContent: 'flex-end',
+  },
+  iconButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 30,
   },
 });
 
