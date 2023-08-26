@@ -13,19 +13,35 @@ exports.addOvertime = async (req: FastifyRequest, res: FastifyReply) => {
   const { data, horas, valorPorHoras, pago } = overtimeSchema.parse(req.body);
   const { employerId } = paramsSchema.parse(req.params);
 
-  const overtime = await prisma.horasExtras.create({
-    data: {
-      data: new Date(data),
-      horas,
-      valorPorHoras,
-      pago,
-      funcionario: {
-        connect: { id: parseInt(employerId) },
-      },
+  const hasEmployer = await prisma.fichaFuncionario.findUnique({
+    where: {
+      id: parseInt(employerId),
     },
   });
 
-  return overtime;
+  if (hasEmployer) {
+    try {
+      const overtime = await prisma.horasExtras.create({
+        data: {
+          data: new Date(data),
+          horas,
+          valorPorHoras,
+          pago,
+          funcionario: {
+            connect: { id: parseInt(employerId) },
+          },
+        },
+      });
+
+      return res.status(200).send(overtime);
+    } catch (error) {
+      return res
+        .status(500)
+        .send({ message: "Ocorreu um erro interno no servidor" });
+    }
+  } else {
+    return res.status(400).send({ message: "Funcionário não encontrado" });
+  }
 };
 
 exports.listOvertimeByEmployer = async (
