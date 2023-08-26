@@ -3,12 +3,12 @@ import { View, Text, FlatList, TouchableOpacity, ToastAndroid } from 'react-nati
 import { api } from '../../services/api';
 import { Employer } from '../../interfaces/employer';
 import stylesEmployeeList from './style';
-import Button from '../../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { DotsThree, Trash, UserSquare } from 'phosphor-react-native';
 
 type Nav = {
-  navigate: (value: string, ids: object) => void;
+  navigate: (value: string, ids?: object) => void;
 };
 
 interface Props {
@@ -73,29 +73,33 @@ export default function EmployeeList({ companyId }: Props) {
 
   return (
     <View style={stylesEmployeeList.container}>
-      <Text>Fichas de Funcionários da Empresa</Text>
       <FlatList
         data={employees}
+        style={stylesEmployeeList.flatList}
         keyExtractor={(item) => item.nome}
         renderItem={({ item }) => (
-          <TouchableOpacity
+          <View
             style={stylesEmployeeList.employeeItem}
-            onPress={() => navigate('editEmployer', { companyId, employeeId: item.id })}
+            // onPress={() => navigate('editEmployer', { companyId, employeeId: item.id })}
           >
-            <Text style={stylesEmployeeList.employeeName}>{item.nome}</Text>
-            <Text style={stylesEmployeeList.employeeInfo}>E-mail: {item.email}</Text>
-            <Text style={stylesEmployeeList.employeeInfo}>Nascimento: {item.nascimento}</Text>
-            <Text style={stylesEmployeeList.employeeInfo}>nacionalidade: {item.nacionalidade}</Text>
-            <Text style={stylesEmployeeList.employeeInfo}>CPF: {item.cpf}</Text>
-            <Text style={stylesEmployeeList.employeeInfo}>RG: {item.rg}</Text>
-            <Text style={stylesEmployeeList.employeeInfo}>Cargo: {item.cargo}</Text>
-            <Text style={stylesEmployeeList.employeeInfo}>Endereço: {item.endereco}</Text>
-            <Text style={stylesEmployeeList.employeeInfo}>PIS/PASEP: {item.pispasep}</Text>
-            <Text style={stylesEmployeeList.employeeInfo}>Admissão: {item.admissao}</Text>
-            <Text style={stylesEmployeeList.employeeInfo}>Formação: {item.formacao}</Text>
-            <Text style={stylesEmployeeList.employeeInfo}>CTPS: {item.ctps}</Text>
-            <Button text="Excluir" onPress={() => handleDeleteEmployee(item.id)} isRed={true} />
-          </TouchableOpacity>
+            <View style={stylesEmployeeList.iconNameContainer}>
+              <UserSquare size={52} weight="fill" color="#4F67D8" />
+              <View>
+                <Text style={stylesEmployeeList.employeeName}>{item.nome}</Text>
+                <Text style={stylesEmployeeList.employeeInfo}>CPF: {item.cpf}</Text>
+              </View>
+            </View>
+            <View style={stylesEmployeeList.buttonsContainer}>
+              <TouchableOpacity onPress={() => handleDeleteEmployee(item.id)}>
+                <Trash weight="bold" size={28} color="#D84F4F" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigate('employerDashboard', { employeeId: item.id })}
+              >
+                <DotsThree size={35} weight="bold" color="#4F67D8" />
+              </TouchableOpacity>
+            </View>
+          </View>
         )}
       />
     </View>
