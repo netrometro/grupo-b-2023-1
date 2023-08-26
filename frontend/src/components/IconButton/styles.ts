@@ -4,13 +4,13 @@ const stylesIconButton = StyleSheet.create({
   text: {
     color: '#4F67D8',
     fontWeight: '500',
-    fontSize: 14,
+    fontSize: 17,
     textAlign: 'center',
   },
   background: {
     backgroundColor: 'white',
-    width: 130,
-    height: 90,
+    width: 150,
+    height: 110,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,

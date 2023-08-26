@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import stylesListCompany from './style';
 import { useNavigation } from '@react-navigation/native';
 import Button from '../../components/Button';
+import { DotsThree, Trash } from 'phosphor-react-native';
 
 const ListCompany: React.FC = () => {
   const [companies, setCompanies] = useState<Emp[]>([]);
@@ -69,21 +70,30 @@ const ListCompany: React.FC = () => {
 
   return (
     <View style={stylesListCompany.container}>
-      <Text>Empresas que você Gerencia:</Text>
       <FlatList
         data={companies}
+        style={stylesListCompany.flatList}
         keyExtractor={(item) => item.nome}
         renderItem={({ item }) => (
-          <TouchableOpacity
+          <View
             style={stylesListCompany.companyItem}
-            onPress={() => navigate('companyDashboard', { companyId: item.id })}
+            // onPress={() => navigate('companyDashboard', { companyId: item.id })}
           >
-            <Text style={stylesListCompany.companyName}>{item.nome}</Text>
+            <Text style={stylesListCompany.companyName}>Empresa {item.nome}</Text>
             <Text style={stylesListCompany.companyInfo}>CNPJ: {item.cnpj}</Text>
             <Text style={stylesListCompany.companyInfo}>Endereço: {item.endereco}</Text>
             <Text style={stylesListCompany.companyInfo}>CEP: {item.cep}</Text>
-            <Button text="Excluir" onPress={() => handleDeleteCompany(item.id)} isRed={true} />
-          </TouchableOpacity>
+            <View style={stylesListCompany.iconsContainer}>
+              <TouchableOpacity onPress={() => handleDeleteCompany(item.id)}>
+                <Trash size={28} weight="bold" color="#D84F4F" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigate('companyDashboard', { companyId: item.id })}
+              >
+                <DotsThree size={35} weight="bold" color="#4F67D8" />
+              </TouchableOpacity>
+            </View>
+          </View>
         )}
       />
     </View>
