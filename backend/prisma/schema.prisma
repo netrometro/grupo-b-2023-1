@@ -11,33 +11,33 @@ datasource db {
 }
 
 model Administrador {
-  id           Int      @id @default(autoincrement())
-  nome         String
-  cpf          String   @unique
-  email        String   @unique
-  senha     String
-  empresas     Empresa[]
+  id       Int       @id @default(autoincrement())
+  nome     String
+  cpf      String    @unique
+  email    String    @unique
+  senha    String
+  empresas Empresa[]
 }
 
 model Empresa {
-  id           Int      @id @default(autoincrement())
-  nome         String
-  cnpj         String   @unique
-  endereco     String
-  cep          String
-  fichas       FichaFuncionario[]
+  id              Int                @id @default(autoincrement())
+  nome            String
+  cnpj            String             @unique
+  endereco        String
+  cep             String
+  fichas          FichaFuncionario[]
   administradorId Int
-  administrador Administrador @relation(fields: [administradorId], references: [id])
+  administrador   Administrador      @relation(fields: [administradorId], references: [id])
 }
 
 model FichaFuncionario {
-  id            Int        @id @default(autoincrement())
+  id            Int           @id @default(autoincrement())
   nome          String
   email         String
   nascimento    DateTime
   nacionalidade String
-  cpf           String     @unique
-  rg            String     @unique
+  cpf           String        @unique
+  rg            String        @unique
   cargo         String
   endereco      String
   pispasep      String
@@ -45,26 +45,25 @@ model FichaFuncionario {
   formacao      String
   ctps          String
   empresaId     Int
-  empresa       Empresa    @relation(fields: [empresaId], references: [id])
-  demitido      Boolean    @default(false)
-  demissao      Demissao[] 
-  horasextreas HorasExtras[]
-
+  empresa       Empresa       @relation(fields: [empresaId], references: [id])
+  demitido      Boolean       @default(false)
+  demissao      Demissao[]
+  horasextreas  HorasExtras[]
 }
 
 model Demissao {
-  id         Int            @id @default(autoincrement())
-  motivo     String
-  observacao String
-  funcionario FichaFuncionario? @relation(fields: [funcionarioId], references: [id])
+  id            Int               @id @default(autoincrement())
+  motivo        String
+  observacao    String
+  funcionario   FichaFuncionario? @relation(fields: [funcionarioId], references: [id])
   funcionarioId Int?
 }
 
 model HorasExtras {
-  id         Int            @id @default(autoincrement())
-  data       DateTime
+  id            Int               @id @default(autoincrement())
+  data          DateTime
   valorPorHoras Float
-  horas      Int
-  funcionario FichaFuncionario? @relation(fields: [funcionarioId], references: [id])
+  horas         Int
+  funcionario   FichaFuncionario? @relation(fields: [funcionarioId], references: [id])
   funcionarioId Int
 }
