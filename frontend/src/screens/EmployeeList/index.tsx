@@ -3,7 +3,6 @@ import { View, Text, FlatList, TouchableOpacity, ToastAndroid } from 'react-nati
 import { api } from '../../services/api';
 import { Employer } from '../../interfaces/employer';
 import stylesEmployeeList from './style';
-import Button from '../../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { DotsThree, Trash, UserSquare } from 'phosphor-react-native';
@@ -94,7 +93,9 @@ export default function EmployeeList({ companyId }: Props) {
               <TouchableOpacity onPress={() => handleDeleteEmployee(item.id)}>
                 <Trash weight="bold" size={28} color="#D84F4F" />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => navigate('employerDashboard')}>
+              <TouchableOpacity
+                onPress={() => navigate('employerDashboard', { employeeId: item.id })}
+              >
                 <DotsThree size={35} weight="bold" color="#4F67D8" />
               </TouchableOpacity>
             </View>

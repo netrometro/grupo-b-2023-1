@@ -15,7 +15,13 @@ type Nav = {
   navigate: (value: string) => void;
 };
 
-export default function EmployerDashboard() {
+interface EmployerDashboardProps {
+  route: { params: { employeeId: number } };
+}
+
+export default function EmployerDashboard({ route }: EmployerDashboardProps) {
+  const { employeeId } = route.params;
+
   const employer = {
     id: 1,
     nome: 'Nome completo',
@@ -31,6 +37,7 @@ export default function EmployerDashboard() {
     formacao: 'Superior completo',
     ctps: '00000000',
   };
+
   useEffect(() => {}, []);
 
   const { navigate } = useNavigation<Nav>();

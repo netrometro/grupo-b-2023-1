@@ -19,7 +19,7 @@ export type RootStackParamList = {
   companyDashboard: { companyId: number };
   fichaRegistration: { companyId: number };
   editEmployer: { companyId: number; employeeId: number };
-  employerDashboard: undefined;
+  employerDashboard: { employeeId: number };
 };
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
