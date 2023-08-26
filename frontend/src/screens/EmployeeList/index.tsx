@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { DotsThree, Trash, UserSquare } from 'phosphor-react-native';
 
 type Nav = {
-  navigate: (value: string, ids: object) => void;
+  navigate: (value: string, ids?: object) => void;
 };
 
 interface Props {
@@ -94,7 +94,7 @@ export default function EmployeeList({ companyId }: Props) {
               <TouchableOpacity onPress={() => handleDeleteEmployee(item.id)}>
                 <Trash weight="bold" size={28} color="#D84F4F" />
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => navigate('employerDashboard')}>
                 <DotsThree size={35} weight="bold" color="#4F67D8" />
               </TouchableOpacity>
             </View>
