@@ -46,3 +46,22 @@ exports.listOvertimeByEmployer = async (
 
   return overtime;
 };
+
+exports.payOvertime = async (req: FastifyRequest, res: FastifyReply) => {
+  const paramsSchema = z.object({
+    employerId: z.string(),
+  });
+
+  const { employerId } = paramsSchema.parse(req.params);
+
+  const overtime = await prisma.horasExtras.update({
+    where: {
+      id: parseInt(employerId),
+    },
+    data: {
+      pago: true,
+    },
+  });
+
+  return overtime;
+};
