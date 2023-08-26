@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import stylesOvertimeEmployerDashboard from './styles';
 import { useNavigation } from '@react-navigation/native';
 import Navbar from '../../components/Navbar';
@@ -33,9 +33,46 @@ export default function EmployerOvertimeDashboard({ route }: EmployerOvertimeDas
     ctps: '00000000',
   };
 
-  useEffect(() => {}, []);
+  const horasExtras = [
+    {
+      id: 1,
+      data: '10/07/2023',
+      pago: true,
+      valorHora: 50,
+      horas: 5,
+    },
+    {
+      id: 2,
+      data: '11/07/2023',
+      pago: true,
+      valorHora: 53,
+      horas: 2,
+    },
+    {
+      id: 3,
+      data: '15/07/2023',
+      pago: false,
+      valorHora: 73,
+      horas: 8,
+    },
+    {
+      id: 4,
+      data: '15/07/2023',
+      pago: false,
+      valorHora: 73,
+      horas: 8,
+    },
+  ];
 
   const { navigate } = useNavigation<Nav>();
+
+  const handleDelete = (id: number) => {
+    console.log('Deletado ' + id);
+  };
+
+  const handlePay = (id: number) => {
+    console.log('Pago ' + id);
+  };
 
   return (
     <View style={stylesOvertimeEmployerDashboard.container}>
@@ -62,21 +99,20 @@ export default function EmployerOvertimeDashboard({ route }: EmployerOvertimeDas
             </TouchableOpacity>
           </View>
         </View>
-        <OvertimeCard
-          data="10/07/2022"
-          horas={5}
-          onPressDelete={() => {}}
-          onPressPay={() => {}}
-          pago={true}
-          valorHora={132}
-        />
-        <OvertimeCard
-          data="10/07/2022"
-          horas={5}
-          onPressDelete={() => {}}
-          onPressPay={() => {}}
-          pago={false}
-          valorHora={132}
+        <FlatList
+          style={stylesOvertimeEmployerDashboard.flatList}
+          data={horasExtras}
+          keyExtractor={(item) => String(item.id)}
+          renderItem={({ item }) => (
+            <OvertimeCard
+              data={item.data}
+              horas={item.horas}
+              onPressDelete={() => handleDelete(item.id)}
+              onPressPay={() => handlePay(item.id)}
+              pago={item.pago}
+              valorHora={item.valorHora}
+            />
+          )}
         />
       </View>
     </View>

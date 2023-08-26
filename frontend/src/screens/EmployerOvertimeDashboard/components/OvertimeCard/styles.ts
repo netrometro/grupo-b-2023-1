@@ -10,6 +10,7 @@ const stylesOvertimeCard = StyleSheet.create({
     borderRadius: 10,
     elevation: 10,
     shadowColor: '#000',
+    marginBottom: 10,
   },
   actionsContainer: {
     flexDirection: 'row',

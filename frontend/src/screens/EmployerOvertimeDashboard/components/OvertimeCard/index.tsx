@@ -35,11 +35,11 @@ export default function OvertimeCard({
             <Text style={stylesOvertimeCard.overtimeButtonText}>Pagar</Text>
           </View>
         ) : (
-          <TouchableOpacity style={stylesOvertimeCard.overtimeButton}>
+          <TouchableOpacity style={stylesOvertimeCard.overtimeButton} onPress={onPressPay}>
             <Text style={stylesOvertimeCard.overtimeButtonText}>Pagar</Text>
           </TouchableOpacity>
         )}
-        <TouchableOpacity>
+        <TouchableOpacity onPress={onPressDelete}>
           <Trash size={32} weight="bold" color="#D84F4F" />
         </TouchableOpacity>
       </View>
