@@ -16,7 +16,6 @@ const stylesAddOvertime = StyleSheet.create({
     paddingBottom: 40,
   },
   inputs: {
-    gap: 10,
     width: '100%',
   },
 });
