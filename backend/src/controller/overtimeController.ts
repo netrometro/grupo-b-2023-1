@@ -49,14 +49,14 @@ exports.listOvertimeByEmployer = async (
 
 exports.payOvertime = async (req: FastifyRequest, res: FastifyReply) => {
   const paramsSchema = z.object({
-    employerId: z.string(),
+    overtimeId: z.string(),
   });
 
-  const { employerId } = paramsSchema.parse(req.params);
+  const { overtimeId } = paramsSchema.parse(req.params);
 
   const overtime = await prisma.horasExtras.update({
     where: {
-      id: parseInt(employerId),
+      id: parseInt(overtimeId),
     },
     data: {
       pago: true,
@@ -65,3 +65,5 @@ exports.payOvertime = async (req: FastifyRequest, res: FastifyReply) => {
 
   return overtime;
 };
+
+exports.deleteOvertime = async (req: FastifyRequest, res: FastifyReply) => {};

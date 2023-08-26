@@ -8,9 +8,7 @@ const {
 async function overtimeRoutes(server: FastifyInstance) {
   server.post("/overtime/:employerId", addOvertime);
   server.get("/overtime/:employerId", listOvertimeByEmployer);
-  server.put("/pay-overtime/:employerId", payOvertime);
+  server.put("/pay-overtime/:overtimeId", payOvertime);
 }
-
-// adicionar mais rotas aqui
 
 export default overtimeRoutes;
