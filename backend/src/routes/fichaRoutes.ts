@@ -11,4 +11,3 @@ async function fichaRoutes(server: FastifyInstance) {
 }
 
 export default fichaRoutes;
-
