@@ -10,9 +10,7 @@ exports.addOvertime = async (req: FastifyRequest, res: FastifyReply) => {
     employerId: z.string(),
   });
 
-  console.log("parou antes do parse");
   const { data, horas, valorPorHoras, pago } = overtimeSchema.parse(req.body);
-  console.log("parou depois do parse");
   const { employerId } = paramsSchema.parse(req.params);
 
   const overtime = await prisma.horasExtras.create({
@@ -27,5 +25,24 @@ exports.addOvertime = async (req: FastifyRequest, res: FastifyReply) => {
     },
   });
 
-  console.log(overtime);
+  return overtime;
+};
+
+exports.listOvertimeByEmployer = async (
+  req: FastifyRequest,
+  res: FastifyReply
+) => {
+  const paramsSchema = z.object({
+    employerId: z.string(),
+  });
+
+  const { employerId } = paramsSchema.parse(req.params);
+
+  const overtime = await prisma.horasExtras.findMany({
+    where: {
+      funcionarioId: parseInt(employerId),
+    },
+  });
+
+  return overtime;
 };
