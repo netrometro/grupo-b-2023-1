@@ -2,27 +2,43 @@ import { StyleSheet } from 'react-native';
 
 const stylesEmployeeList = StyleSheet.create({
   container: {
-    flex: 1,
+    width: '100%',
     alignItems: 'center',
-    backgroundColor: '#F7F8FA',
+    backgroundColor: '#f2f2f2',
   },
   employeeItem: {
-    backgroundColor: 'white',
+    width: '100%',
+    alignItems: 'center',
+    flexDirection: 'row',
     borderRadius: 10,
     padding: 10,
     marginVertical: 10,
-    width: 300,
     alignSelf: 'center',
     elevation: 5,
+    backgroundColor: 'white',
+    gap: 6,
+    justifyContent: 'space-between',
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  iconNameContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   employeeName: {
     fontSize: 18,
     fontWeight: 'bold',
   },
   employeeInfo: {
-    marginTop: 5,
     fontSize: 14,
     color: '#6B7280',
+  },
+  flatList: {
+    width: '100%',
+    paddingHorizontal: 30,
   },
 });
 

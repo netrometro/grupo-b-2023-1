@@ -3,8 +3,7 @@ import { StyleSheet } from 'react-native';
 const stylesCompanyDashboard = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F7F9FC',
-    padding: 20,
+    backgroundColor: '#f2f2f2',
   },
   companyName: {
     fontSize: 24,
@@ -27,6 +26,22 @@ const stylesCompanyDashboard = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 16,
+  },
+  companyInfoCard: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    marginHorizontal: 30,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    elevation: 10,
+    shadowColor: '#000',
+  },
+  body: {
+    gap: 20,
+    marginTop: 20,
+  },
+  iconsContainer: {
+    alignItems: 'flex-end',
   },
 });
 
