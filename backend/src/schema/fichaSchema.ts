@@ -13,6 +13,8 @@ export const FichaFuncionarioSchema = z.object({
   admissao: z.string(),
   formacao: z.string(),
   ctps: z.string(),
+  demitido: z.boolean(),
 });
 
 export type FichaFuncionarioData = z.infer<typeof FichaFuncionarioSchema>;
+
