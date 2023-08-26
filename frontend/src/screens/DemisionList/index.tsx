@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
 import { api } from '../../services/api';
 import { Employer } from '../../interfaces/employer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { UserSquare, Trash, DotsThree } from 'phosphor-react-native';
-import stylesEmployeeList from '../EmployeeList/style';
+import { UserSquare } from 'phosphor-react-native';
 
 type Props = {
   companyId: number;
