@@ -11,6 +11,7 @@ import EditEmployer from '../screens/EditEmployer';
 import EmployerDashboard from '../screens/EmployerDashboard';
 import EmployerOvertimeDashboard from '../screens/EmployerOvertimeDashboard';
 import AddOvertime from '../screens/AddOvertime';
+import DemisionList from '../screens/DemisionList';
 
 export type RootStackParamList = {
   login: undefined;
@@ -24,6 +25,7 @@ export type RootStackParamList = {
   employerDashboard: { employeeId: number };
   employerOvertimeDashboard: { employeeId: number };
   addOvertime: { employeeId: number };
+  demisionList: { employeeId: number };
 };
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
@@ -42,6 +44,7 @@ export default function AppRoutes() {
       <Screen name="employerDashboard" component={EmployerDashboard} />
       <Screen name="employerOvertimeDashboard" component={EmployerOvertimeDashboard} />
       <Screen name="addOvertime" component={AddOvertime} />
+      <Screen name="demisionList" component={DemisionList} />
     </Navigator>
   );
 }

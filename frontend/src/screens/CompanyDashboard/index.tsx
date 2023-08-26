@@ -73,6 +73,9 @@ export default function CompanyDashboard({ route }: CompanyDashboardProps) {
             <TouchableOpacity onPress={handleRegistrationEmployee}>
               <UserPlus weight="bold" size={32} color="#4F67D8" />
             </TouchableOpacity>
+            <TouchableOpacity>
+              <Text style={styles.backButtonText}>Demitidos</Text>
+            </TouchableOpacity>
           </View>
         </View>
         <EmployeeList companyId={companyId} />
