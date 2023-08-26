@@ -64,6 +64,7 @@ model HorasExtras {
   data          DateTime
   valorPorHoras Float
   horas         Int
+  pago          Boolean
   funcionario   FichaFuncionario? @relation(fields: [funcionarioId], references: [id])
   funcionarioId Int
 }
