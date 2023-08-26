@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { api } from '../../services/api';
-import { Emp } from '../../interfaces/emp';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import stylesEmployerDashboard from './styles';
 import { useNavigation } from '@react-navigation/native';
-import EmployeeList from '../EmployeeList';
-import Button from '../../components/Button';
 import Navbar from '../../components/Navbar';
 import { ClockClockwise, PencilSimple, UserPlus, XCircle } from 'phosphor-react-native';
 import IconButton from '../../components/IconButton';
 
 type Nav = {
-  navigate: (value: string) => void;
+  navigate: (value: string, id?: object) => void;
 };
 
 interface EmployerDashboardProps {
@@ -88,7 +83,7 @@ export default function EmployerDashboard({ route }: EmployerDashboardProps) {
         </View>
         <View style={stylesEmployerDashboard.iconButtonContainer}>
           <IconButton
-            onPress={() => {}}
+            onPress={() => navigate('employerOvertimeDashboard', { employeeId: employer.id })}
             text="Horas Extras"
             icon={<ClockClockwise size={38} weight="bold" color="#4F67D8" />}
           />
