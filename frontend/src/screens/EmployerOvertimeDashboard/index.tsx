@@ -7,7 +7,7 @@ import { Plus } from 'phosphor-react-native';
 import OvertimeCard from './components/OvertimeCard';
 
 type Nav = {
-  navigate: (value: string) => void;
+  navigate: (value: string, id?: object) => void;
 };
 
 interface EmployerOvertimeDashboardProps {
@@ -94,7 +94,7 @@ export default function EmployerOvertimeDashboard({ route }: EmployerOvertimeDas
             <Text>Carregando informações do funcionário...</Text>
           )}
           <View style={stylesOvertimeEmployerDashboard.iconsContainer}>
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity onPress={() => navigate('addOvertime', { employeeId: employeeId })}>
               <Plus weight="bold" size={32} color="#4F67D8" />
             </TouchableOpacity>
           </View>
