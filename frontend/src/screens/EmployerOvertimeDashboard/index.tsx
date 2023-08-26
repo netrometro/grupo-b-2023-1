@@ -4,6 +4,7 @@ import stylesOvertimeEmployerDashboard from './styles';
 import { useNavigation } from '@react-navigation/native';
 import Navbar from '../../components/Navbar';
 import { Plus } from 'phosphor-react-native';
+import OvertimeCard from './components/OvertimeCard';
 
 type Nav = {
   navigate: (value: string) => void;
@@ -61,6 +62,22 @@ export default function EmployerOvertimeDashboard({ route }: EmployerOvertimeDas
             </TouchableOpacity>
           </View>
         </View>
+        <OvertimeCard
+          data="10/07/2022"
+          horas={5}
+          onPressDelete={() => {}}
+          onPressPay={() => {}}
+          pago={true}
+          valorHora={132}
+        />
+        <OvertimeCard
+          data="10/07/2022"
+          horas={5}
+          onPressDelete={() => {}}
+          onPressPay={() => {}}
+          pago={false}
+          valorHora={132}
+        />
       </View>
     </View>
   );
