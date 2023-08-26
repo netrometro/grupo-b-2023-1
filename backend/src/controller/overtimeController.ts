@@ -66,4 +66,18 @@ exports.payOvertime = async (req: FastifyRequest, res: FastifyReply) => {
   return overtime;
 };
 
-exports.deleteOvertime = async (req: FastifyRequest, res: FastifyReply) => {};
+exports.deleteOvertime = async (req: FastifyRequest, res: FastifyReply) => {
+  const paramsSchema = z.object({
+    overtimeId: z.string(),
+  });
+
+  const { overtimeId } = paramsSchema.parse(req.params);
+
+  const overtime = await prisma.horasExtras.delete({
+    where: {
+      id: parseInt(overtimeId),
+    },
+  });
+
+  return overtime;
+};
