@@ -23,6 +23,8 @@ const DemisionList: React.FC<Props> = ({ companyId }) => {
           return;
         }
 
+        console.log('companyId: ', companyId);
+
         const response = await api.get(`/demitidos/${companyId}`, {
           headers: {
             Authorization: adminId,

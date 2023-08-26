@@ -25,7 +25,7 @@ export type RootStackParamList = {
   employerDashboard: { employeeId: number };
   employerOvertimeDashboard: { employeeId: number };
   addOvertime: { employeeId: number };
-  demisionList: { employeeId: number };
+  demisionList: { companyId: number };
 };
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
