@@ -38,44 +38,12 @@ export default function EmployerOvertimeDashboard({ route }: EmployerOvertimeDas
     const getOvertimes = async () => {
       const response = await api.get(`/overtime/${employeeId}`);
 
-      console.log(response.data);
       setOvertimesData(response.data);
     };
 
     getEmployer();
     getOvertimes();
   }, []);
-
-  const horasExtras = [
-    {
-      id: 1,
-      data: '10/07/2023',
-      pago: true,
-      valorHora: 50,
-      horas: 5,
-    },
-    {
-      id: 2,
-      data: '11/07/2023',
-      pago: true,
-      valorHora: 53,
-      horas: 2,
-    },
-    {
-      id: 3,
-      data: '15/07/2023',
-      pago: false,
-      valorHora: 73,
-      horas: 8,
-    },
-    {
-      id: 4,
-      data: '15/07/2023',
-      pago: false,
-      valorHora: 73,
-      horas: 8,
-    },
-  ];
 
   const { navigate } = useNavigation<Nav>();
 
