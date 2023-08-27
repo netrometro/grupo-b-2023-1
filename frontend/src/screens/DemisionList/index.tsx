@@ -5,13 +5,16 @@ import { Employer } from '../../interfaces/employer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UserSquare } from 'phosphor-react-native';
 
+type Nav = {
+    navigate: (value: string, ids?: object) => void;
+  };
+
 type Props = {
   companyId: number;
 };
 
-const DemisionList: React.FC<Props> = ({ companyId }) => {
+export default function EmployeeList({ companyId }: Props) {
   const [demitidos, setDemitidos] = useState<Employer[]>([]);
-  const [employees, setEmployees] = useState<Employer[]>([]);
 
   useEffect(() => {
     const fetchDemitidos = async () => {
@@ -64,4 +67,4 @@ const DemisionList: React.FC<Props> = ({ companyId }) => {
   );
 };
 
-export default DemisionList;
+

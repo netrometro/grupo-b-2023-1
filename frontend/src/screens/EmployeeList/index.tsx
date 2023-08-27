@@ -28,6 +28,8 @@ export default function EmployeeList({ companyId }: Props) {
           return;
         }
 
+         console.log("companyId: ", companyId);
+
         const response = await api.get(`/showFicha/${companyId}`, {
           headers: {
             Authorization: adminId,
@@ -105,3 +107,4 @@ export default function EmployeeList({ companyId }: Props) {
     </View>
   );
 }
+
