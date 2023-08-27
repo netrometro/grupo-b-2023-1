@@ -54,13 +54,29 @@ exports.listOvertimeByEmployer = async (
 
   const { employerId } = paramsSchema.parse(req.params);
 
-  const overtime = await prisma.horasExtras.findMany({
+  const hasEmployer = await prisma.fichaFuncionario.findUnique({
     where: {
-      funcionarioId: parseInt(employerId),
+      id: parseInt(employerId),
     },
   });
 
-  return overtime;
+  if (hasEmployer) {
+    try {
+      const overtime = await prisma.horasExtras.findMany({
+        where: {
+          funcionarioId: parseInt(employerId),
+        },
+      });
+
+      return res.status(200).send(overtime);
+    } catch (error) {
+      return res
+        .status(500)
+        .send({ message: "Ocorreu um erro interno no servidor" });
+    }
+  } else {
+    return res.status(400).send({ message: "Funcionário não encontrado" });
+  }
 };
 
 exports.payOvertime = async (req: FastifyRequest, res: FastifyReply) => {
@@ -70,16 +86,33 @@ exports.payOvertime = async (req: FastifyRequest, res: FastifyReply) => {
 
   const { overtimeId } = paramsSchema.parse(req.params);
 
-  const overtime = await prisma.horasExtras.update({
+  const hasOvertime = await prisma.horasExtras.findUnique({
     where: {
       id: parseInt(overtimeId),
     },
-    data: {
-      pago: true,
-    },
   });
 
-  return overtime;
+  if (hasOvertime) {
+    try {
+      const overtime = await prisma.horasExtras.update({
+        where: {
+          id: parseInt(overtimeId),
+        },
+        data: {
+          pago: true,
+        },
+      });
+      return res.status(200).send(overtime);
+    } catch (error) {
+      return res
+        .status(500)
+        .send({ message: "Ocorreu um erro interno no servidor" });
+    }
+  } else {
+    return res
+      .status(400)
+      .send({ message: "Nenhuma hora extra cadastrada com esse id" });
+  }
 };
 
 exports.deleteOvertime = async (req: FastifyRequest, res: FastifyReply) => {
@@ -89,11 +122,28 @@ exports.deleteOvertime = async (req: FastifyRequest, res: FastifyReply) => {
 
   const { overtimeId } = paramsSchema.parse(req.params);
 
-  const overtime = await prisma.horasExtras.delete({
+  const hasOvertime = await prisma.horasExtras.findUnique({
     where: {
       id: parseInt(overtimeId),
     },
   });
 
-  return overtime;
+  if (hasOvertime) {
+    try {
+      const overtime = await prisma.horasExtras.delete({
+        where: {
+          id: parseInt(overtimeId),
+        },
+      });
+      return res.status(200).send(overtime);
+    } catch (error) {
+      return res
+        .status(500)
+        .send({ message: "Nenhuma hora extra cadastrada com esse id" });
+    }
+  } else {
+    return res
+      .status(400)
+      .send({ message: "Nenhuma hora extra cadastrada com esse id" });
+  }
 };
