@@ -47,8 +47,13 @@ export default function EmployerOvertimeDashboard({ route }: EmployerOvertimeDas
 
   const { navigate } = useNavigation<Nav>();
 
-  const handleDelete = (id: number) => {
-    console.log('Deletado ' + id);
+  const handleDelete = async (id: number) => {
+    try {
+      await api.delete(`/overtime/${id}`);
+      console.log('Apagou!');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handlePay = (id: number) => {
