@@ -1,10 +1,23 @@
-import React, { useEffect } from 'react';
-import { View, Text, TouchableOpacity, FlatList } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  ActivityIndicator,
+  ToastAndroid,
+  Alert,
+} from 'react-native';
 import stylesOvertimeEmployerDashboard from './styles';
 import { useNavigation } from '@react-navigation/native';
 import Navbar from '../../components/Navbar';
 import { Plus } from 'phosphor-react-native';
 import OvertimeCard from './components/OvertimeCard';
+import { Employer } from '../../interfaces/employer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { api } from '../../services/api';
+import { Overtime } from '../../interfaces/overtime';
+import moment from 'moment';
 
 type Nav = {
   navigate: (value: string, id?: object) => void;
@@ -16,78 +29,109 @@ interface EmployerOvertimeDashboardProps {
 
 export default function EmployerOvertimeDashboard({ route }: EmployerOvertimeDashboardProps) {
   const { employeeId } = route.params;
+  const [employerData, setEmployerData] = useState<Employer>();
+  const [overtimesData, setOvertimesData] = useState<Overtime[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingPay, setIsLoadingPay] = useState(false);
 
-  const employer = {
-    id: 1,
-    nome: 'Nome completo',
-    email: 'email@email.com',
-    nascimento: '07/05/2002',
-    nacionalidade: 'Brasileiro',
-    cpf: '000.000.000-00',
-    rg: '00.000.000-0',
-    cargo: 'Gerente de vendas',
-    endereco: 'Av. Pedro Jorge, 142',
-    pispasep: '000.00000.00-0',
-    admissao: '09/10/2016',
-    formacao: 'Superior completo',
-    ctps: '00000000',
+  const getOvertimes = async () => {
+    try {
+      setIsLoading(true);
+      const response = await api.get(`/overtime/${employeeId}`);
+
+      setOvertimesData(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      ToastAndroid.show('Ocorreu um erro ao carregar as horas extras', ToastAndroid.LONG);
+      setIsLoading(false);
+    }
   };
 
-  const horasExtras = [
-    {
-      id: 1,
-      data: '10/07/2023',
-      pago: true,
-      valorHora: 50,
-      horas: 5,
-    },
-    {
-      id: 2,
-      data: '11/07/2023',
-      pago: true,
-      valorHora: 53,
-      horas: 2,
-    },
-    {
-      id: 3,
-      data: '15/07/2023',
-      pago: false,
-      valorHora: 73,
-      horas: 8,
-    },
-    {
-      id: 4,
-      data: '15/07/2023',
-      pago: false,
-      valorHora: 73,
-      horas: 8,
-    },
-  ];
+  useEffect(() => {
+    const getEmployer = async () => {
+      const adminId = await AsyncStorage.getItem('adminId');
+      try {
+        const response = await api.get(`/ficha/${employeeId}`, {
+          headers: {
+            Authorization: adminId,
+          },
+        });
+
+        setEmployerData(response.data);
+      } catch (error) {
+        ToastAndroid.show('Ocorreu um erro ao carregar o usuário', ToastAndroid.LONG);
+      }
+    };
+
+    getEmployer();
+    getOvertimes();
+  }, [employeeId]);
 
   const { navigate } = useNavigation<Nav>();
 
-  const handleDelete = (id: number) => {
-    console.log('Deletado ' + id);
+  const handleDelete = async (id: number) => {
+    Alert.alert(
+      'Deletar hora extra?',
+      'Confirme se deseja deletar esta hora extra, a ação será irreversível',
+      [
+        {
+          text: 'Cancelar',
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {
+          text: 'Confirmar',
+          onPress: async () => {
+            try {
+              await api.delete(`/overtime/${id}`);
+              ToastAndroid.show('Deletado com sucesso', ToastAndroid.LONG);
+
+              getOvertimes();
+            } catch (error) {
+              ToastAndroid.show('Ocorreu um erro ao deletar', ToastAndroid.LONG);
+            }
+          },
+        },
+      ],
+      {
+        cancelable: true,
+        onDismiss: () => {},
+      }
+    );
   };
 
-  const handlePay = (id: number) => {
-    console.log('Pago ' + id);
+  const handlePay = async (id: number) => {
+    try {
+      setIsLoadingPay(true);
+      await api.put(`/pay-overtime/${id}`);
+      ToastAndroid.show('Pagamento realizado', ToastAndroid.LONG);
+      setIsLoadingPay(false);
+      getOvertimes();
+    } catch (error) {
+      ToastAndroid.show('Ocorreu um erro ao registrar o pagamento', ToastAndroid.LONG);
+      setIsLoading(false);
+    }
   };
 
   return (
     <View style={stylesOvertimeEmployerDashboard.container}>
-      <Navbar text={'Horas Extras'} onPressArrowLeft={() => navigate('dashboard')} />
+      <Navbar
+        text={'Horas Extras'}
+        onPressArrowLeft={() => navigate('employerDashboard', { employeeId: employeeId })}
+      />
       <View style={stylesOvertimeEmployerDashboard.body}>
         <View style={stylesOvertimeEmployerDashboard.employerInfoCard}>
-          {employer ? (
+          {employerData ? (
             <View>
-              <Text style={stylesOvertimeEmployerDashboard.employerName}>{employer.nome}</Text>
-              <Text style={stylesOvertimeEmployerDashboard.employerInfo}>CPF: {employer.cpf}</Text>
+              <Text style={stylesOvertimeEmployerDashboard.employerName}>{employerData.nome}</Text>
               <Text style={stylesOvertimeEmployerDashboard.employerInfo}>
-                E-mail: {employer.email}
+                CPF: {employerData.cpf}
               </Text>
               <Text style={stylesOvertimeEmployerDashboard.employerInfo}>
-                Nascimento: {employer.nascimento}
+                E-mail: {employerData.email}
+              </Text>
+              <Text style={stylesOvertimeEmployerDashboard.employerInfo}>
+                Nascimento: {moment(employerData.nascimento).format('DD/MM/YYYY')}
               </Text>
             </View>
           ) : (
@@ -99,21 +143,26 @@ export default function EmployerOvertimeDashboard({ route }: EmployerOvertimeDas
             </TouchableOpacity>
           </View>
         </View>
-        <FlatList
-          style={stylesOvertimeEmployerDashboard.flatList}
-          data={horasExtras}
-          keyExtractor={(item) => String(item.id)}
-          renderItem={({ item }) => (
-            <OvertimeCard
-              data={item.data}
-              horas={item.horas}
-              onPressDelete={() => handleDelete(item.id)}
-              onPressPay={() => handlePay(item.id)}
-              pago={item.pago}
-              valorHora={item.valorHora}
-            />
-          )}
-        />
+        {isLoading ? (
+          <ActivityIndicator size="large" color="#4F67D8" />
+        ) : (
+          <FlatList
+            style={stylesOvertimeEmployerDashboard.flatList}
+            data={overtimesData}
+            keyExtractor={(item) => String(item.id)}
+            renderItem={({ item }) => (
+              <OvertimeCard
+                data={moment(item.data).format('DD/MM/YYYY')}
+                horas={item.horas}
+                onPressDelete={() => handleDelete(item.id)}
+                onPressPay={() => handlePay(item.id)}
+                pago={item.pago}
+                valorHora={item.valorPorHoras}
+                isLoading={isLoadingPay}
+              />
+            )}
+          />
+        )}
       </View>
     </View>
   );

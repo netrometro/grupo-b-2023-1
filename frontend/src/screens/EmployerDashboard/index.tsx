@@ -1,79 +1,93 @@
-import React, { useEffect } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity, ToastAndroid } from 'react-native';
 import stylesEmployerDashboard from './styles';
 import { useNavigation } from '@react-navigation/native';
 import Navbar from '../../components/Navbar';
 import { ClockClockwise, PencilSimple, UserPlus, XCircle } from 'phosphor-react-native';
 import IconButton from '../../components/IconButton';
+import { api } from '../../services/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Employer } from '../../interfaces/employer';
+import moment from 'moment';
 
 type Nav = {
   navigate: (value: string, id?: object) => void;
 };
 
 interface EmployerDashboardProps {
-  route: { params: { employeeId: number } };
+  route: { params: { employeeId: number; companyId: number } };
 }
 
 export default function EmployerDashboard({ route }: EmployerDashboardProps) {
   const { employeeId } = route.params;
+  const { companyId } = route.params;
 
-  const employer = {
-    id: 1,
-    nome: 'Nome completo',
-    email: 'email@email.com',
-    nascimento: '07/05/2002',
-    nacionalidade: 'Brasileiro',
-    cpf: '000.000.000-00',
-    rg: '00.000.000-0',
-    cargo: 'Gerente de vendas',
-    endereco: 'Av. Pedro Jorge, 142',
-    pispasep: '000.00000.00-0',
-    admissao: '09/10/2016',
-    formacao: 'Superior completo',
-    ctps: '00000000',
-  };
+  const [employerData, setEmployerData] = useState<Employer>();
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const getEmployer = async () => {
+      const adminId = await AsyncStorage.getItem('adminId');
+      try {
+        const response = await api.get(`/ficha/${employeeId}`, {
+          headers: {
+            Authorization: adminId,
+          },
+        });
+
+        setEmployerData(response.data);
+      } catch (error) {
+        ToastAndroid.show(
+          'Não foi possível carregas as informações deste usuário',
+          ToastAndroid.LONG
+        );
+      }
+    };
+
+    getEmployer();
+  }, []);
 
   const { navigate } = useNavigation<Nav>();
 
   return (
     <View style={stylesEmployerDashboard.container}>
-      <Navbar text={'Detalhar Funcionário'} onPressArrowLeft={() => navigate('dashboard')} />
+      <Navbar
+        text={'Detalhar Funcionário'}
+        onPressArrowLeft={() => navigate('companyDashboard', { companyId: companyId })}
+      />
       <View style={stylesEmployerDashboard.body}>
         <View style={stylesEmployerDashboard.companyInfoCard}>
-          {employer ? (
+          {employerData ? (
             <View>
-              <Text style={stylesEmployerDashboard.employerName}>{employer.nome}</Text>
-              <Text style={stylesEmployerDashboard.employerInfo}>CPF: {employer.cpf}</Text>
-              <Text style={stylesEmployerDashboard.employerInfo}>E-mail: {employer.email}</Text>
+              <Text style={stylesEmployerDashboard.employerName}>{employerData.nome}</Text>
+              <Text style={stylesEmployerDashboard.employerInfo}>CPF: {employerData.cpf}</Text>
+              <Text style={stylesEmployerDashboard.employerInfo}>E-mail: {employerData.email}</Text>
               <Text style={stylesEmployerDashboard.employerInfo}>
-                Nascimento: {employer.nascimento}
+                Nascimento: {moment(employerData.nascimento).format('DD/MM/YYYY')}
               </Text>
               <Text style={stylesEmployerDashboard.employerInfo}>
-                Nacionalidade: {employer.nacionalidade}
+                Nacionalidade: {employerData.nacionalidade}
               </Text>
-              <Text style={stylesEmployerDashboard.employerInfo}>RG: {employer.rg}</Text>
-              <Text style={stylesEmployerDashboard.employerInfo}>Cargo: {employer.cargo}</Text>
+              <Text style={stylesEmployerDashboard.employerInfo}>RG: {employerData.rg}</Text>
+              <Text style={stylesEmployerDashboard.employerInfo}>Cargo: {employerData.cargo}</Text>
               <Text style={stylesEmployerDashboard.employerInfo}>
-                Endereço: {employer.endereco}
-              </Text>
-              <Text style={stylesEmployerDashboard.employerInfo}>
-                PIS/PASEP: {employer.pispasep}
+                Endereço: {employerData.endereco}
               </Text>
               <Text style={stylesEmployerDashboard.employerInfo}>
-                Admissão: {employer.admissao}
+                PIS/PASEP: {employerData.pispasep}
               </Text>
               <Text style={stylesEmployerDashboard.employerInfo}>
-                Formação: {employer.formacao}
+                Admissão: {moment(employerData.admissao).format('DD/MM/YYYY')}
               </Text>
-              <Text style={stylesEmployerDashboard.employerInfo}>CTPS: {employer.ctps}</Text>
+              <Text style={stylesEmployerDashboard.employerInfo}>
+                Formação: {employerData.formacao}
+              </Text>
+              <Text style={stylesEmployerDashboard.employerInfo}>CTPS: {employerData.ctps}</Text>
             </View>
           ) : (
             <Text>Carregando informações do funcionário...</Text>
           )}
           <View style={stylesEmployerDashboard.iconsContainer}>
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity onPress={() => navigate('editEmployer', { employeeId: employeeId })}>
               <PencilSimple weight="bold" size={32} color="#4F67D8" />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => {}}>
@@ -83,7 +97,7 @@ export default function EmployerDashboard({ route }: EmployerDashboardProps) {
         </View>
         <View style={stylesEmployerDashboard.iconButtonContainer}>
           <IconButton
-            onPress={() => navigate('employerOvertimeDashboard', { employeeId: employer.id })}
+            onPress={() => navigate('employerOvertimeDashboard', { employeeId: employeeId })}
             text="Horas Extras"
             icon={<ClockClockwise size={38} weight="bold" color="#4F67D8" />}
           />

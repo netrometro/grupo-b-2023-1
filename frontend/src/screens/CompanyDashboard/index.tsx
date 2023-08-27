@@ -73,9 +73,7 @@ export default function CompanyDashboard({ route }: CompanyDashboardProps) {
             <TouchableOpacity onPress={handleRegistrationEmployee}>
               <UserPlus weight="bold" size={32} color="#4F67D8" />
             </TouchableOpacity>
-            <TouchableOpacity
-            onPress={() => navigate('demisionList', { companyId })}
-            >
+            <TouchableOpacity onPress={() => navigate('demisionList', { companyId })}>
               <UserPlus weight="bold" size={32} color="#FF0000" />
             </TouchableOpacity>
           </View>
