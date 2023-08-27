@@ -7,6 +7,7 @@ import MaskedInput from '../../components/MaskedInput';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { api } from '../../services/api';
+import moment from 'moment';
 
 type Nav = {
   navigate: (value: string) => void;
@@ -29,8 +30,15 @@ export default function AddOvertime({ route }: AddOvertimeProps) {
 
   const { navigate } = useNavigation<Nav>();
 
+  const convertDate = (date: string) => {
+    const baseDate = new Date(date.split('/').reverse().join('-'));
+    baseDate.setHours(baseDate.getHours() + 4);
+
+    return baseDate;
+  };
+
   const data = {
-    data: date,
+    data: convertDate(date),
     valorPorHoras: parseFloat(hourValue),
     horas: parseFloat(hours),
   };
@@ -60,21 +68,13 @@ export default function AddOvertime({ route }: AddOvertimeProps) {
       <Navbar text={'Adicionar Hora Extra'} onPressArrowLeft={() => navigate('dashboard')} />
       <View style={stylesAddOvertime.body}>
         <View style={stylesAddOvertime.inputs}>
-          {/* <MaskedInput
+          <MaskedInput
             error={false}
             label="Data"
             onChange={(value) => onChangeDate(value)}
             placeholder="00/00/0000"
             value={date}
             mask="99/99/9999"
-            keyboardType="numeric"
-          /> */}
-          <Input
-            error={false}
-            label="Data"
-            onChange={(value) => onChangeDate(value)}
-            placeholder="00/00/0000"
-            value={date}
             keyboardType="numeric"
           />
           <Input
