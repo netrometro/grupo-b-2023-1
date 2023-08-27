@@ -54,6 +54,10 @@ export default function CompanyDashboard({ route }: CompanyDashboardProps) {
     navigate('fichaRegistration', { companyId });
   };
 
+  const handleDemisionList = () => {
+    navigate('demisionList', { companyId });
+  };
+
   return (
     <View style={styles.container}>
       <Navbar text={`Empresa ${company?.nome}`} onPressArrowLeft={() => navigate('dashboard')} />
@@ -73,7 +77,7 @@ export default function CompanyDashboard({ route }: CompanyDashboardProps) {
             <TouchableOpacity onPress={handleRegistrationEmployee}>
               <UserPlus weight="bold" size={32} color="#4F67D8" />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigate('demisionList', { companyId })}>
+            <TouchableOpacity onPress={handleDemisionList}>
               <UserPlus weight="bold" size={32} color="#FF0000" />
             </TouchableOpacity>
           </View>

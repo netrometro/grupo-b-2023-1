@@ -8,3 +8,4 @@ async function demisionRoutes(server: FastifyInstance) {
 }
 
 export default demisionRoutes;
+

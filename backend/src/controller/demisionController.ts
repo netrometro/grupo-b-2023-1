@@ -23,8 +23,8 @@ exports.getDemitidos = async(request: FastifyRequest, reply: FastifyReply) => {
           return;
         }
     
-        const params = request.params as { id: string };
-        const empresaId = parseInt(params.id);
+        const params = request.params as { empresaId: string };
+        const empresaId = parseInt(params.empresaId);
     
         const employees = await prisma.fichaFuncionario.findMany({
           where: {

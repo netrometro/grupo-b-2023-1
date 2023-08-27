@@ -5,15 +5,11 @@ import { Employer } from '../../interfaces/employer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UserSquare } from 'phosphor-react-native';
 
-type Nav = {
-    navigate: (value: string, ids?: object) => void;
-  };
-
-type Props = {
+interface Props {
   companyId: number;
-};
+}
 
-export default function EmployeeList({ companyId }: Props) {
+export default function DemisionList({ companyId }: Props) {
   const [demitidos, setDemitidos] = useState<Employer[]>([]);
 
   useEffect(() => {
@@ -41,7 +37,7 @@ export default function EmployeeList({ companyId }: Props) {
     };
 
     fetchDemitidos();
-  }, []);
+  }, [companyId]); 
 
   return (
     <View>
@@ -49,8 +45,7 @@ export default function EmployeeList({ companyId }: Props) {
         data={demitidos}
         keyExtractor={(item) => item.nome}
         renderItem={({ item }) => (
-          <View
-          >
+          <View>
             <View>
               <UserSquare size={52} weight="fill" color="#4F67D8" />
               <View>
@@ -59,12 +54,11 @@ export default function EmployeeList({ companyId }: Props) {
               </View>
             </View>
             <View>
+              {/* Additional content */}
             </View>
           </View>
         )}
       />
     </View>
   );
-};
-
-
+}
