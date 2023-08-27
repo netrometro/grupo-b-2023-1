@@ -56,8 +56,13 @@ export default function EmployerOvertimeDashboard({ route }: EmployerOvertimeDas
     }
   };
 
-  const handlePay = (id: number) => {
-    console.log('Pago ' + id);
+  const handlePay = async (id: number) => {
+    try {
+      await api.put(`/pay-overtime/${id}`);
+      console.log('Foi pago');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
