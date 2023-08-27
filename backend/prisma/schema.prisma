@@ -47,16 +47,17 @@ model FichaFuncionario {
   empresaId     Int
   empresa       Empresa       @relation(fields: [empresaId], references: [id])
   demitido      Boolean       @default(false)
-  demissao      Demissao[]
+  falta         Falta[]
   horasextreas  HorasExtras[]
 }
 
-model Demissao {
-  id            Int               @id @default(autoincrement())
-  motivo        String
-  observacao    String
-  funcionario   FichaFuncionario? @relation(fields: [funcionarioId], references: [id])
-  funcionarioId Int?
+model Falta {
+  id             Int               @id @default(autoincrement())
+  dataFalta      DateTime
+  tipoFalta      String
+  descricaoFalta String
+  funcionario    FichaFuncionario? @relation(fields: [funcionarioId], references: [id])
+  funcionarioId  Int?
 }
 
 model HorasExtras {
