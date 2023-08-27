@@ -8,6 +8,7 @@ import IconButton from '../../components/IconButton';
 import { api } from '../../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Employer } from '../../interfaces/employer';
+import moment from 'moment';
 
 type Nav = {
   navigate: (value: string, id?: object) => void;
@@ -49,7 +50,7 @@ export default function EmployerDashboard({ route }: EmployerDashboardProps) {
               <Text style={stylesEmployerDashboard.employerInfo}>CPF: {employerData.cpf}</Text>
               <Text style={stylesEmployerDashboard.employerInfo}>E-mail: {employerData.email}</Text>
               <Text style={stylesEmployerDashboard.employerInfo}>
-                Nascimento: {employerData.nascimento}
+                Nascimento: {moment(employerData.nascimento).format('DD/MM/YYYY')}
               </Text>
               <Text style={stylesEmployerDashboard.employerInfo}>
                 Nacionalidade: {employerData.nacionalidade}
@@ -63,7 +64,7 @@ export default function EmployerDashboard({ route }: EmployerDashboardProps) {
                 PIS/PASEP: {employerData.pispasep}
               </Text>
               <Text style={stylesEmployerDashboard.employerInfo}>
-                Admissão: {employerData.admissao}
+                Admissão: {moment(employerData.admissao).format('DD/MM/YYYY')}
               </Text>
               <Text style={stylesEmployerDashboard.employerInfo}>
                 Formação: {employerData.formacao}
@@ -74,7 +75,7 @@ export default function EmployerDashboard({ route }: EmployerDashboardProps) {
             <Text>Carregando informações do funcionário...</Text>
           )}
           <View style={stylesEmployerDashboard.iconsContainer}>
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity onPress={() => navigate('editEmployer', { employeeId: employeeId })}>
               <PencilSimple weight="bold" size={32} color="#4F67D8" />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => {}}>
