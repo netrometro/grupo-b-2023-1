@@ -6,25 +6,29 @@ import AdminRegistration from '../screens/AdminRegistration';
 import AdminEditInfo from '../screens/AdminEditInfo';
 import FichaRegistration from '../screens/FichaRegistration';
 import CompanyRegistration from '../screens/CompanyRegistration';
-import EmployeeList from '../screens/EmployeeList';
-import { Emp } from '../interfaces/emp';
-import SingleCompany from '../screens/CompanyDashboard';
 import CompanyDashboard from '../screens/CompanyDashboard';
+import EditEmployer from '../screens/EditEmployer';
+import EmployerDashboard from '../screens/EmployerDashboard';
+import EmployerOvertimeDashboard from '../screens/EmployerOvertimeDashboard';
+import AddOvertime from '../screens/AddOvertime';
+import DemisionList from '../screens/DemisionList';
 
- export type RootStackParamList = {
-   login: undefined;
-   adminRegistration: undefined;
-   dashboard: undefined;
-   adminEditInfo: undefined;
-   companyRegistration: undefined;
-   companyDashboard: { companyId: number};
-   fichaRegistration: undefined;
-   employeeList: {companyId: string};
- };
+export type RootStackParamList = {
+  login: undefined;
+  adminRegistration: undefined;
+  dashboard: undefined;
+  adminEditInfo: undefined;
+  companyRegistration: undefined;
+  companyDashboard: { companyId: number };
+  fichaRegistration: { companyId: number };
+  editEmployer: { companyId: number; employeeId: number };
+  employerDashboard: { employeeId: number };
+  employerOvertimeDashboard: { employeeId: number };
+  addOvertime: { employeeId: number };
+  demisionList: { companyId: number };
+};
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
-
-/* const { Navigator, Screen } = createNativeStackNavigator(); */
 
 export default function AppRoutes() {
   return (
@@ -33,11 +37,14 @@ export default function AppRoutes() {
       <Screen name="adminRegistration" component={AdminRegistration} />
       <Screen name="dashboard" component={Dashboard} />
       <Screen name="adminEditInfo" component={AdminEditInfo} />
-      <Screen name="fichaRegistration" component={FichaRegistration}/>
-      <Screen name="companyRegistration" component={CompanyRegistration}/>
-      <Screen name='companyDashboard' component={CompanyDashboard} />
-     { <Screen name="employeeList" component={EmployeeList} />}
+      <Screen name="fichaRegistration" component={FichaRegistration} />
+      <Screen name="companyRegistration" component={CompanyRegistration} />
+      <Screen name="companyDashboard" component={CompanyDashboard} />
+      <Screen name="editEmployer" component={EditEmployer} />
+      <Screen name="employerDashboard" component={EmployerDashboard} />
+      <Screen name="employerOvertimeDashboard" component={EmployerOvertimeDashboard} />
+      <Screen name="addOvertime" component={AddOvertime} />
+      <Screen name="demisionList" component={DemisionList} />
     </Navigator>
   );
 }
-

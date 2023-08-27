@@ -1,19 +1,26 @@
-import stylesFichaRegistration from './styles';
-import { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { ScrollView, ToastAndroid, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, ScrollView, ToastAndroid } from 'react-native';
 import Navbar from '../../components/Navbar';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-import React from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from '../../services/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import stylesEditEmployer from './style';
 
-interface FichaRegistrationProps {
-  route: { params: { companyId: number } };
+interface EditEmployerProps {
+  route: { params: { companyId: number; employeeId: number } };
 }
 
-export default function FichaRegistration({ route }: FichaRegistrationProps) {
+interface RouteParams {
+  editMode?: boolean;
+}
+
+type Nav = {
+  navigate: (value: string) => void;
+};
+
+export default function EditEmployer({ route }: EditEmployerProps) {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [nascimento, setNascimento] = useState('');
@@ -27,33 +34,55 @@ export default function FichaRegistration({ route }: FichaRegistrationProps) {
   const [formacao, setFormacao] = useState('');
   const [ctps, setCtps] = useState('');
 
-  type Nav = {
-    navigate: (value: string) => void;
-  };
+  const editMode = (route.params as RouteParams)?.editMode || false;
+
+  const companyId = route.params.companyId;
+  const employeeId = route.params.employeeId;
 
   const { navigate } = useNavigation<Nav>();
-  const { companyId } = route.params;
 
-  const data = {
-    nome: nome,
-    email: email,
-    nascimento: nascimento,
-    nacionalidade: nacionalidade,
-    cpf: cpf,
-    rg: rg,
-    cargo: cargo,
-    endereco: endereco,
-    pispasep: pispasep,
-    admissao: admissao,
-    formacao: formacao,
-    ctps: ctps,
-  };
+  useEffect(() => {
+    if (editMode) {
+      fetchEmployeeDetails();
+    }
+  }, [employeeId]);
 
-  const handleCreateEmployee = async () => {
+  const fetchEmployeeDetails = async () => {
     try {
       const adminId = await AsyncStorage.getItem('adminId');
 
-      console.log(adminId);
+      if (!adminId) {
+        console.error('ID inválido');
+        return;
+      }
+
+      const response = await api.get(`/showFichaDetails/${companyId}/${employeeId}`, {
+        headers: {
+          Authorization: adminId,
+        },
+      });
+
+      const employeeDetails = response.data;
+      setNome(employeeDetails.nome);
+      setEmail(employeeDetails.email);
+      setNascimento(employeeDetails.nascimento);
+      setNacionalidade(employeeDetails.nacionalidade);
+      setCpf(employeeDetails.cpf);
+      setRg(employeeDetails.rg);
+      setCargo(employeeDetails.cargo);
+      setEndereco(employeeDetails.endereco);
+      setPispasep(employeeDetails.pis_pasep);
+      setAdmissao(employeeDetails.admissao);
+      setFormacao(employeeDetails.formacao);
+      setCtps(employeeDetails.ctps);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleUpdateEmployee = async () => {
+    try {
+      const adminId = await AsyncStorage.getItem('adminId');
 
       if (!adminId) {
         console.error('ID inválido');
@@ -61,30 +90,35 @@ export default function FichaRegistration({ route }: FichaRegistrationProps) {
       }
 
       const reqData = {
-        ...data,
-        adminId: parseInt(adminId),
+        nome: nome,
+        email: email,
+        nascimento: nascimento,
+        nacionalidade: nacionalidade,
+        cpf: cpf,
+        rg: rg,
+        cargo: cargo,
+        endereco: endereco,
+        pispasep: pispasep,
+        admissao: admissao,
+        formacao: formacao,
+        ctps: ctps,
       };
 
       const headers = {
         Authorization: adminId,
       };
 
-      console.log('Id da empresa' + companyId);
+      console.log('id', employeeId);
 
-      await api.post(`/createFicha/${companyId}`, reqData, { headers });
-      ToastAndroid.show('Ficha Adicionada', ToastAndroid.LONG);
+      await api.put(`/updateFicha/${companyId}/${employeeId}`, reqData, { headers });
+      ToastAndroid.show('Ficha Atualizada', ToastAndroid.LONG);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleRegister = () => {
-    console.log(data);
-    navigate('dashboard');
-  };
-
   return (
-    <View style={stylesFichaRegistration.container}>
+    <View style={stylesEditEmployer.container}>
       <Navbar
         onPressArrowLeft={() => {
           navigate('dashboard');
@@ -92,8 +126,8 @@ export default function FichaRegistration({ route }: FichaRegistrationProps) {
         text="Insira os dados de Cadastro do Funcionário"
       />
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={stylesFichaRegistration.body}>
-          <View style={stylesFichaRegistration.inputs}>
+        <View style={stylesEditEmployer.body}>
+          <View style={stylesEditEmployer.inputs}>
             <Input
               error={false}
               label="Nome:"
@@ -179,7 +213,7 @@ export default function FichaRegistration({ route }: FichaRegistrationProps) {
               value={ctps}
             />
           </View>
-          <Button text="CADASTRAR FICHA" onPress={handleCreateEmployee} />
+          <Button text="CADASTRAR FICHA" onPress={handleUpdateEmployee} />
         </View>
       </ScrollView>
     </View>

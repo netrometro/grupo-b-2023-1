@@ -1,33 +1,20 @@
 import { StyleSheet } from 'react-native';
 
-const stylesCompanyDashboard = StyleSheet.create({
+const stylesOvertimeEmployerDashboard = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f2f2f2',
   },
-  companyName: {
+  employerName: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
   },
-  companyInfo: {
+  employerInfo: {
     fontSize: 16,
     marginBottom: 5,
   },
-  backButton: {
-    marginTop: 20,
-    backgroundColor: '#4F67D8',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    alignSelf: 'flex-start',
-  },
-  backButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  companyInfoCard: {
+  employerInfoCard: {
     backgroundColor: 'white',
     borderRadius: 10,
     marginHorizontal: 30,
@@ -41,8 +28,20 @@ const stylesCompanyDashboard = StyleSheet.create({
     marginTop: 20,
   },
   iconsContainer: {
-    alignItems: 'flex-end',
+    flexDirection: 'row',
+    gap: 15,
+    justifyContent: 'flex-end',
+  },
+  iconButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 30,
+  },
+  flatList: {
+    height: '57%',
+    paddingTop: 5,
+    paddingBottom: 20,
   },
 });
 
-export default stylesCompanyDashboard;
+export default stylesOvertimeEmployerDashboard;

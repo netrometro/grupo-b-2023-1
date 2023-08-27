@@ -24,31 +24,31 @@ export default function CompanyRegistration() {
     nome: companyName,
     cnpj: companyAddress,
     endereco: companyCNPJ,
-    cep: companyCep
+    cep: companyCep,
   };
 
   const handleCreateCompany = async () => {
     try {
-        const adminId = await AsyncStorage.getItem('adminId');
+      const adminId = await AsyncStorage.getItem('adminId');
 
-        console.log('admindId:', adminId);
+      console.log('admindId:', adminId);
 
-        if(!adminId) {
-            console.error('id invalido');
-            return;
-        }
+      if (!adminId) {
+        console.error('id invalido');
+        return;
+      }
 
-        const requestData = {
-            ...data,
-            adminId: parseInt(adminId),
-        }
+      const requestData = {
+        ...data,
+        adminId: parseInt(adminId),
+      };
 
-        const headers = {
-            Authorization: adminId,
-        }
+      const headers = {
+        Authorization: adminId,
+      };
 
-        await api.post('/createEmp', requestData, { headers });
-        ToastAndroid.show('Empresa Adicionada', ToastAndroid.LONG);
+      await api.post('/createEmp', requestData, { headers });
+      ToastAndroid.show('Empresa Adicionada', ToastAndroid.LONG);
     } catch (error) {
       console.error(error);
     }
@@ -78,19 +78,19 @@ export default function CompanyRegistration() {
             onChange={(value: string) => setCompanyAddress(value)}
             value={companyAddress}
           />
-          <Input 
-          error={false}
-          label="CNPJ da Empresa:"
-          placeholder='CNPJ da Empresa'
-          onChange={(value: string) => setCompanyCNPJ(value)}
-          value={companyCNPJ}
+          <Input
+            error={false}
+            label="CNPJ da Empresa:"
+            placeholder="CNPJ da Empresa"
+            onChange={(value: string) => setCompanyCNPJ(value)}
+            value={companyCNPJ}
           />
-          <Input 
-          error={false}
-          label="CEP da Empresa:"
-          placeholder='CEP da Empresa'
-          onChange={(value: string) => setCompanyCep(value)}
-          value={companyCep}
+          <Input
+            error={false}
+            label="CEP da Empresa:"
+            placeholder="CEP da Empresa"
+            onChange={(value: string) => setCompanyCep(value)}
+            value={companyCep}
           />
         </View>
         <Button text="CADASTRAR EMPRESA" onPress={handleCreateCompany} />
@@ -98,4 +98,3 @@ export default function CompanyRegistration() {
     </View>
   );
 }
-

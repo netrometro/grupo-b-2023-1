@@ -8,12 +8,18 @@ import stylesDashboardNavbar from '../../components/Navbar/styles'; // Importar 
 import { useNavigation } from '@react-navigation/native';
 import EmployeeList from '../EmployeeList';
 import Button from '../../components/Button';
+import Navbar from '../../components/Navbar';
+import { UserPlus } from 'phosphor-react-native';
 
 interface CompanyDashboardProps {
   route: { params: { companyId: number } };
 }
 
-const CompanyDashboard: React.FC<CompanyDashboardProps> = ({ route }) => {
+type Nav = {
+  navigate: (value: string, ids?: object) => void;
+};
+
+export default function CompanyDashboard({ route }: CompanyDashboardProps) {
   const { companyId } = route.params;
   const [company, setCompany] = useState<Emp | null>(null);
 
@@ -42,38 +48,38 @@ const CompanyDashboard: React.FC<CompanyDashboardProps> = ({ route }) => {
     fetchCompany();
   }, [companyId]);
 
-  const { navigate, goBack } = useNavigation();
+  const { navigate } = useNavigation<Nav>();
 
   const handleRegistrationEmployee = () => {
-    navigate('fichaRegistration', {companyId});
-  }
+    navigate('fichaRegistration', { companyId });
+  };
 
   return (
     <View style={styles.container}>
-      <View style={stylesDashboardNavbar.container}>
-        <View style={stylesDashboardNavbar.contentContainer}>
-          <Text style={stylesDashboardNavbar.navbarText}>Detalhes da Empresa</Text>
+      <Navbar text={`Empresa ${company?.nome}`} onPressArrowLeft={() => navigate('dashboard')} />
+      <View style={styles.body}>
+        <View style={styles.companyInfoCard}>
+          {company ? (
+            <View>
+              <Text style={styles.companyName}>{company.nome}</Text>
+              <Text style={styles.companyInfo}>CNPJ: {company.cnpj}</Text>
+              <Text style={styles.companyInfo}>Endereço: {company.endereco}</Text>
+              <Text style={styles.companyInfo}>CEP: {company.cep}</Text>
+            </View>
+          ) : (
+            <Text>Carregando informações da empresa...</Text>
+          )}
+          <View style={styles.iconsContainer}>
+            <TouchableOpacity onPress={handleRegistrationEmployee}>
+              <UserPlus weight="bold" size={32} color="#4F67D8" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigate('demisionList', { companyId })}>
+              <UserPlus weight="bold" size={32} color="#FF0000" />
+            </TouchableOpacity>
+          </View>
         </View>
+        <EmployeeList companyId={companyId} />
       </View>
-      {company ? (
-        <View>
-          <Text style={styles.companyName}>{company.nome}</Text>
-          <Text style={styles.companyInfo}>CNPJ: {company.cnpj}</Text>
-          <Text style={styles.companyInfo}>Endereço: {company.endereco}</Text>
-          <Text style={styles.companyInfo}>CEP: {company.cep}</Text>
-        </View>
-      ) : (
-        <Text>Carregando informações da empresa...</Text>
-      )}
-      <TouchableOpacity style={styles.backButton}
-      onPress={() => navigate('dashboard')}
-      >
-        <Text style={styles.backButtonText}>Voltar</Text>
-      </TouchableOpacity>
-      <Button onPress={handleRegistrationEmployee} text='Adicionar funcionário'/>
-      <EmployeeList companyId={companyId}/>
     </View>
   );
-};
-
-export default CompanyDashboard;
+}

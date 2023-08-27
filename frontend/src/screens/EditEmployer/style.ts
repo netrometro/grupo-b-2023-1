@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-const stylesFichaRegistration = StyleSheet.create({
+const stylesEditEmployer = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
@@ -20,4 +20,5 @@ const stylesFichaRegistration = StyleSheet.create({
     width: '100%',
   },
 });
-export default stylesFichaRegistration;
+
+export default stylesEditEmployer;

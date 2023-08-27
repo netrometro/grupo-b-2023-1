@@ -1,16 +1,16 @@
 import { StyleSheet } from 'react-native';
 
-const stylesCompanyDashboard = StyleSheet.create({
+const stylesEmployerDashboard = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f2f2f2',
   },
-  companyName: {
+  employerName: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
   },
-  companyInfo: {
+  employerInfo: {
     fontSize: 16,
     marginBottom: 5,
   },
@@ -41,8 +41,15 @@ const stylesCompanyDashboard = StyleSheet.create({
     marginTop: 20,
   },
   iconsContainer: {
-    alignItems: 'flex-end',
+    flexDirection: 'row',
+    gap: 15,
+    justifyContent: 'flex-end',
+  },
+  iconButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 30,
   },
 });
 
-export default stylesCompanyDashboard;
+export default stylesEmployerDashboard;

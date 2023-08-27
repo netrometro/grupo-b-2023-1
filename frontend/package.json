@@ -16,6 +16,7 @@
     "axios": "^1.4.0",
     "expo": "~49.0.7",
     "expo-status-bar": "~1.6.0",
+    "moment": "^2.29.4",
     "phosphor-react-native": "^1.1.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -29,9 +30,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@types/react": "~18.0.14",
-    "@types/react-native": "^0.72.2",
     "@types/react": "~18.2.14",
+    "@types/react-native": "^0.72.2",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "eslint": "^8.47.0",
     "eslint-config-prettier": "^9.0.0",
