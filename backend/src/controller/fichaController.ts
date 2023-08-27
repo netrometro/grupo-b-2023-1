@@ -61,7 +61,7 @@ exports.createFicha = async (request: FastifyRequest, reply: FastifyReply) => {
       admissao,
       formacao,
       ctps,
-      demitido
+      demitido,
     } = FichaFuncionarioSchema.parse(request.body);
 
     const createdFicha = await prisma.fichaFuncionario.create({
@@ -122,6 +122,39 @@ exports.showFicha = async (request: FastifyRequest, reply: FastifyReply) => {
     });
 
     reply.status(200).send(employees);
+  } catch (error) {
+    reply.status(500).send({ message: "erro interno" });
+  }
+};
+
+exports.getFichaById = async (request: FastifyRequest, reply: FastifyReply) => {
+  try {
+    const adminId = request.headers.authorization;
+
+    if (!adminId) {
+      reply.status(401).send({ message: "autorização faltando" });
+      return;
+    }
+
+    const adminData = await prisma.administrador.findUnique({
+      where: { id: parseInt(adminId) },
+    });
+
+    if (!adminData) {
+      reply.status(401).send({ message: "id invalido" });
+      return;
+    }
+
+    const params = request.params as { id: string };
+    const employerId = parseInt(params.id);
+
+    const employer = await prisma.fichaFuncionario.findUnique({
+      where: {
+        id: employerId,
+      },
+    });
+
+    reply.status(200).send(employer);
   } catch (error) {
     reply.status(500).send({ message: "erro interno" });
   }
