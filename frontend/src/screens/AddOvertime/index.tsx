@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { ActivityIndicator, ToastAndroid, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import stylesAddOvertime from './styles';
@@ -23,10 +23,7 @@ export default function AddOvertime({ route }: AddOvertimeProps) {
   const [date, setDate] = useState('');
   const [hourValue, setHourValue] = useState('');
   const [hours, setHours] = useState('');
-
-  useEffect(() => {
-    console.log(employeeId);
-  }, []);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { navigate } = useNavigation<Nav>();
 
@@ -45,9 +42,13 @@ export default function AddOvertime({ route }: AddOvertimeProps) {
 
   const handleAddOvertime = async () => {
     try {
+      setIsLoading(true);
       await api.post(`/overtime/${employeeId}`, data);
+      setIsLoading(false);
+      ToastAndroid.show('Adicionado com sucesso', ToastAndroid.LONG);
     } catch (error) {
-      console.log(error);
+      ToastAndroid.show('Erro! Verifique os campos e tente novamente', ToastAndroid.LONG);
+      setIsLoading(false);
     }
   };
 
@@ -94,7 +95,11 @@ export default function AddOvertime({ route }: AddOvertimeProps) {
             keyboardType="numeric"
           />
         </View>
-        <Button onPress={handleAddOvertime} text="Salvar" />
+        {isLoading ? (
+          <ActivityIndicator size="large" color="#4F67D8" />
+        ) : (
+          <Button onPress={handleAddOvertime} text="Salvar" />
+        )}
       </View>
     </View>
   );
