@@ -1,10 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import stylesOvertimeEmployerDashboard from './styles';
 import { useNavigation } from '@react-navigation/native';
 import Navbar from '../../components/Navbar';
 import { Plus } from 'phosphor-react-native';
 import OvertimeCard from './components/OvertimeCard';
+import { Employer } from '../../interfaces/employer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { api } from '../../services/api';
 
 type Nav = {
   navigate: (value: string, id?: object) => void;
@@ -16,22 +19,22 @@ interface EmployerOvertimeDashboardProps {
 
 export default function EmployerOvertimeDashboard({ route }: EmployerOvertimeDashboardProps) {
   const { employeeId } = route.params;
+  const [employerData, setEmployerData] = useState<Employer>();
 
-  const employer = {
-    id: 1,
-    nome: 'Nome completo',
-    email: 'email@email.com',
-    nascimento: '07/05/2002',
-    nacionalidade: 'Brasileiro',
-    cpf: '000.000.000-00',
-    rg: '00.000.000-0',
-    cargo: 'Gerente de vendas',
-    endereco: 'Av. Pedro Jorge, 142',
-    pispasep: '000.00000.00-0',
-    admissao: '09/10/2016',
-    formacao: 'Superior completo',
-    ctps: '00000000',
-  };
+  useEffect(() => {
+    const getEmployer = async () => {
+      const adminId = await AsyncStorage.getItem('adminId');
+      const response = await api.get(`/ficha/${employeeId}`, {
+        headers: {
+          Authorization: adminId,
+        },
+      });
+
+      setEmployerData(response.data);
+    };
+
+    getEmployer();
+  }, []);
 
   const horasExtras = [
     {
@@ -79,15 +82,17 @@ export default function EmployerOvertimeDashboard({ route }: EmployerOvertimeDas
       <Navbar text={'Horas Extras'} onPressArrowLeft={() => navigate('dashboard')} />
       <View style={stylesOvertimeEmployerDashboard.body}>
         <View style={stylesOvertimeEmployerDashboard.employerInfoCard}>
-          {employer ? (
+          {employerData ? (
             <View>
-              <Text style={stylesOvertimeEmployerDashboard.employerName}>{employer.nome}</Text>
-              <Text style={stylesOvertimeEmployerDashboard.employerInfo}>CPF: {employer.cpf}</Text>
+              <Text style={stylesOvertimeEmployerDashboard.employerName}>{employerData.nome}</Text>
               <Text style={stylesOvertimeEmployerDashboard.employerInfo}>
-                E-mail: {employer.email}
+                CPF: {employerData.cpf}
               </Text>
               <Text style={stylesOvertimeEmployerDashboard.employerInfo}>
-                Nascimento: {employer.nascimento}
+                E-mail: {employerData.email}
+              </Text>
+              <Text style={stylesOvertimeEmployerDashboard.employerInfo}>
+                Nascimento: {employerData.nascimento}
               </Text>
             </View>
           ) : (

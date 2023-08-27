@@ -21,24 +21,7 @@ export default function EmployerDashboard({ route }: EmployerDashboardProps) {
   const { employeeId } = route.params;
   const [employerData, setEmployerData] = useState<Employer>();
 
-  const employer = {
-    id: 1,
-    nome: 'Nome completo',
-    email: 'email@email.com',
-    nascimento: '07/05/2002',
-    nacionalidade: 'Brasileiro',
-    cpf: '000.000.000-00',
-    rg: '00.000.000-0',
-    cargo: 'Gerente de vendas',
-    endereco: 'Av. Pedro Jorge, 142',
-    pispasep: '000.00000.00-0',
-    admissao: '09/10/2016',
-    formacao: 'Superior completo',
-    ctps: '00000000',
-  };
-
   useEffect(() => {
-    console.log(employeeId);
     const getEmployer = async () => {
       const adminId = await AsyncStorage.getItem('adminId');
       const response = await api.get(`/ficha/${employeeId}`, {
@@ -101,7 +84,7 @@ export default function EmployerDashboard({ route }: EmployerDashboardProps) {
         </View>
         <View style={stylesEmployerDashboard.iconButtonContainer}>
           <IconButton
-            onPress={() => navigate('employerOvertimeDashboard', { employeeId: employer.id })}
+            onPress={() => navigate('employerOvertimeDashboard', { employeeId: employeeId })}
             text="Horas Extras"
             icon={<ClockClockwise size={38} weight="bold" color="#4F67D8" />}
           />
