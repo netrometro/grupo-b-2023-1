@@ -8,6 +8,7 @@ import OvertimeCard from './components/OvertimeCard';
 import { Employer } from '../../interfaces/employer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from '../../services/api';
+import { Overtime } from '../../interfaces/overtime';
 
 type Nav = {
   navigate: (value: string, id?: object) => void;
@@ -20,6 +21,7 @@ interface EmployerOvertimeDashboardProps {
 export default function EmployerOvertimeDashboard({ route }: EmployerOvertimeDashboardProps) {
   const { employeeId } = route.params;
   const [employerData, setEmployerData] = useState<Employer>();
+  const [overtimesData, setOvertimesData] = useState<Overtime[]>([]);
 
   useEffect(() => {
     const getEmployer = async () => {
@@ -33,7 +35,15 @@ export default function EmployerOvertimeDashboard({ route }: EmployerOvertimeDas
       setEmployerData(response.data);
     };
 
+    const getOvertimes = async () => {
+      const response = await api.get(`/overtime/${employeeId}`);
+
+      console.log(response.data);
+      setOvertimesData(response.data);
+    };
+
     getEmployer();
+    getOvertimes();
   }, []);
 
   const horasExtras = [
@@ -106,7 +116,7 @@ export default function EmployerOvertimeDashboard({ route }: EmployerOvertimeDas
         </View>
         <FlatList
           style={stylesOvertimeEmployerDashboard.flatList}
-          data={horasExtras}
+          data={overtimesData}
           keyExtractor={(item) => String(item.id)}
           renderItem={({ item }) => (
             <OvertimeCard
@@ -115,7 +125,7 @@ export default function EmployerOvertimeDashboard({ route }: EmployerOvertimeDas
               onPressDelete={() => handleDelete(item.id)}
               onPressPay={() => handlePay(item.id)}
               pago={item.pago}
-              valorHora={item.valorHora}
+              valorHora={item.valorPorHoras}
             />
           )}
         />
