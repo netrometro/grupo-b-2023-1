@@ -1,10 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import stylesEmployerDashboard from './styles';
 import { useNavigation } from '@react-navigation/native';
 import Navbar from '../../components/Navbar';
 import { ClockClockwise, PencilSimple, UserPlus, XCircle } from 'phosphor-react-native';
 import IconButton from '../../components/IconButton';
+import { api } from '../../services/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Employer } from '../../interfaces/employer';
 
 type Nav = {
   navigate: (value: string, id?: object) => void;
@@ -16,6 +19,7 @@ interface EmployerDashboardProps {
 
 export default function EmployerDashboard({ route }: EmployerDashboardProps) {
   const { employeeId } = route.params;
+  const [employerData, setEmployerData] = useState<Employer>();
 
   const employer = {
     id: 1,
@@ -33,7 +37,21 @@ export default function EmployerDashboard({ route }: EmployerDashboardProps) {
     ctps: '00000000',
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log(employeeId);
+    const getEmployer = async () => {
+      const adminId = await AsyncStorage.getItem('adminId');
+      const response = await api.get(`/ficha/${employeeId}`, {
+        headers: {
+          Authorization: adminId,
+        },
+      });
+
+      setEmployerData(response.data);
+    };
+
+    getEmployer();
+  }, []);
 
   const { navigate } = useNavigation<Nav>();
 
@@ -42,32 +60,32 @@ export default function EmployerDashboard({ route }: EmployerDashboardProps) {
       <Navbar text={'Detalhar Funcionário'} onPressArrowLeft={() => navigate('dashboard')} />
       <View style={stylesEmployerDashboard.body}>
         <View style={stylesEmployerDashboard.companyInfoCard}>
-          {employer ? (
+          {employerData ? (
             <View>
-              <Text style={stylesEmployerDashboard.employerName}>{employer.nome}</Text>
-              <Text style={stylesEmployerDashboard.employerInfo}>CPF: {employer.cpf}</Text>
-              <Text style={stylesEmployerDashboard.employerInfo}>E-mail: {employer.email}</Text>
+              <Text style={stylesEmployerDashboard.employerName}>{employerData.nome}</Text>
+              <Text style={stylesEmployerDashboard.employerInfo}>CPF: {employerData.cpf}</Text>
+              <Text style={stylesEmployerDashboard.employerInfo}>E-mail: {employerData.email}</Text>
               <Text style={stylesEmployerDashboard.employerInfo}>
-                Nascimento: {employer.nascimento}
+                Nascimento: {employerData.nascimento}
               </Text>
               <Text style={stylesEmployerDashboard.employerInfo}>
-                Nacionalidade: {employer.nacionalidade}
+                Nacionalidade: {employerData.nacionalidade}
               </Text>
-              <Text style={stylesEmployerDashboard.employerInfo}>RG: {employer.rg}</Text>
-              <Text style={stylesEmployerDashboard.employerInfo}>Cargo: {employer.cargo}</Text>
+              <Text style={stylesEmployerDashboard.employerInfo}>RG: {employerData.rg}</Text>
+              <Text style={stylesEmployerDashboard.employerInfo}>Cargo: {employerData.cargo}</Text>
               <Text style={stylesEmployerDashboard.employerInfo}>
-                Endereço: {employer.endereco}
-              </Text>
-              <Text style={stylesEmployerDashboard.employerInfo}>
-                PIS/PASEP: {employer.pispasep}
+                Endereço: {employerData.endereco}
               </Text>
               <Text style={stylesEmployerDashboard.employerInfo}>
-                Admissão: {employer.admissao}
+                PIS/PASEP: {employerData.pispasep}
               </Text>
               <Text style={stylesEmployerDashboard.employerInfo}>
-                Formação: {employer.formacao}
+                Admissão: {employerData.admissao}
               </Text>
-              <Text style={stylesEmployerDashboard.employerInfo}>CTPS: {employer.ctps}</Text>
+              <Text style={stylesEmployerDashboard.employerInfo}>
+                Formação: {employerData.formacao}
+              </Text>
+              <Text style={stylesEmployerDashboard.employerInfo}>CTPS: {employerData.ctps}</Text>
             </View>
           ) : (
             <Text>Carregando informações do funcionário...</Text>
