@@ -5,6 +5,7 @@ import empRoutes from "./routes/empRoutes";
 import fichaRoutes from "./routes/fichaRoutes";
 import authRoutes from "./routes/authRoutes";
 import demisionRoutes from "./routes/demisionRoutes";
+import faltaRoutes from "./routes/faltaRouter";
 
 const app = fastify();
 
@@ -16,6 +17,7 @@ fichaRoutes(app);
 authRoutes(app);
 demisionRoutes(app);
 overtimeRoutes(app);
+faltaRoutes(app);
 
 app
   .listen({
