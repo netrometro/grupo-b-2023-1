@@ -22,7 +22,7 @@ export type RootStackParamList = {
   companyDashboard: { companyId: number };
   fichaRegistration: { companyId: number };
   editEmployer: { companyId: number; employeeId: number };
-  employerDashboard: { employeeId: number };
+  employerDashboard: { employeeId: number; companyId: number };
   employerOvertimeDashboard: { employeeId: number };
   addOvertime: { employeeId: number };
   demisionList: { companyId: number };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, ToastAndroid } from 'react-native';
 import stylesEmployerDashboard from './styles';
 import { useNavigation } from '@react-navigation/native';
 import Navbar from '../../components/Navbar';
@@ -15,23 +15,32 @@ type Nav = {
 };
 
 interface EmployerDashboardProps {
-  route: { params: { employeeId: number } };
+  route: { params: { employeeId: number; companyId: number } };
 }
 
 export default function EmployerDashboard({ route }: EmployerDashboardProps) {
   const { employeeId } = route.params;
+  const { companyId } = route.params;
+
   const [employerData, setEmployerData] = useState<Employer>();
 
   useEffect(() => {
     const getEmployer = async () => {
       const adminId = await AsyncStorage.getItem('adminId');
-      const response = await api.get(`/ficha/${employeeId}`, {
-        headers: {
-          Authorization: adminId,
-        },
-      });
+      try {
+        const response = await api.get(`/ficha/${employeeId}`, {
+          headers: {
+            Authorization: adminId,
+          },
+        });
 
-      setEmployerData(response.data);
+        setEmployerData(response.data);
+      } catch (error) {
+        ToastAndroid.show(
+          'Não foi possível carregas as informações deste usuário',
+          ToastAndroid.LONG
+        );
+      }
     };
 
     getEmployer();
@@ -41,7 +50,10 @@ export default function EmployerDashboard({ route }: EmployerDashboardProps) {
 
   return (
     <View style={stylesEmployerDashboard.container}>
-      <Navbar text={'Detalhar Funcionário'} onPressArrowLeft={() => navigate('dashboard')} />
+      <Navbar
+        text={'Detalhar Funcionário'}
+        onPressArrowLeft={() => navigate('companyDashboard', { companyId: companyId })}
+      />
       <View style={stylesEmployerDashboard.body}>
         <View style={stylesEmployerDashboard.companyInfoCard}>
           {employerData ? (

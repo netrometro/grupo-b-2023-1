@@ -25,11 +25,11 @@ exports.getDemitidos = async(request: FastifyRequest, reply: FastifyReply) => {
         const params = request.params as { empresaId: string };
         const empresaId = parseInt(params.empresaId);
 
+        console.log("empresaId from route:", empresaId);
+
         const demitidos = await prisma.fichaFuncionario.findMany({
             where: {
-                empresaId: {
-                    equals: empresaId,
-                },
+                empresaId: empresaId,
                 demitido: true,
             },
         });
@@ -80,12 +80,14 @@ exports.demiteFicha = async (request: FastifyRequest, reply: FastifyReply) => {
             return;
           }
 
-          const params = request.params as { fichaId: string };
+          const params = request.params as { empresaId: string, fichaId: string };
+          const empresaId = parseInt(params.empresaId);
           const fichaId = parseInt(params.fichaId);
 
           const demitidoFicha = await prisma.fichaFuncionario.update({
             where: {
-                id: fichaId
+                id: fichaId,
+                empresaId: empresaId
             },
             data: {
                 demitido: true,
