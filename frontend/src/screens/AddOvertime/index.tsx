@@ -20,8 +20,11 @@ export default function AddOvertime({ route }: AddOvertimeProps) {
   const { employeeId } = route.params;
 
   const [date, setDate] = useState('');
+  const [errorDate, setErrorDate] = useState(true);
   const [hourValue, setHourValue] = useState('');
+  const [errorHourValue, setErrorHourValue] = useState(true);
   const [hours, setHours] = useState('');
+  const [errorHours, setErrorHours] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
   const { navigate } = useNavigation<Nav>();
@@ -40,28 +43,35 @@ export default function AddOvertime({ route }: AddOvertimeProps) {
   };
 
   const handleAddOvertime = async () => {
-    try {
-      setIsLoading(true);
-      await api.post(`/overtime/${employeeId}`, data);
-      setIsLoading(false);
-      ToastAndroid.show('Adicionado com sucesso', ToastAndroid.LONG);
-      navigate('employerDashboard', { employeeId: employeeId });
-    } catch (error) {
-      ToastAndroid.show('Erro! Verifique os campos e tente novamente', ToastAndroid.LONG);
-      setIsLoading(false);
+    if (!errorDate && !errorHourValue && !errorHours && true) {
+      try {
+        setIsLoading(true);
+        await api.post(`/overtime/${employeeId}`, data);
+        setIsLoading(false);
+        ToastAndroid.show('Adicionado com sucesso', ToastAndroid.LONG);
+        navigate('employerDashboard', { employeeId: employeeId });
+      } catch (error) {
+        ToastAndroid.show('Erro! Verifique os campos e tente novamente', ToastAndroid.LONG);
+        setIsLoading(false);
+      }
+    } else {
+      ToastAndroid.show('Os campos possuem erros', ToastAndroid.LONG);
     }
   };
 
   const onChangeDate = (value: string) => {
     setDate(value);
+    setErrorDate(value.length != 10);
   };
 
   const onChangeHours = (value: string) => {
     setHours(value);
+    setErrorHours(parseFloat(value) <= 0 || value == '');
   };
 
   const onChangeHourValue = (value: string) => {
     setHourValue(value);
+    setErrorHourValue(parseFloat(value) <= 0 || value == '');
   };
 
   return (
@@ -73,7 +83,8 @@ export default function AddOvertime({ route }: AddOvertimeProps) {
       <View style={stylesAddOvertime.body}>
         <View style={stylesAddOvertime.inputs}>
           <MaskedInput
-            error={false}
+            error={errorDate}
+            errorMessage="*Insira uma data válida"
             label="Data"
             onChange={(value) => onChangeDate(value)}
             placeholder="00/00/0000"
@@ -82,7 +93,8 @@ export default function AddOvertime({ route }: AddOvertimeProps) {
             keyboardType="numeric"
           />
           <Input
-            error={false}
+            error={errorHourValue}
+            errorMessage="*O valor precisa ser maior que 0"
             label="Valor por hora:"
             onChange={(value) => onChangeHourValue(value)}
             placeholder="R$0,00"
@@ -90,7 +102,8 @@ export default function AddOvertime({ route }: AddOvertimeProps) {
             keyboardType="numeric"
           />
           <Input
-            error={false}
+            error={errorHours}
+            errorMessage="*O valor precisa ser maior que 0"
             label="Horas"
             onChange={(value) => onChangeHours(value)}
             placeholder="Horas:"
