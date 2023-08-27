@@ -8,58 +8,35 @@ import prisma from "../utils/prisma";
 exports.getDemitidos = async(request: FastifyRequest, reply: FastifyReply) => {
     try {
         const adminId = request.headers.authorization;
-
+    
         if (!adminId) {
-            reply.status(401).send({ message: "autorização faltando"});
-            return;
+          reply.status(401).send({ message: "autorização faltando" });
+          return;
         }
-
+    
         const adminData = await prisma.administrador.findUnique({
-            where: { id: parseInt(adminId) },
+          where: { id: parseInt(adminId) },
         });
-
+    
         if (!adminData) {
-            reply.status(401).send({ message: "id inválido" });
+          reply.status(401).send({ message: "id invalido" });
+          return;
         }
-
-        const params = request.params as { empresaId: string };
-        const empresaId = parseInt(params.empresaId);
-
-        console.log("empresaId from route:", empresaId);
-
-        const demitidos = await prisma.fichaFuncionario.findMany({
-            where: {
-                empresaId: empresaId,
-                demitido: true,
-            },
+    
+        const params = request.params as { id: string };
+        const empresaId = parseInt(params.id);
+    
+        const employees = await prisma.fichaFuncionario.findMany({
+          where: {
+            empresaId: empresaId,
+            demitido: true,
+          },
         });
-
-        const validatedDemitidos: FichaFuncionarioData[] = demitidos.map((demitido) => {
-            return FichaFuncionarioSchema.parse({
-              id: demitido.id,
-              nome: demitido.nome,
-              email: demitido.email,
-              nascimento: demitido.nascimento.toString(),
-              nacionalidade: demitido.nacionalidade,
-              cpf: demitido.cpf,
-              rg: demitido.rg,
-              cargo: demitido.cargo,
-              endereco: demitido.endereco,
-              pispasep: demitido.pispasep,
-              admissao: demitido.admissao.toString(),
-              formacao: demitido.formacao,
-              ctps: demitido.ctps,
-              empresaId: demitido.empresaId,
-              demitido: true,
-            });
-          });
-      
-
-        reply.status(200).send(validatedDemitidos);
-    } catch (error) {
-        reply.status(500).send({ error });
-        console.log(error);
-    }
+    
+        reply.status(200).send(employees);
+      } catch (error) {
+        reply.status(500).send({ message: "erro interno" });
+      }
 };
 
 exports.demiteFicha = async (request: FastifyRequest, reply: FastifyReply) => {
