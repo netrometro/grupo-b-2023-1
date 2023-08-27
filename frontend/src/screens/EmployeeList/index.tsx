@@ -109,7 +109,7 @@ export default function EmployeeList({ companyId }: Props) {
                   <Trash weight="bold" size={28} color="#D84F4F" />
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => navigate('employerDashboard', { employeeId: item.id })}
+                  onPress={() => navigate('employerDashboard', { employeeId: item.id, companyId })}
                 >
                   <DotsThree size={35} weight="bold" color="#4F67D8" />
                 </TouchableOpacity>

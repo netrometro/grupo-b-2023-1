@@ -7,10 +7,9 @@ import MaskedInput from '../../components/MaskedInput';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { api } from '../../services/api';
-import moment from 'moment';
 
 type Nav = {
-  navigate: (value: string) => void;
+  navigate: (value: string, id?: object) => void;
 };
 
 interface AddOvertimeProps {
@@ -46,6 +45,7 @@ export default function AddOvertime({ route }: AddOvertimeProps) {
       await api.post(`/overtime/${employeeId}`, data);
       setIsLoading(false);
       ToastAndroid.show('Adicionado com sucesso', ToastAndroid.LONG);
+      navigate('employerDashboard', { employeeId: employeeId });
     } catch (error) {
       ToastAndroid.show('Erro! Verifique os campos e tente novamente', ToastAndroid.LONG);
       setIsLoading(false);
@@ -66,7 +66,10 @@ export default function AddOvertime({ route }: AddOvertimeProps) {
 
   return (
     <View style={stylesAddOvertime.container}>
-      <Navbar text={'Adicionar Hora Extra'} onPressArrowLeft={() => navigate('dashboard')} />
+      <Navbar
+        text={'Adicionar Hora Extra'}
+        onPressArrowLeft={() => navigate('employerOvertimeDashboard', { employeeId: employeeId })}
+      />
       <View style={stylesAddOvertime.body}>
         <View style={stylesAddOvertime.inputs}>
           <MaskedInput

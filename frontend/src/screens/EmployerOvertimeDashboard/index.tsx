@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -34,6 +34,19 @@ export default function EmployerOvertimeDashboard({ route }: EmployerOvertimeDas
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingPay, setIsLoadingPay] = useState(false);
 
+  const getOvertimes = async () => {
+    try {
+      setIsLoading(true);
+      const response = await api.get(`/overtime/${employeeId}`);
+
+      setOvertimesData(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      ToastAndroid.show('Ocorreu um erro ao carregar as horas extras', ToastAndroid.LONG);
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     const getEmployer = async () => {
       const adminId = await AsyncStorage.getItem('adminId');
@@ -50,22 +63,9 @@ export default function EmployerOvertimeDashboard({ route }: EmployerOvertimeDas
       }
     };
 
-    const getOvertimes = async () => {
-      try {
-        setIsLoading(true);
-        const response = await api.get(`/overtime/${employeeId}`);
-
-        setOvertimesData(response.data);
-        setIsLoading(false);
-      } catch (error) {
-        ToastAndroid.show('Ocorreu um erro ao carregar as horas extras', ToastAndroid.LONG);
-        setIsLoading(false);
-      }
-    };
-
     getEmployer();
     getOvertimes();
-  }, []);
+  }, [employeeId]);
 
   const { navigate } = useNavigation<Nav>();
 
@@ -85,6 +85,8 @@ export default function EmployerOvertimeDashboard({ route }: EmployerOvertimeDas
             try {
               await api.delete(`/overtime/${id}`);
               ToastAndroid.show('Deletado com sucesso', ToastAndroid.LONG);
+
+              getOvertimes();
             } catch (error) {
               ToastAndroid.show('Ocorreu um erro ao deletar', ToastAndroid.LONG);
             }
@@ -104,6 +106,7 @@ export default function EmployerOvertimeDashboard({ route }: EmployerOvertimeDas
       await api.put(`/pay-overtime/${id}`);
       ToastAndroid.show('Pagamento realizado', ToastAndroid.LONG);
       setIsLoadingPay(false);
+      getOvertimes();
     } catch (error) {
       ToastAndroid.show('Ocorreu um erro ao registrar o pagamento', ToastAndroid.LONG);
       setIsLoading(false);
@@ -112,7 +115,10 @@ export default function EmployerOvertimeDashboard({ route }: EmployerOvertimeDas
 
   return (
     <View style={stylesOvertimeEmployerDashboard.container}>
-      <Navbar text={'Horas Extras'} onPressArrowLeft={() => navigate('dashboard')} />
+      <Navbar
+        text={'Horas Extras'}
+        onPressArrowLeft={() => navigate('employerDashboard', { employeeId: employeeId })}
+      />
       <View style={stylesOvertimeEmployerDashboard.body}>
         <View style={stylesOvertimeEmployerDashboard.employerInfoCard}>
           {employerData ? (

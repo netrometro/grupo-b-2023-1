@@ -15,11 +15,13 @@ type Nav = {
 };
 
 interface EmployerDashboardProps {
-  route: { params: { employeeId: number } };
+  route: { params: { employeeId: number; companyId: number } };
 }
 
 export default function EmployerDashboard({ route }: EmployerDashboardProps) {
   const { employeeId } = route.params;
+  const { companyId } = route.params;
+
   const [employerData, setEmployerData] = useState<Employer>();
 
   useEffect(() => {
@@ -48,7 +50,10 @@ export default function EmployerDashboard({ route }: EmployerDashboardProps) {
 
   return (
     <View style={stylesEmployerDashboard.container}>
-      <Navbar text={'Detalhar Funcionário'} onPressArrowLeft={() => navigate('dashboard')} />
+      <Navbar
+        text={'Detalhar Funcionário'}
+        onPressArrowLeft={() => navigate('companyDashboard', { companyId: companyId })}
+      />
       <View style={stylesEmployerDashboard.body}>
         <View style={stylesEmployerDashboard.companyInfoCard}>
           {employerData ? (
