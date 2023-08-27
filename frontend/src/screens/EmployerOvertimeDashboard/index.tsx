@@ -9,6 +9,7 @@ import { Employer } from '../../interfaces/employer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from '../../services/api';
 import { Overtime } from '../../interfaces/overtime';
+import moment from 'moment';
 
 type Nav = {
   navigate: (value: string, id?: object) => void;
@@ -80,7 +81,7 @@ export default function EmployerOvertimeDashboard({ route }: EmployerOvertimeDas
                 E-mail: {employerData.email}
               </Text>
               <Text style={stylesOvertimeEmployerDashboard.employerInfo}>
-                Nascimento: {employerData.nascimento}
+                Nascimento: {moment(employerData.nascimento).format('DD/MM/YYYY')}
               </Text>
             </View>
           ) : (
@@ -98,7 +99,7 @@ export default function EmployerOvertimeDashboard({ route }: EmployerOvertimeDas
           keyExtractor={(item) => String(item.id)}
           renderItem={({ item }) => (
             <OvertimeCard
-              data={item.data}
+              data={moment(item.data).format('DD/MM/YYYY')}
               horas={item.horas}
               onPressDelete={() => handleDelete(item.id)}
               onPressPay={() => handlePay(item.id)}
