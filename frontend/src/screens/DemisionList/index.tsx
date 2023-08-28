@@ -42,7 +42,7 @@ export default function DemisionList({ companyId }: Props) {
     };
 
     fetchDemitidos();
-  }, []);
+  }, [companyId]);
 
   return (
     <View style={stylesEmployeeList.container}>
@@ -66,3 +66,4 @@ export default function DemisionList({ companyId }: Props) {
     </View>
   );
 }
+
