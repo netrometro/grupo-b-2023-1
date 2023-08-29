@@ -46,21 +46,21 @@ export default function EmployerDashboard({ route }: EmployerDashboardProps) {
   }, []);
 
   const fireEmployes = async () => {
-
     const adminId = await AsyncStorage.getItem('adminId');
 
     try {
-
       console.log('adminId: ', adminId);
       console.log('companyId: ', companyId);
+      console.log('employeeId ', employeeId);
+      console.log(`/demite/${companyId}/${employeeId}`);
 
-      const response = await api.put(`demite/${companyId}/${employeeId}`, {
+      await api.put(`/demite/${companyId}/${employeeId}`, {
         headers: {
           Authorization: adminId,
         },
       });
 
-      setEmployerData(response.data);
+      // setEmployerData(response.data);
       ToastAndroid.show('Funcionário Demitido', ToastAndroid.LONG);
     } catch (error) {
       console.log(error);
