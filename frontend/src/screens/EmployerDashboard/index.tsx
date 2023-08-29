@@ -130,7 +130,7 @@ export default function EmployerDashboard({ route }: EmployerDashboardProps) {
             icon={<ClockClockwise size={38} weight="bold" color="#4F67D8" />}
           />
           <IconButton
-            onPress={() => navigate('FaltaDashboard', {employeeId: employeeId})}
+            onPress={() => navigate('faltaDashboard', { employeeId: employeeId })}
             text="Faltas"
             icon={<XCircle size={38} weight="bold" color="#4F67D8" />}
           />
