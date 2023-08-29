@@ -1,5 +1,6 @@
 import axios from 'axios';
+import { API_URL } from '@env';
 
 export const api = axios.create({
-  baseURL: 'https://optistaff-api.onrender.com',
+  baseURL: API_URL,
 });
