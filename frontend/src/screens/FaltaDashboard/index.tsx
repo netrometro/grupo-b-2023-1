@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import Navbar from '../../components/Navbar';
 import IconButton from '../../components/IconButton';
 import { api } from '../../services/api';
-import stylesFaltaDashboard from './stylesFaltaDashboard';
+import stylesFaltaDashboard from './style';
 
 
 interface Falta {
@@ -50,7 +50,7 @@ export default function FaltaDashboard({ route }: FaltaDashboardProps) {
 
   return (
     <View style={stylesFaltaDashboard.container}>
-      {/* <Navbar text={'Registro de Faltas'} onPressArrowLeft={() => navigate('EmployerDashboard')} /> */}
+      {<Navbar text={'Registro de Faltas'} onPressArrowLeft={() => navigate('EmployerDashboard')} />}
 
       <View style={stylesFaltaDashboard.body}>
         <FlatList
@@ -60,11 +60,11 @@ export default function FaltaDashboard({ route }: FaltaDashboardProps) {
           ListEmptyComponent={<Text>Nenhuma falta registrada.</Text>}
         />
         <View style={stylesFaltaDashboard.iconButtonContainer}>
-          {/* <IconButton
+          {<IconButton
             onPress={() => navigate('faltaRegister', { employeeId: employeeId })}
             text="Registrar Falta"
             icon={<XCircle size={38} weight="bold" color="#D84F4F" />}
-          /> */}
+          />}
         </View>
       </View>
     </View>

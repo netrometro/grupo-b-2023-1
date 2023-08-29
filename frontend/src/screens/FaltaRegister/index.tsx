@@ -26,7 +26,7 @@ export default function FaltaRegistration({ route }: FaltaRegistrationProps) {
         descricaoFalta,
       };
 
-      await api.post(`/createFalta/${employeeId}`, reqData, { /* Headers */ });
+      await api.post(`/createFalta/${employeeId}`, reqData, { Headers });
       ToastAndroid.show('Falta Adicionada', ToastAndroid.LONG); 
     } catch (error) {
       console.error(error);
@@ -37,7 +37,7 @@ export default function FaltaRegistration({ route }: FaltaRegistrationProps) {
     <View>
       <Navbar
         onPressArrowLeft={() => {
-          /* navigate('faltaDashboard', { employeeId }); */
+          navigate('EmployeeList');
         }}
         text="Insira os dados da Falta do Funcionário"
       />
