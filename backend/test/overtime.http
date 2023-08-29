@@ -1,0 +1,20 @@
+# Adicionar hora extra
+POST https://optistaff-api.onrender.com/overtime/11
+Content-Type: application/json
+
+{
+    "data": "2022-05-26T15:30:00Z",
+    "valorPorHoras": 5,
+    "horas": 3
+}
+
+###
+
+#Deletar Hora extra
+DELETE https://optistaff-api.onrender.com/overtime/55
+
+###
+
+#Pagar hora extra
+
+PUT https://optistaff-api.onrender.com/pay-overtime/56
