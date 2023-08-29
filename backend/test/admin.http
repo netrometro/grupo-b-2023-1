@@ -1,4 +1,4 @@
-#Cadastro do usuário (administrador), deve retornar um status code 200 com o código do usuário. Em caso de falha, deve retornar um status code 400 com a mensagem de erro.
+#Cadastro do usuário (administrador - Lucas Monteiro), deve retornar um status code 200 com o código do usuário. Em caso de falha, deve retornar um status code 400 com a mensagem de erro.
 
 POST http://localhost:3333/admin
 Content-Type: application/json
@@ -19,8 +19,8 @@ Content-Type: application/json
 {
     "nome" : "Nome Completo Editado",
     "email" : "emailEditado@email.com",
-    "senha" : "12345678Editado",
-    "cpf" : "123.456.789-99Editado"
+    "senha" : "123456789",
+    "cpf" : "123.456.789-98"
 }
 
 ###

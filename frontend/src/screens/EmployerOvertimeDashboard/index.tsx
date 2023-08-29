@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   ToastAndroid,
   Alert,
+  ScrollView,
 } from 'react-native';
 import stylesOvertimeEmployerDashboard from './styles';
 import { useNavigation } from '@react-navigation/native';

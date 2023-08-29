@@ -47,6 +47,7 @@ export default function FichaRegistration({ route }: FichaRegistrationProps) {
     admissao: admissao,
     formacao: formacao,
     ctps: ctps,
+    demitido: false,
   };
 
   const handleCreateEmployee = async () => {
