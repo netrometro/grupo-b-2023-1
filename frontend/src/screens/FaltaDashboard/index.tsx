@@ -8,6 +8,9 @@ import IconButton from '../../components/IconButton';
 import { api } from '../../services/api';
 import stylesFaltaDashboard from './style';
 
+type Nav = {
+    navigate: (value: string, id?: object) => void;
+  };
 
 interface Falta {
   dataFalta: string;
@@ -36,7 +39,7 @@ export default function FaltaDashboard({ route }: FaltaDashboardProps) {
     getFaltas();
   }, [employeeId]);
 
-  const { navigate } = useNavigation();
+  const { navigate } = useNavigation<Nav>();
 
   const renderFaltaItem = ({ item }: { item: Falta }) => (
     <View style={stylesFaltaDashboard.faltaItem}>

@@ -5,6 +5,11 @@ import Navbar from '../../components/Navbar';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { api } from '../../services/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+type Nav = {
+  navigate: (value: string, id?: object) => void;
+};
 
 interface FaltaRegistrationProps {
   route: { params: { employeeId: number } };
@@ -15,10 +20,11 @@ export default function FaltaRegistration({ route }: FaltaRegistrationProps) {
   const [tipoFalta, setTipoFalta] = useState('');
   const [descricaoFalta, setDescricaoFalta] = useState('');
 
-  const { navigate } = useNavigation();
+  const { navigate } = useNavigation<Nav>();
   const { employeeId } = route.params;
 
   const handleCreateFalta = async () => {
+    const adminId = await AsyncStorage.getItem('adminId');
     try {
       const reqData = {
         dataFalta,
@@ -26,7 +32,10 @@ export default function FaltaRegistration({ route }: FaltaRegistrationProps) {
         descricaoFalta,
       };
 
-      await api.post(`/createFalta/${employeeId}`, reqData, { Headers });
+      await api.post(`/createFalta/${employeeId}`, reqData, {
+         headers: {
+          Authorization: adminId,
+         }, });
       ToastAndroid.show('Falta Adicionada', ToastAndroid.LONG); 
     } catch (error) {
       console.error(error);
@@ -37,7 +46,7 @@ export default function FaltaRegistration({ route }: FaltaRegistrationProps) {
     <View>
       <Navbar
         onPressArrowLeft={() => {
-          navigate('EmployeeList');
+          navigate('faltaDashboard');
         }}
         text="Insira os dados da Falta do Funcionário"
       />

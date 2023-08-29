@@ -6,6 +6,7 @@ import stylesEmployeeList from './style';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { DotsThree, Trash, UserSquare } from 'phosphor-react-native';
+import Button from '../../components/Button';
 
 type Nav = {
   navigate: (value: string, ids?: object) => void;
