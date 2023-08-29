@@ -54,11 +54,15 @@ export default function EmployerDashboard({ route }: EmployerDashboardProps) {
       console.log('employeeId ', employeeId);
       console.log(`/demite/${companyId}/${employeeId}`);
 
-      await api.put(`/demite/${companyId}/${employeeId}`, {
-        headers: {
-          Authorization: adminId,
-        },
-      });
+      await api.put(
+        `/demite/${companyId}/${employeeId}`,
+        {},
+        {
+          headers: {
+            Authorization: adminId,
+          },
+        }
+      );
 
       // setEmployerData(response.data);
       ToastAndroid.show('Funcionário Demitido', ToastAndroid.LONG);

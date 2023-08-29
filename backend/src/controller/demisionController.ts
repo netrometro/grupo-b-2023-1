@@ -43,10 +43,7 @@ exports.demiteFicha = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
     const adminId = request.headers.authorization;
 
-    console.log("adminId" + adminId);
-
     if (!adminId) {
-      console.log("entrou no que ta falando q ta faltando autorização");
       reply.status(401).send({ message: "Autorização faltando" });
       return;
     }
@@ -55,10 +52,7 @@ exports.demiteFicha = async (request: FastifyRequest, reply: FastifyReply) => {
       where: { id: parseInt(adminId) },
     });
 
-    console.log(adminData);
-
     if (!adminData) {
-      console.log("Entrou no if que não tem admin data");
       reply.status(401).send({ message: "ID inválido" });
       return;
     }
