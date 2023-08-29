@@ -118,6 +118,7 @@ exports.showFicha = async (request: FastifyRequest, reply: FastifyReply) => {
     const employees = await prisma.fichaFuncionario.findMany({
       where: {
         empresaId: empId,
+        demitido: false,
       },
     });
 
