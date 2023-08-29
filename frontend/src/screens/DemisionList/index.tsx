@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { api } from '../../services/api';
 import { Employer } from '../../interfaces/employer';
-import stylesEmployeeList from '../EmployeeList/style';
+import stylesDemisionList from './styles'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { UserSquare } from 'phosphor-react-native';
 
 interface Props {
-  companyId: number;
+  route: { params: { companyId: number } };
 }
 
-export default function DemisionList({ companyId }: Props) {
+export default function DemisionList({ route }: Props) {
   const [demitidos, setDemitidos] = useState<Employer[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const { companyId } = route.params;
 
   useEffect(() => {
     const fetchDemitidos = async () => {
@@ -25,6 +28,7 @@ export default function DemisionList({ companyId }: Props) {
           return;
         }
 
+        console.log('adminId: ', adminId);
         console.log('companyId: ', companyId);
 
         const response = await api.get(`/demitidos/${companyId}`, {
@@ -45,19 +49,20 @@ export default function DemisionList({ companyId }: Props) {
   }, [companyId]);
 
   return (
-    <View style={stylesEmployeeList.container}>
+    <View style={stylesDemisionList.container}>
       {isLoading ? (
         <ActivityIndicator size="large" color="#4F67D8" />
       ) : (
         <FlatList
           data={demitidos}
-          style={stylesEmployeeList.flatList}
+          style={stylesDemisionList.flatList}
           keyExtractor={(item) => item.nome}
           renderItem={({ item }) => (
-            <View style={stylesEmployeeList.employeeItem}>
-              <View style={stylesEmployeeList.iconNameContainer}>
-                <Text style={stylesEmployeeList.employeeName}>{item.nome}</Text>
-                <Text style={stylesEmployeeList.employeeInfo}>CPF: {item.cpf}</Text>
+            <View style={stylesDemisionList.employeeItem}>
+              <View style={stylesDemisionList.iconNameContainer}>
+                <UserSquare size={52} weight='fill' color='#4F67DB'/>
+                <Text style={stylesDemisionList.employeeName}>{item.nome}</Text>
+                <Text style={stylesDemisionList.employeeInfo}>CPF: {item.cpf}</Text>
               </View>
             </View>
           )}
@@ -66,4 +71,3 @@ export default function DemisionList({ companyId }: Props) {
     </View>
   );
 }
-

@@ -69,10 +69,18 @@ exports.demiteFicha = async (request: FastifyRequest, reply: FastifyReply) => {
             data: {
                 demitido: true,
             },
+            include: {
+                horasextreas: true,
+            }
+          });
+
+          await prisma.horasExtras.deleteMany({
+            where: {
+                funcionarioId: demitidoFicha.id,
+            },
           });
 
           const validatedDemitidoFicha: FichaFuncionarioData = FichaFuncionarioSchema.parse({
-            id: demitidoFicha.id,
             nome: demitidoFicha.nome,
             email: demitidoFicha.email,
             nascimento: demitidoFicha.nascimento.toString(),

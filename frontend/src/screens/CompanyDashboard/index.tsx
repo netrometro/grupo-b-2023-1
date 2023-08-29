@@ -55,6 +55,7 @@ export default function CompanyDashboard({ route }: CompanyDashboardProps) {
   };
 
   const handleDemisionList = () => {
+    console.log('comapanyId2: ', companyId);
     navigate('demisionList', { companyId });
   };
 

@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, ToastAndroid } from 'react-native';
 import stylesEmployerDashboard from './styles';
 import { useNavigation } from '@react-navigation/native';
 import Navbar from '../../components/Navbar';
-import { ClockClockwise, PencilSimple, UserPlus, XCircle } from 'phosphor-react-native';
+import { ClockClockwise, PencilSimple, UserPlus, XCircle, Trash } from 'phosphor-react-native';
 import IconButton from '../../components/IconButton';
 import { api } from '../../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -45,6 +45,27 @@ export default function EmployerDashboard({ route }: EmployerDashboardProps) {
 
     getEmployer();
   }, []);
+
+  const fireEmployes = async () => {
+
+    const adminId = await AsyncStorage.getItem('adminId');
+
+    try {
+
+      console.log('adminId: ', adminId);
+
+      const response = await api.put(`demite/${companyId}/${employeeId}`, {
+        headers: {
+          Authorization: adminId,
+        },
+      });
+
+      setEmployerData(response.data);
+      ToastAndroid.show('Funcionário Demitido', ToastAndroid.LONG);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const { navigate } = useNavigation<Nav>();
 
@@ -89,6 +110,9 @@ export default function EmployerDashboard({ route }: EmployerDashboardProps) {
           <View style={stylesEmployerDashboard.iconsContainer}>
             <TouchableOpacity onPress={() => navigate('editEmployer', { employeeId: employeeId })}>
               <PencilSimple weight="bold" size={32} color="#4F67D8" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={fireEmployes}>
+              <Trash weight="bold" size={32} color="#D84F4F" />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => {}}>
               <XCircle weight="bold" size={32} color="#D84F4F" />
