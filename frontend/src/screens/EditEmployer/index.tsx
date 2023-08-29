@@ -102,6 +102,7 @@ export default function EditEmployer({ route }: EditEmployerProps) {
         admissao: admissao,
         formacao: formacao,
         ctps: ctps,
+        demitido: false,
       };
 
       const headers = {

@@ -49,11 +49,6 @@ export default function EmployerDashboard({ route }: EmployerDashboardProps) {
     const adminId = await AsyncStorage.getItem('adminId');
 
     try {
-      console.log('adminId: ', adminId);
-      console.log('companyId: ', companyId);
-      console.log('employeeId ', employeeId);
-      console.log(`/demite/${companyId}/${employeeId}`);
-
       await api.put(
         `/demite/${companyId}/${employeeId}`,
         {},
@@ -67,7 +62,7 @@ export default function EmployerDashboard({ route }: EmployerDashboardProps) {
       // setEmployerData(response.data);
       ToastAndroid.show('Funcionário Demitido', ToastAndroid.LONG);
     } catch (error) {
-      console.log(error);
+      console.log('Erro foi aqui: ' + error);
     }
   };
 

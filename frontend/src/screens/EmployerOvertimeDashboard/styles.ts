@@ -38,9 +38,8 @@ const stylesOvertimeEmployerDashboard = StyleSheet.create({
     paddingHorizontal: 30,
   },
   flatList: {
-    height: '57%',
-    paddingTop: 5,
-    paddingBottom: 20,
+    height: '60%',
+    paddingTop: 8,
   },
 });
 

@@ -76,7 +76,7 @@ export default function EmployeeList({ companyId }: Props) {
       <FlatList
         data={employees}
         style={stylesEmployeeList.flatList}
-        keyExtractor={(item) => item.nome}
+        keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => (
           <View
             style={stylesEmployeeList.employeeItem}

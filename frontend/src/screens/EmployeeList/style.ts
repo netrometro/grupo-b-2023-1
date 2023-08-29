@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 const stylesEmployeeList = StyleSheet.create({
   container: {
     width: '100%',
+    height: '60%',
     alignItems: 'center',
     backgroundColor: '#f2f2f2',
   },
@@ -43,4 +44,3 @@ const stylesEmployeeList = StyleSheet.create({
 });
 
 export default stylesEmployeeList;
-
