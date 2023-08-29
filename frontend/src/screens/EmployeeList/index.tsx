@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  ToastAndroid,
-  ActivityIndicator,
-} from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, ToastAndroid } from 'react-native';
 import { api } from '../../services/api';
 import { Employer } from '../../interfaces/employer';
 import stylesEmployeeList from './style';
@@ -24,21 +17,16 @@ interface Props {
 
 export default function EmployeeList({ companyId }: Props) {
   const [employees, setEmployees] = useState<Employer[]>([]);
-  const [isLoading, setisLoading] = useState(false);
 
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        setisLoading(true);
         const adminId = await AsyncStorage.getItem('adminId');
 
         if (!adminId) {
           console.error('ID de administrador inválido');
-          setisLoading(false);
           return;
         }
-
-         console.log("companyId: ", companyId);
 
         const response = await api.get(`/showFicha/${companyId}`, {
           headers: {
@@ -47,10 +35,8 @@ export default function EmployeeList({ companyId }: Props) {
         });
 
         setEmployees(response.data);
-        setisLoading(false);
       } catch (error) {
         console.error(error);
-        setisLoading(false);
       }
     };
 
@@ -87,40 +73,35 @@ export default function EmployeeList({ companyId }: Props) {
 
   return (
     <View style={stylesEmployeeList.container}>
-      {isLoading ? (
-        <ActivityIndicator size="large" color="#4F67D8" />
-      ) : (
-        <FlatList
-          data={employees}
-          style={stylesEmployeeList.flatList}
-          keyExtractor={(item) => item.nome}
-          renderItem={({ item }) => (
-            <View
-              style={stylesEmployeeList.employeeItem}
-              // onPress={() => navigate('editEmployer', { companyId, employeeId: item.id })}
-            >
-              <View style={stylesEmployeeList.iconNameContainer}>
-                <UserSquare size={52} weight="fill" color="#4F67D8" />
-                <View>
-                  <Text style={stylesEmployeeList.employeeName}>{item.nome}</Text>
-                  <Text style={stylesEmployeeList.employeeInfo}>CPF: {item.cpf}</Text>
-                </View>
-              </View>
-              <View style={stylesEmployeeList.buttonsContainer}>
-                <TouchableOpacity onPress={() => handleDeleteEmployee(item.id)}>
-                  <Trash weight="bold" size={28} color="#D84F4F" />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => navigate('employerDashboard', { employeeId: item.id, companyId })}
-                >
-                  <DotsThree size={35} weight="bold" color="#4F67D8" />
-                </TouchableOpacity>
+      <FlatList
+        data={employees}
+        style={stylesEmployeeList.flatList}
+        keyExtractor={(item) => item.nome}
+        renderItem={({ item }) => (
+          <View
+            style={stylesEmployeeList.employeeItem}
+            // onPress={() => navigate('editEmployer', { companyId, employeeId: item.id })}
+          >
+            <View style={stylesEmployeeList.iconNameContainer}>
+              <UserSquare size={52} weight="fill" color="#4F67D8" />
+              <View>
+                <Text style={stylesEmployeeList.employeeName}>{item.nome}</Text>
+                <Text style={stylesEmployeeList.employeeInfo}>CPF: {item.cpf}</Text>
               </View>
             </View>
-          )}
-        />
-      )}
+            <View style={stylesEmployeeList.buttonsContainer}>
+              <TouchableOpacity onPress={() => handleDeleteEmployee(item.id)}>
+                <Trash weight="bold" size={28} color="#D84F4F" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigate('employerDashboard', { companyId, employeeId: item.id })}
+              >
+                <DotsThree size={35} weight="bold" color="#4F67D8" />
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+      />
     </View>
   );
 }
-

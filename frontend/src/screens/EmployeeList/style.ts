@@ -43,3 +43,4 @@ const stylesEmployeeList = StyleSheet.create({
 });
 
 export default stylesEmployeeList;
+
