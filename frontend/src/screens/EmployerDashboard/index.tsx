@@ -19,8 +19,7 @@ interface EmployerDashboardProps {
 }
 
 export default function EmployerDashboard({ route }: EmployerDashboardProps) {
-  const { employeeId } = route.params;
-  const { companyId } = route.params;
+  const { employeeId, companyId } = route.params;
 
   const [employerData, setEmployerData] = useState<Employer>();
 
@@ -53,6 +52,7 @@ export default function EmployerDashboard({ route }: EmployerDashboardProps) {
     try {
 
       console.log('adminId: ', adminId);
+      console.log('companyId: ', companyId);
 
       const response = await api.put(`demite/${companyId}/${employeeId}`, {
         headers: {
