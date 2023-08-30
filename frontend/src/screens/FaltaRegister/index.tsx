@@ -46,7 +46,7 @@ export default function FaltaRegistration({ route }: FaltaRegistrationProps) {
     <View>
       <Navbar
         onPressArrowLeft={() => {
-          navigate('faltaDashboard');
+          navigate('faltaDashboard', { employeeId: employeeId });
         }}
         text="Insira os dados da Falta do Funcionário"
       />

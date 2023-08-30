@@ -7,6 +7,7 @@ import Navbar from '../../components/Navbar';
 import IconButton from '../../components/IconButton';
 import { api } from '../../services/api';
 import stylesFaltaDashboard from './style';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type Nav = {
     navigate: (value: string, id?: object) => void;
@@ -28,8 +29,12 @@ export default function FaltaDashboard({ route }: FaltaDashboardProps) {
 
   useEffect(() => {
     const getFaltas = async () => {
+        const adminId = await AsyncStorage.getItem('adminId');
       try {
-        const response = await api.get(`/faltas/${employeeId}`);
+        const response = await api.get(`/faltas/${employeeId}`, {
+            headers: {
+             Authorization: adminId,
+            }, });
         setFaltas(response.data);
       } catch (error) {
         console.error('Error fetching faltas:', error);
@@ -53,7 +58,7 @@ export default function FaltaDashboard({ route }: FaltaDashboardProps) {
 
   return (
     <View style={stylesFaltaDashboard.container}>
-      {<Navbar text={'Registro de Faltas'} onPressArrowLeft={() => navigate('EmployerDashboard')} />}
+      {<Navbar text={'Registro de Faltas'} onPressArrowLeft={() => navigate('EmployerDashboard', { employeeId: employeeId })} />}
 
       <View style={stylesFaltaDashboard.body}>
         <FlatList
