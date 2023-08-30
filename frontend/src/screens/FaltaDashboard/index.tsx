@@ -31,7 +31,7 @@ export default function FaltaDashboard({ route }: FaltaDashboardProps) {
     const getFaltas = async () => {
         const adminId = await AsyncStorage.getItem('adminId');
       try {
-        const response = await api.get(`/faltas/${employeeId}`, {
+        const response = await api.get(`/getFaltas/${employeeId}`, {
             headers: {
              Authorization: adminId,
             }, });
