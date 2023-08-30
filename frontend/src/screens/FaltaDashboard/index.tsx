@@ -58,7 +58,7 @@ export default function FaltaDashboard({ route }: FaltaDashboardProps) {
 
   return (
     <View style={stylesFaltaDashboard.container}>
-      {<Navbar text={'Registro de Faltas'} onPressArrowLeft={() => navigate('EmployerDashboard', { employeeId: employeeId })} />}
+      {<Navbar text={'Registro de Faltas'} onPressArrowLeft={() => navigate('employerDashboard', { employeeId: employeeId })} />}
 
       <View style={stylesFaltaDashboard.body}>
         <FlatList
