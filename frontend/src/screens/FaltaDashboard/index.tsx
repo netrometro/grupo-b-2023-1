@@ -36,6 +36,7 @@ export default function FaltaDashboard({ route }: FaltaDashboardProps) {
              Authorization: adminId,
             }, });
         setFaltas(response.data);
+        console.log(response.data);
       } catch (error) {
         console.error('Error fetching faltas:', error);
       }
