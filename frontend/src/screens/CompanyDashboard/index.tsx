@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, Alert, Modal, TextInput } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Alert,
+  Modal,
+  TextInput,
+  ActivityIndicator,
+  ToastAndroid,
+} from 'react-native';
 import { api } from '../../services/api';
 import { Emp } from '../../interfaces/emp';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -13,6 +22,7 @@ import { EnvelopeSimple, UserPlus } from 'phosphor-react-native';
 import Input from '../../components/Input';
 import LongInput from './components/LongInput';
 import ModalButtons from '../../components/ModalButtons';
+import { Employer } from '../../interfaces/employer';
 
 interface CompanyDashboardProps {
   route: { params: { companyId: number } };
@@ -27,6 +37,8 @@ export default function CompanyDashboard({ route }: CompanyDashboardProps) {
   const [company, setCompany] = useState<Emp | null>(null);
   const [emailMessage, setEmailMessage] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
+  const [employees, setEmployees] = useState<Employer[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchCompany = async () => {
@@ -50,7 +62,29 @@ export default function CompanyDashboard({ route }: CompanyDashboardProps) {
       }
     };
 
+    const fetchEmployees = async () => {
+      try {
+        const adminId = await AsyncStorage.getItem('adminId');
+
+        if (!adminId) {
+          console.error('ID de administrador inválido');
+          return;
+        }
+
+        const response = await api.get(`/showFicha/${companyId}`, {
+          headers: {
+            Authorization: adminId,
+          },
+        });
+
+        setEmployees(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     fetchCompany();
+    fetchEmployees();
   }, [companyId]);
 
   const { navigate } = useNavigation<Nav>();
@@ -63,7 +97,29 @@ export default function CompanyDashboard({ route }: CompanyDashboardProps) {
     setEmailMessage(value);
   };
 
-  const handleSendEmail = () => {
+  const handleSendEmail = async () => {
+    setIsLoading(true);
+    for (let index = 0; index < employees.length; index++) {
+      try {
+        await api.post(`/sendEmail`, {
+          nome: employees[index].nome,
+          message: emailMessage,
+          email: employees[index].email,
+          empresa: company?.nome,
+        });
+      } catch (error) {
+        ToastAndroid.show(
+          `Ocorreu um erro ao enviar para o ${employees[index].email}`,
+          ToastAndroid.LONG
+        );
+      }
+    }
+    setIsLoading(false);
+    setModalOpen(false);
+    ToastAndroid.show(`Processo finalizado com sucesso`, ToastAndroid.LONG);
+  };
+
+  const handleEmailIcon = () => {
     Alert.alert(
       'Enviar e-mail',
       `Deseja enviar um e-mail para todos os funcionários da empresa ${company?.nome}?`,
@@ -107,7 +163,7 @@ export default function CompanyDashboard({ route }: CompanyDashboardProps) {
             <Text>Carregando informações da empresa...</Text>
           )}
           <View style={styles.iconsContainer}>
-            <TouchableOpacity onPress={handleSendEmail}>
+            <TouchableOpacity onPress={handleEmailIcon}>
               <EnvelopeSimple weight="bold" size={32} color="#4F67D8" />
             </TouchableOpacity>
             <TouchableOpacity onPress={handleRegistrationEmployee}>
@@ -125,21 +181,25 @@ export default function CompanyDashboard({ route }: CompanyDashboardProps) {
           onRequestClose={() => setModalOpen(false)}
         >
           <View style={styles.outerView}>
-            <View style={styles.modalView}>
-              <LongInput
-                error={false}
-                label="Digite a mensagem do e-mail:"
-                onChange={(value) => onChangeEmailMessage(value)}
-                placeholder="Mensagem"
-                value={emailMessage}
-              />
-              <ModalButtons
-                blueText="Enviar"
-                redText="Cancelar"
-                onPressBlueButton={() => {}}
-                onPressRedButton={() => setModalOpen(false)}
-              />
-            </View>
+            {!isLoading ? (
+              <View style={styles.modalView}>
+                <LongInput
+                  error={false}
+                  label="Digite a mensagem do e-mail:"
+                  onChange={(value) => onChangeEmailMessage(value)}
+                  placeholder="Mensagem"
+                  value={emailMessage}
+                />
+                <ModalButtons
+                  blueText="Enviar"
+                  redText="Cancelar"
+                  onPressBlueButton={handleSendEmail}
+                  onPressRedButton={() => setModalOpen(false)}
+                />
+              </View>
+            ) : (
+              <ActivityIndicator animating size={'large'} color={'#4F67D8'} />
+            )}
           </View>
         </Modal>
         <EmployeeList companyId={companyId} />
