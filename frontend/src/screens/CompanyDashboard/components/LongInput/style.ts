@@ -10,7 +10,7 @@ const stylesLongInput = StyleSheet.create({
     height: 200,
     borderRadius: 10,
     flexDirection: 'row',
-    paddingVertical: 20,
+    paddingVertical: 12,
     paddingHorizontal: 12,
   },
   input: {

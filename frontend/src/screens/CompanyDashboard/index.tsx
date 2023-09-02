@@ -12,6 +12,7 @@ import Navbar from '../../components/Navbar';
 import { EnvelopeSimple, UserPlus } from 'phosphor-react-native';
 import Input from '../../components/Input';
 import LongInput from './components/LongInput';
+import ModalButtons from '../../components/ModalButtons';
 
 interface CompanyDashboardProps {
   route: { params: { companyId: number } };
@@ -131,6 +132,12 @@ export default function CompanyDashboard({ route }: CompanyDashboardProps) {
                 onChange={(value) => onChangeEmailMessage(value)}
                 placeholder="Mensagem"
                 value={emailMessage}
+              />
+              <ModalButtons
+                blueText="Enviar"
+                redText="Cancelar"
+                onPressBlueButton={() => {}}
+                onPressRedButton={() => setModalOpen(false)}
               />
             </View>
           </View>
