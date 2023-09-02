@@ -19,7 +19,7 @@ exports.sendEmail = async (req: FastifyRequest, res: FastifyReply) => {
     from: process.env.GMAIL_EMAIL,
     to: email,
     subject: `Mensagem da empresa ${empresa}`,
-    html: "<h1>Olá, Lucas Monteiro</h1><span>loremipsumdolorasimet loremipsumdolorasimet loremipsumdolorasimet loremipsumdolorasimet loremipsumdolorasimet loremipsumdolorasimet</span>",
+    html: `<h1>Olá, ${nome}!</h1><span>${message}</span><br><br><span>Att, ${empresa}.</span>`,
   };
 
   try {
