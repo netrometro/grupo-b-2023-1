@@ -46,6 +46,21 @@ const stylesCompanyDashboard = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
+  outerView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.2)',
+    paddingHorizontal: 30,
+  },
+  modalView: {
+    width: '100%',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 20,
+    alignItems: 'center',
+  },
 });
 
 export default stylesCompanyDashboard;

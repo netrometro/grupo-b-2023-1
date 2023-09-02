@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Alert, Modal, TextInput } from 'react-native';
 import { api } from '../../services/api';
 import { Emp } from '../../interfaces/emp';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -10,6 +10,8 @@ import EmployeeList from '../EmployeeList';
 import Button from '../../components/Button';
 import Navbar from '../../components/Navbar';
 import { EnvelopeSimple, UserPlus } from 'phosphor-react-native';
+import Input from '../../components/Input';
+import LongInput from './components/LongInput';
 
 interface CompanyDashboardProps {
   route: { params: { companyId: number } };
@@ -22,6 +24,8 @@ type Nav = {
 export default function CompanyDashboard({ route }: CompanyDashboardProps) {
   const { companyId } = route.params;
   const [company, setCompany] = useState<Emp | null>(null);
+  const [emailMessage, setEmailMessage] = useState('');
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchCompany = async () => {
@@ -54,6 +58,10 @@ export default function CompanyDashboard({ route }: CompanyDashboardProps) {
     navigate('fichaRegistration', { companyId });
   };
 
+  const onChangeEmailMessage = (value: string) => {
+    setEmailMessage(value);
+  };
+
   const handleSendEmail = () => {
     Alert.alert(
       'Enviar e-mail',
@@ -66,7 +74,9 @@ export default function CompanyDashboard({ route }: CompanyDashboardProps) {
         },
         {
           text: 'Sim',
-          onPress: async () => {},
+          onPress: () => {
+            setModalOpen(true);
+          },
         },
       ],
       {
@@ -107,6 +117,24 @@ export default function CompanyDashboard({ route }: CompanyDashboardProps) {
             </TouchableOpacity>
           </View>
         </View>
+        <Modal
+          visible={modalOpen}
+          transparent
+          animationType="fade"
+          onRequestClose={() => setModalOpen(false)}
+        >
+          <View style={styles.outerView}>
+            <View style={styles.modalView}>
+              <LongInput
+                error={false}
+                label="Digite a mensagem do e-mail:"
+                onChange={(value) => onChangeEmailMessage(value)}
+                placeholder="Mensagem"
+                value={emailMessage}
+              />
+            </View>
+          </View>
+        </Modal>
         <EmployeeList companyId={companyId} />
       </View>
     </View>
