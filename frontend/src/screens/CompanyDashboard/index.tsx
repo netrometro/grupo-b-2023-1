@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import { api } from '../../services/api';
 import { Emp } from '../../interfaces/emp';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import EmployeeList from '../EmployeeList';
 import Button from '../../components/Button';
 import Navbar from '../../components/Navbar';
-import { UserPlus } from 'phosphor-react-native';
+import { EnvelopeSimple, UserPlus } from 'phosphor-react-native';
 
 interface CompanyDashboardProps {
   route: { params: { companyId: number } };
@@ -54,8 +54,29 @@ export default function CompanyDashboard({ route }: CompanyDashboardProps) {
     navigate('fichaRegistration', { companyId });
   };
 
+  const handleSendEmail = () => {
+    Alert.alert(
+      'Enviar e-mail',
+      `Deseja enviar um e-mail para todos os funcionários da empresa ${company?.nome}?`,
+      [
+        {
+          text: 'Não',
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {
+          text: 'Sim',
+          onPress: async () => {},
+        },
+      ],
+      {
+        cancelable: true,
+        onDismiss: () => {},
+      }
+    );
+  };
+
   const handleDemisionList = () => {
-    console.log('comapanyId2: ', companyId);
     navigate('demisionList', { companyId });
   };
 
@@ -75,6 +96,9 @@ export default function CompanyDashboard({ route }: CompanyDashboardProps) {
             <Text>Carregando informações da empresa...</Text>
           )}
           <View style={styles.iconsContainer}>
+            <TouchableOpacity onPress={handleSendEmail}>
+              <EnvelopeSimple weight="bold" size={32} color="#4F67D8" />
+            </TouchableOpacity>
             <TouchableOpacity onPress={handleRegistrationEmployee}>
               <UserPlus weight="bold" size={32} color="#4F67D8" />
             </TouchableOpacity>
@@ -88,5 +112,3 @@ export default function CompanyDashboard({ route }: CompanyDashboardProps) {
     </View>
   );
 }
-
-

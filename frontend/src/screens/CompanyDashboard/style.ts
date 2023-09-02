@@ -41,7 +41,10 @@ const stylesCompanyDashboard = StyleSheet.create({
     marginTop: 20,
   },
   iconsContainer: {
-    alignItems: 'flex-end',
+    gap: 15,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
   },
 });
 
