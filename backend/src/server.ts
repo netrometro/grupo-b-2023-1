@@ -6,6 +6,7 @@ import fichaRoutes from "./routes/fichaRoutes";
 import authRoutes from "./routes/authRoutes";
 import demisionRoutes from "./routes/demisionRoutes";
 import faltaRoutes from "./routes/faltaRouter";
+import emailRoutes from "./routes/emailRoutes";
 
 const app = fastify();
 
@@ -18,6 +19,7 @@ authRoutes(app);
 demisionRoutes(app);
 overtimeRoutes(app);
 faltaRoutes(app);
+emailRoutes(app);
 
 app
   .listen({
