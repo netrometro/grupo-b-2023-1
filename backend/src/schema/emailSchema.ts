@@ -6,4 +6,5 @@ export const emailSchema = z.object({
     message: "E-mail inválido",
   }),
   message: z.string(),
+  empresa: z.string(),
 });
