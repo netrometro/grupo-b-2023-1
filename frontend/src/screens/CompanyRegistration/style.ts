@@ -16,8 +16,9 @@ const stylesCompanyRegistration = StyleSheet.create({
     paddingBottom: 40,
   },
   inputs: {
+    gap: 10,
     marginVertical: 10,
-    width: '80%',
+    width: '100%',
   },
 });
 
