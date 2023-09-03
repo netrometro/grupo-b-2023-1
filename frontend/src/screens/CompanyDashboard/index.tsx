@@ -32,6 +32,7 @@ export default function CompanyDashboard({ route }: CompanyDashboardProps) {
   const { companyId } = route.params;
   const [company, setCompany] = useState<Emp | null>(null);
   const [emailMessage, setEmailMessage] = useState('');
+  const [errorEmailMessage, setErrorEmailMessage] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [employees, setEmployees] = useState<Employer[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -91,28 +92,33 @@ export default function CompanyDashboard({ route }: CompanyDashboardProps) {
 
   const onChangeEmailMessage = (value: string) => {
     setEmailMessage(value);
+    setErrorEmailMessage(value.length < 1);
   };
 
   const handleSendEmail = async () => {
-    setIsLoading(true);
-    for (let index = 0; index < employees.length; index++) {
-      try {
-        await api.post(`/sendEmail`, {
-          nome: employees[index].nome,
-          message: emailMessage,
-          email: employees[index].email,
-          empresa: company?.nome,
-        });
-      } catch (error) {
-        ToastAndroid.show(
-          `Ocorreu um erro ao enviar para o ${employees[index].email}`,
-          ToastAndroid.LONG
-        );
+    if (!errorEmailMessage) {
+      setIsLoading(true);
+      for (let index = 0; index < employees.length; index++) {
+        try {
+          await api.post(`/sendEmail`, {
+            nome: employees[index].nome,
+            message: emailMessage,
+            email: employees[index].email,
+            empresa: company?.nome,
+          });
+        } catch (error) {
+          ToastAndroid.show(
+            `Ocorreu um erro ao enviar para o ${employees[index].email}`,
+            ToastAndroid.LONG
+          );
+        }
       }
+      setIsLoading(false);
+      setModalOpen(false);
+      ToastAndroid.show(`Processo finalizado com sucesso`, ToastAndroid.LONG);
+    } else {
+      ToastAndroid.show('Insira uma mensagem', ToastAndroid.LONG);
     }
-    setIsLoading(false);
-    setModalOpen(false);
-    ToastAndroid.show(`Processo finalizado com sucesso`, ToastAndroid.LONG);
   };
 
   const handleEmailIcon = () => {
@@ -180,11 +186,12 @@ export default function CompanyDashboard({ route }: CompanyDashboardProps) {
             {!isLoading ? (
               <View style={styles.modalView}>
                 <LongInput
-                  error={false}
+                  error={errorEmailMessage}
                   label="Digite a mensagem do e-mail:"
                   onChange={(value) => onChangeEmailMessage(value)}
                   placeholder="Mensagem"
                   value={emailMessage}
+                  errorMessage="Adicione uma mensagem"
                 />
                 <ModalButtons
                   blueText="Enviar"

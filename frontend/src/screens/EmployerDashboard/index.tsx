@@ -43,6 +43,7 @@ export default function EmployerDashboard({ route }: EmployerDashboardProps) {
   const [company, setCompany] = useState<Emp | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [emailMessage, setEmailMessage] = useState('');
+  const [errorEmailMessage, setErrorEmailMessage] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -117,28 +118,33 @@ export default function EmployerDashboard({ route }: EmployerDashboardProps) {
   };
 
   const handleSendEmail = async () => {
-    setIsLoading(true);
-    try {
-      await api.post(`/sendEmail`, {
-        nome: employerData?.nome,
-        message: emailMessage,
-        email: employerData?.email,
-        empresa: company?.nome,
-      });
-      setIsLoading(false);
-      setModalOpen(false);
-      ToastAndroid.show('E-mail enviado com sucesso', ToastAndroid.LONG);
-    } catch (error) {
-      ToastAndroid.show(
-        `Ocorreu um erro ao enviar para o ${employerData?.nome}`,
-        ToastAndroid.LONG
-      );
-      setIsLoading(false);
+    if (!errorEmailMessage) {
+      try {
+        setIsLoading(true);
+        await api.post(`/sendEmail`, {
+          nome: employerData?.nome,
+          message: emailMessage,
+          email: employerData?.email,
+          empresa: company?.nome,
+        });
+        setIsLoading(false);
+        setModalOpen(false);
+        ToastAndroid.show('E-mail enviado com sucesso', ToastAndroid.LONG);
+      } catch (error) {
+        ToastAndroid.show(
+          `Ocorreu um erro ao enviar para o ${employerData?.nome}`,
+          ToastAndroid.LONG
+        );
+        setIsLoading(false);
+      }
+    } else {
+      ToastAndroid.show('Insira uma mensagem', ToastAndroid.LONG);
     }
   };
 
   const onChangeEmailMessage = (value: string) => {
     setEmailMessage(value);
+    setErrorEmailMessage(value.length < 1);
   };
 
   const fireEmployes = async () => {
@@ -239,11 +245,12 @@ export default function EmployerDashboard({ route }: EmployerDashboardProps) {
             {!isLoading ? (
               <View style={stylesEmployerDashboard.modalView}>
                 <LongInput
-                  error={false}
+                  error={errorEmailMessage}
                   label="Digite a mensagem do e-mail:"
                   onChange={(value) => onChangeEmailMessage(value)}
                   placeholder="Mensagem"
                   value={emailMessage}
+                  errorMessage="Adicione uma mensagem"
                 />
                 <ModalButtons
                   blueText="Enviar"
