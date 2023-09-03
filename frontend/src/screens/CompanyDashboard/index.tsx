@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   Alert,
   Modal,
-  TextInput,
   ActivityIndicator,
   ToastAndroid,
 } from 'react-native';
@@ -13,14 +12,11 @@ import { api } from '../../services/api';
 import { Emp } from '../../interfaces/emp';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './style';
-import stylesDashboardNavbar from '../../components/Navbar/styles'; // Importar o estilo do Navbar
 import { useNavigation } from '@react-navigation/native';
 import EmployeeList from '../EmployeeList';
-import Button from '../../components/Button';
 import Navbar from '../../components/Navbar';
 import { EnvelopeSimple, UserPlus } from 'phosphor-react-native';
-import Input from '../../components/Input';
-import LongInput from './components/LongInput';
+import LongInput from '../../components/LongInput';
 import ModalButtons from '../../components/ModalButtons';
 import { Employer } from '../../interfaces/employer';
 

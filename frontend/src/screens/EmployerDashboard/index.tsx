@@ -1,14 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, ToastAndroid } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ToastAndroid,
+  Alert,
+  ActivityIndicator,
+  Modal,
+} from 'react-native';
 import stylesEmployerDashboard from './styles';
 import { useNavigation } from '@react-navigation/native';
 import Navbar from '../../components/Navbar';
-import { ClockClockwise, PencilSimple, UserPlus, XCircle, Trash } from 'phosphor-react-native';
+import {
+  ClockClockwise,
+  PencilSimple,
+  UserPlus,
+  XCircle,
+  Trash,
+  EnvelopeSimple,
+} from 'phosphor-react-native';
 import IconButton from '../../components/IconButton';
 import { api } from '../../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Employer } from '../../interfaces/employer';
 import moment from 'moment';
+import ModalButtons from '../../components/ModalButtons';
+import LongInput from '../../components/LongInput';
+import { Emp } from '../../interfaces/emp';
 
 type Nav = {
   navigate: (value: string, id?: object) => void;
@@ -22,6 +40,10 @@ export default function EmployerDashboard({ route }: EmployerDashboardProps) {
   const { employeeId, companyId } = route.params;
 
   const [employerData, setEmployerData] = useState<Employer>();
+  const [company, setCompany] = useState<Emp | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [emailMessage, setEmailMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const getEmployer = async () => {
@@ -42,8 +64,82 @@ export default function EmployerDashboard({ route }: EmployerDashboardProps) {
       }
     };
 
+    const getCompany = async () => {
+      try {
+        const adminId = await AsyncStorage.getItem('adminId');
+
+        if (!adminId) {
+          console.error('ID de administrador inválido');
+          return;
+        }
+
+        const response = await api.get(`/singleEmp/${companyId}`, {
+          headers: {
+            Authorization: adminId,
+          },
+        });
+
+        setCompany(response.data);
+      } catch (error) {
+        ToastAndroid.show(
+          'Não foi possível carregas as informações da empresa deste usuário',
+          ToastAndroid.LONG
+        );
+      }
+    };
+
     getEmployer();
+    getCompany();
   }, []);
+
+  const handleEmailIcon = () => {
+    Alert.alert(
+      'Enviar e-mail',
+      `Deseja enviar um e-mail para o funcionário ${employerData?.nome}?`,
+      [
+        {
+          text: 'Não',
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {
+          text: 'Sim',
+          onPress: () => {
+            setModalOpen(true);
+          },
+        },
+      ],
+      {
+        cancelable: true,
+        onDismiss: () => {},
+      }
+    );
+  };
+
+  const handleSendEmail = async () => {
+    setIsLoading(true);
+    try {
+      await api.post(`/sendEmail`, {
+        nome: employerData?.nome,
+        message: emailMessage,
+        email: employerData?.email,
+        empresa: company?.nome,
+      });
+      setIsLoading(false);
+      setModalOpen(false);
+      ToastAndroid.show('E-mail enviado com sucesso', ToastAndroid.LONG);
+    } catch (error) {
+      ToastAndroid.show(
+        `Ocorreu um erro ao enviar para o ${employerData?.nome}`,
+        ToastAndroid.LONG
+      );
+      setIsLoading(false);
+    }
+  };
+
+  const onChangeEmailMessage = (value: string) => {
+    setEmailMessage(value);
+  };
 
   const fireEmployes = async () => {
     const adminId = await AsyncStorage.getItem('adminId');
@@ -107,6 +203,9 @@ export default function EmployerDashboard({ route }: EmployerDashboardProps) {
             <Text>Carregando informações do funcionário...</Text>
           )}
           <View style={stylesEmployerDashboard.iconsContainer}>
+            <TouchableOpacity onPress={handleEmailIcon}>
+              <EnvelopeSimple weight="bold" size={32} color="#4F67D8" />
+            </TouchableOpacity>
             <TouchableOpacity onPress={() => navigate('editEmployer', { employeeId: employeeId })}>
               <PencilSimple weight="bold" size={32} color="#4F67D8" />
             </TouchableOpacity>
@@ -130,6 +229,34 @@ export default function EmployerDashboard({ route }: EmployerDashboardProps) {
             icon={<XCircle size={38} weight="bold" color="#4F67D8" />}
           />
         </View>
+        <Modal
+          visible={modalOpen}
+          transparent
+          animationType="fade"
+          onRequestClose={() => setModalOpen(false)}
+        >
+          <View style={stylesEmployerDashboard.outerView}>
+            {!isLoading ? (
+              <View style={stylesEmployerDashboard.modalView}>
+                <LongInput
+                  error={false}
+                  label="Digite a mensagem do e-mail:"
+                  onChange={(value) => onChangeEmailMessage(value)}
+                  placeholder="Mensagem"
+                  value={emailMessage}
+                />
+                <ModalButtons
+                  blueText="Enviar"
+                  redText="Cancelar"
+                  onPressBlueButton={handleSendEmail}
+                  onPressRedButton={() => setModalOpen(false)}
+                />
+              </View>
+            ) : (
+              <ActivityIndicator animating size={'large'} color={'#4F67D8'} />
+            )}
+          </View>
+        </Modal>
       </View>
     </View>
   );

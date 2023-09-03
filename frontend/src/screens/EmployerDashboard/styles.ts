@@ -50,6 +50,22 @@ const stylesEmployerDashboard = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 30,
   },
+  outerView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    paddingHorizontal: 30,
+  },
+  modalView: {
+    gap: 20,
+    width: '100%',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    alignItems: 'center',
+  },
 });
 
 export default stylesEmployerDashboard;
