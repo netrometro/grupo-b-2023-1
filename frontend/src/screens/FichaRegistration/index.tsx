@@ -90,9 +90,9 @@ export default function FichaRegistration({ route }: FichaRegistrationProps) {
         onPressArrowLeft={() => {
           navigate('dashboard');
         }}
-        text="Insira os dados de Cadastro do Funcionário"
+        text="Cadastrar funcionário"
       />
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false} style={stylesFichaRegistration.scrollView}>
         <View style={stylesFichaRegistration.body}>
           <View style={stylesFichaRegistration.inputs}>
             <Input
