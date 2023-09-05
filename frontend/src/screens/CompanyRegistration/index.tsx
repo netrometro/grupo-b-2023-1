@@ -7,6 +7,7 @@ import Button from '../../components/Button';
 import { useNavigation } from '@react-navigation/native';
 import { api, viaCepApi } from '../../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 export default function CompanyRegistration() {
   const [companyName, setCompanyName] = useState('');
@@ -26,6 +27,26 @@ export default function CompanyRegistration() {
     endereco: companyCNPJ,
     cep: companyCep,
   };
+
+  const fetchCNPJInfo = async (cnpj: string) => {
+    try {
+      // Realize a chamada à API Receita Data
+      const response = await axios.get(`https://www.receitaws.com.br/v1/cnpj/${cnpj}`);
+      
+      // Verifique se a resposta é válida e se o CNPJ existe
+      if (response.data.status === 'OK') {
+        // O CNPJ existe, você pode acessar as informações da empresa em response.data
+        const { nome, endereco } = response.data;
+        setCompanyName(nome);
+        setCompanyAddress(endereco);
+      } else {
+        // O CNPJ não existe ou há algum erro na consulta
+        console.error('CNPJ não encontrado ou consulta com erro');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const fetchAddresByCep = async (cep: string) => {
     try {
