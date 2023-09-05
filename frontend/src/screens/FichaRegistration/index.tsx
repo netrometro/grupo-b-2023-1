@@ -8,6 +8,7 @@ import Button from '../../components/Button';
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from '../../services/api';
+import axios from 'axios';
 
 interface FichaRegistrationProps {
   route: { params: { companyId: number } };
@@ -48,6 +49,28 @@ export default function FichaRegistration({ route }: FichaRegistrationProps) {
     formacao: formacao,
     ctps: ctps,
     demitido: false,
+  };
+
+  const handleValidateCPF = async () => {
+    try {
+      const cpfWithoutMask = cpf.replace(/[.-]/g, ''); // Remover pontos e traços do CPF
+      const response = await axios.get('https://cpf-validator.p.rapidapi.com/validate/cpf', {
+        params: { n: cpfWithoutMask },
+        headers: {
+          'X-RapidAPI-Key': '5f9d51799cmsh292c3c14680e9bbp138eb0jsna6a30853a061',
+          'X-RapidAPI-Host': 'cpf-validator.p.rapidapi.com'
+        }
+      });
+
+      if (response.data.status === 'VALID') {
+        ToastAndroid.show('CPF válido', ToastAndroid.LONG);
+      } else {
+        ToastAndroid.show('CPF inválido', ToastAndroid.LONG);
+      }
+    } catch (error) {
+      console.error(error);
+      ToastAndroid.show('Erro ao validar CPF', ToastAndroid.LONG);
+    }
   };
 
   const handleCreateEmployee = async () => {
@@ -130,6 +153,7 @@ export default function FichaRegistration({ route }: FichaRegistrationProps) {
               onChange={(value: string) => setCpf(value)}
               value={cpf}
             />
+            <Button text='VALIDAR CPF' onPress={handleValidateCPF} />
             <Input
               error={false}
               label="RG:"
