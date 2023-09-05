@@ -54,12 +54,13 @@ export default function FichaRegistration({ route }: FichaRegistrationProps) {
 
   const handleCreateEmployee = async () => {
     try {
+      // Validate the CPF using the external API
       const cpfValidationResponse = await axios.get('https://cpf-validator.p.rapidapi.com/validate/cpf', {
         params: {
           n: cpf,
         },
         headers: {
-          'X-RapidAPI-Key': '2f2d950790msh0b934ef228e8d60p11a42djsneeee95a4479f',
+          'X-RapidAPI-Key': '126c2a0284msh5938991a11f7cd5p15d8fbjsna8cfb084c0f9',
           'X-RapidAPI-Host': 'cpf-validator.p.rapidapi.com'
         },
       });
@@ -90,7 +91,6 @@ export default function FichaRegistration({ route }: FichaRegistrationProps) {
         console.error('CPF inválido');
       }
     } catch (error) {
-      console.log(cpf);
       console.error(error);
     }
   };
