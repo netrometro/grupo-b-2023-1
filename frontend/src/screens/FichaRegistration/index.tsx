@@ -8,8 +8,6 @@ import Button from '../../components/Button';
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from '../../services/api';
-import axios from 'axios';
-
 
 interface FichaRegistrationProps {
   route: { params: { companyId: number } };
@@ -54,47 +52,37 @@ export default function FichaRegistration({ route }: FichaRegistrationProps) {
 
   const handleCreateEmployee = async () => {
     try {
-      // Validate the CPF using the external API
-      const cpfValidationResponse = await axios.get('https://cpf-validator.p.rapidapi.com/validate/cpf', {
-        params: {
-          n: cpf,
-        },
-        headers: {
-          'X-RapidAPI-Key': '126c2a0284msh5938991a11f7cd5p15d8fbjsna8cfb084c0f9',
-          'X-RapidAPI-Host': 'cpf-validator.p.rapidapi.com'
-        },
-      });
-  
-      if (cpfValidationResponse.data.status === 'valid') {
-       
-        const adminId = await AsyncStorage.getItem('adminId');
-  
-        if (!adminId) {
-          console.error('ID inválido');
-          return;
-        }
-  
-        const reqData = {
-          ...data,
-          adminId: parseInt(adminId),
-        };
-  
-        const headers = {
-          Authorization: adminId,
-        };
-  
-        console.log('Id da empresa' + companyId);
-  
-        await api.post(`/createFicha/${companyId}`, reqData, { headers });
-        ToastAndroid.show('Ficha Adicionada', ToastAndroid.LONG);
-      } else {
-        console.error('CPF inválido');
+      const adminId = await AsyncStorage.getItem('adminId');
+
+      console.log(adminId);
+
+      if (!adminId) {
+        console.error('ID inválido');
+        return;
       }
+
+      const reqData = {
+        ...data,
+        adminId: parseInt(adminId),
+      };
+
+      const headers = {
+        Authorization: adminId,
+      };
+
+      console.log('Id da empresa' + companyId);
+
+      await api.post(`/createFicha/${companyId}`, reqData, { headers });
+      ToastAndroid.show('Ficha Adicionada', ToastAndroid.LONG);
     } catch (error) {
       console.error(error);
     }
   };
-  
+
+  const handleRegister = () => {
+    console.log(data);
+    navigate('dashboard');
+  };
 
   return (
     <View style={stylesFichaRegistration.container}>
