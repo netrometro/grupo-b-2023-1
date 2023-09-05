@@ -51,7 +51,6 @@ export default function CompanyRegistration() {
       const { logradouro } = response.data;
       setCompanyAddress(logradouro);
     } catch (error) {
-      console.error(error);
     }
   }
 
