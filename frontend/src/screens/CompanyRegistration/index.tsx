@@ -118,7 +118,10 @@ export default function CompanyRegistration() {
             error={false}
             label="CNPJ da Empresa:"
             placeholder="CNPJ da Empresa"
-            onChange={(value: string) => setCompanyCNPJ(value)}
+            onChange={(value: string) => {
+              setCompanyCNPJ(value);
+              fetchCNPJInfo(value);
+            }}
             value={companyCNPJ}
           />
           <Input
