@@ -83,6 +83,7 @@ export default function FichaRegistration({ route }: FichaRegistrationProps) {
         };
   
         console.log('Id da empresa' + companyId);
+        console.log('cpf' + cpf);
   
         await api.post(`/createFicha/${companyId}`, reqData, { headers });
         ToastAndroid.show('Ficha Adicionada', ToastAndroid.LONG);
