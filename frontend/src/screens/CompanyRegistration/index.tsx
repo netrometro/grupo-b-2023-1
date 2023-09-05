@@ -14,6 +14,7 @@ export default function CompanyRegistration() {
   const [companyAddress, setCompanyAddress] = useState('');
   const [companyCNPJ, setCompanyCNPJ] = useState('');
   const [companyCep, setCompanyCep] = useState('');
+  const [cnpjExist, setCnpjExist] = useState(false);
 
   type Nav = {
     navigate: (value: string) => void;
@@ -28,25 +29,21 @@ export default function CompanyRegistration() {
     cep: companyCep,
   };
 
-  const fetchCNPJInfo = async (cnpj: string) => {
+  const verifyCNPJ = async () => {
     try {
-      // Realize a chamada à API Receita Data
-      const response = await axios.get(`https://www.receitaws.com.br/v1/cnpj/${cnpj}`);
-      
-      // Verifique se a resposta é válida e se o CNPJ existe
-      if (response.data.status === 'OK') {
-        // O CNPJ existe, você pode acessar as informações da empresa em response.data
-        const { nome, endereco } = response.data;
-        setCompanyName(nome);
-        setCompanyAddress(endereco);
+      const response = await api.get(`https://receitaws.com.br/v1/cnpj/${companyCNPJ}`);
+      if (response.data.situacao === 'ATIVA') {
+        setCnpjExist(true);
+        ToastAndroid.show('cnpj existe e está ativo', ToastAndroid.LONG);
       } else {
-        // O CNPJ não existe ou há algum erro na consulta
-        console.error('CNPJ não encontrado ou consulta com erro');
+        setCnpjExist(false);
+        ToastAndroid.show('cnpj não existe ou não está ativo', ToastAndroid.LONG);
       }
-    } catch (error) {
+    } catch(error) {
       console.error(error);
+      ToastAndroid.show('Erro ao verificar cnpj', ToastAndroid.LONG);
     }
-  }
+  };
 
   const fetchAddresByCep = async (cep: string) => {
     try {
@@ -120,7 +117,6 @@ export default function CompanyRegistration() {
             placeholder="CNPJ da Empresa"
             onChange={(value: string) => {
               setCompanyCNPJ(value);
-              fetchCNPJInfo(value);
             }}
             value={companyCNPJ}
           />
@@ -132,6 +128,7 @@ export default function CompanyRegistration() {
             value={companyCep}
           />
         </View>
+        <Button text="VERIFICAR CNPJ" onPress={verifyCNPJ} />
         <Button text="CADASTRAR EMPRESA" onPress={handleCreateCompany} />
       </View>
     </View>

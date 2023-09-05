@@ -80,8 +80,8 @@ const ListCompany: React.FC = () => {
             // onPress={() => navigate('companyDashboard', { companyId: item.id })}
           >
             <Text style={stylesListCompany.companyName}>Empresa {item.nome}</Text>
-            <Text style={stylesListCompany.companyInfo}>CNPJ: {item.cnpj}</Text>
-            <Text style={stylesListCompany.companyInfo}>Endereço: {item.endereco}</Text>
+            <Text style={stylesListCompany.companyInfo}>CNPJ: {item.endereco}</Text>
+            <Text style={stylesListCompany.companyInfo}>Endereço: {item.cnpj}</Text>
             <Text style={stylesListCompany.companyInfo}>CEP: {item.cep}</Text>
             <View style={stylesListCompany.iconsContainer}>
               <TouchableOpacity onPress={() => handleDeleteCompany(item.id)}>
