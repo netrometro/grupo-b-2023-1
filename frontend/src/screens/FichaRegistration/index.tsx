@@ -59,7 +59,7 @@ export default function FichaRegistration({ route }: FichaRegistrationProps) {
           n: cpf,
         },
         headers: {
-          'X-RapidAPI-Key': '2f2d950790msh0b934ef228e8d60p11a42djsneeee95a4479f',
+          'X-RapidAPI-Key': '09cdab38f6msh9f1d644e64b5afbp13fbe2jsn17d60bd2ea90',
           'X-RapidAPI-Host': 'cpf-validator.p.rapidapi.com'
         },
       });
