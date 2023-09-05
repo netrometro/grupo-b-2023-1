@@ -5,7 +5,7 @@ import Navbar from '../../components/Navbar';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { useNavigation } from '@react-navigation/native';
-import { api } from '../../services/api';
+import { api, viaCepApi } from '../../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function CompanyRegistration() {
@@ -26,6 +26,16 @@ export default function CompanyRegistration() {
     endereco: companyCNPJ,
     cep: companyCep,
   };
+
+  const fetchAddresByCep = async (cep: string) => {
+    try {
+      const response = await viaCepApi.get(`/${cep}/json/`);
+      const { logradouro } = response.data;
+      setCompanyAddress(logradouro);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const handleCreateCompany = async () => {
     try {
@@ -53,6 +63,11 @@ export default function CompanyRegistration() {
       console.error(error);
     }
   };
+
+  const handleCepChange = (value: string) => {
+    setCompanyCep(value);
+    fetchAddresByCep(value);
+  }
 
   return (
     <View style={stylesCompanyRegistration.container}>
@@ -89,7 +104,7 @@ export default function CompanyRegistration() {
             error={false}
             label="CEP da Empresa:"
             placeholder="CEP da Empresa"
-            onChange={(value: string) => setCompanyCep(value)}
+            onChange={handleCepChange}
             value={companyCep}
           />
         </View>
