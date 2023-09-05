@@ -8,6 +8,7 @@ import Button from '../../components/Button';
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from '../../services/api';
+import axios from 'axios';
 
 interface FichaRegistrationProps {
   route: { params: { companyId: number } };

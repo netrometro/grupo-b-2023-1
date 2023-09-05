@@ -5,8 +5,9 @@ import Navbar from '../../components/Navbar';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { useNavigation } from '@react-navigation/native';
-import { api } from '../../services/api';
+import { api, viaCepApi } from '../../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 export default function CompanyRegistration() {
   const [companyName, setCompanyName] = useState('');
@@ -26,6 +27,36 @@ export default function CompanyRegistration() {
     endereco: companyCNPJ,
     cep: companyCep,
   };
+
+  const fetchCNPJInfo = async (cnpj: string) => {
+    try {
+      // Realize a chamada à API Receita Data
+      const response = await axios.get(`https://www.receitaws.com.br/v1/cnpj/${cnpj}`);
+      
+      // Verifique se a resposta é válida e se o CNPJ existe
+      if (response.data.status === 'OK') {
+        // O CNPJ existe, você pode acessar as informações da empresa em response.data
+        const { nome, endereco } = response.data;
+        setCompanyName(nome);
+        setCompanyAddress(endereco);
+      } else {
+        // O CNPJ não existe ou há algum erro na consulta
+        console.error('CNPJ não encontrado ou consulta com erro');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const fetchAddresByCep = async (cep: string) => {
+    try {
+      const response = await viaCepApi.get(`/${cep}/json/`);
+      const { logradouro } = response.data;
+      setCompanyAddress(logradouro);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const handleCreateCompany = async () => {
     try {
@@ -53,6 +84,11 @@ export default function CompanyRegistration() {
       console.error(error);
     }
   };
+
+  const handleCepChange = (value: string) => {
+    setCompanyCep(value);
+    fetchAddresByCep(value);
+  }
 
   return (
     <View style={stylesCompanyRegistration.container}>
@@ -82,14 +118,17 @@ export default function CompanyRegistration() {
             error={false}
             label="CNPJ da Empresa:"
             placeholder="CNPJ da Empresa"
-            onChange={(value: string) => setCompanyCNPJ(value)}
+            onChange={(value: string) => {
+              setCompanyCNPJ(value);
+              fetchCNPJInfo(value);
+            }}
             value={companyCNPJ}
           />
           <Input
             error={false}
             label="CEP da Empresa:"
             placeholder="CEP da Empresa"
-            onChange={(value: string) => setCompanyCep(value)}
+            onChange={handleCepChange}
             value={companyCep}
           />
         </View>
