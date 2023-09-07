@@ -89,47 +89,47 @@ export default function CompanyRegistration() {
 
   return (
     <View style={stylesCompanyRegistration.container}>
-      <Navbar
-        onPressArrowLeft={() => {
-          navigate('dashboard');
-        }}
-        text="Cadastrar Empresa"
-      />
-      <View style={stylesCompanyRegistration.body}>
-      <View style={stylesCompanyRegistration.inputs}>
-  <MaskedInput
-    error={false}
-    label="Nome da Empresa:"
-    placeholder="Nome da Empresa"
-    onChange={(value: string) => setCompanyName(value)}
-    value={companyName}
-  />
-  <MaskedInput
-    error={false}
-    label="Endereço da Empresa:"
-    placeholder="Endereço da Empresa"
-    onChange={(value: string) => setCompanyAddress(value)}
-    value={companyAddress}
-  />
-  <MaskedInput
-    error={false}
-    label="CNPJ da Empresa:"
-    placeholder="CNPJ da Empresa"
-    mask="99.999.999/9999-99" 
-    onChange={(value: string) => {
-      setCompanyCNPJ(value);
-    }}
-    value={companyCNPJ}
-  />
-  <MaskedInput
-    error={false}
-    label="CEP da Empresa:"
-    placeholder="CEP da Empresa"
-    mask="99999-999"
-    onChange={handleCepChange}
-    value={companyCep}
-  />
-</View>
+        <Navbar
+          onPressArrowLeft={() => {
+            navigate('dashboard');
+          }}
+          text="Cadastrar Empresa"
+        />
+        <View style={stylesCompanyRegistration.body}>
+        <View style={stylesCompanyRegistration.inputs}>
+    <MaskedInput
+      error={false}
+      label="Nome da Empresa:"
+      placeholder="Nome da Empresa"
+      onChange={(value: string) => setCompanyName(value)}
+      value={companyName}
+    />
+    <MaskedInput
+      error={false}
+      label="Endereço da Empresa:"
+      placeholder="Logradouro"
+      onChange={(value: string) => setCompanyAddress(value)}
+      value={companyAddress}
+    />
+    <MaskedInput
+      error={false}
+      label="CNPJ da Empresa:"
+      placeholder="00.000.000/0000-00"
+      mask="99.999.999/9999-99" 
+      onChange={(value: string) => {
+        setCompanyCNPJ(value);
+      }}
+      value={companyCNPJ}
+    />
+    <MaskedInput
+      error={false}
+      label="CEP da Empresa:"
+      placeholder="00000-000"
+      mask="99999-999"
+      onChange={handleCepChange}
+      value={companyCep}
+    />
+  </View>
 
         <Button text="VERIFICAR CNPJ" onPress={verifyCNPJ} />
         <Button text="CADASTRAR EMPRESA" onPress={handleCreateCompany} />
