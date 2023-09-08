@@ -6,6 +6,7 @@ import Button from '../../components/Button';
 import { useEffect, useState } from 'react';
 import PasswordInput from '../../components/PasswordInput';
 import { useNavigation } from '@react-navigation/native';
+import * as LocalAuthentication from 'expo-local-authentication';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from '../../services/api';
 import React from 'react';
@@ -141,7 +142,7 @@ export default function AdminEditInfo() {
         },
         {
           text: 'Confirmar',
-          onPress: handleDelete,
+          onPress: handleDeleteAuthenticate,
         },
       ],
       {
@@ -149,6 +150,19 @@ export default function AdminEditInfo() {
         onDismiss: () => {},
       }
     );
+  };
+
+  const handleDeleteAuthenticate = async () => {
+    const auth = await LocalAuthentication.authenticateAsync({
+      promptMessage: 'Confirme sua identidade',
+    });
+
+    if (auth.success) {
+      handleDelete();
+    }
+    // } else {
+    //   handleDeleteAuthenticate();
+    // }
   };
 
   return (
