@@ -10,8 +10,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from '../../services/api';
 import React from 'react';
 import MaskedInput from '../../components/MaskedInput';
+import { useScreenGuard } from '../../hooks/useScreenGuard';
 
 export default function AdminEditInfo() {
+  useScreenGuard('adminEditInfo');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
