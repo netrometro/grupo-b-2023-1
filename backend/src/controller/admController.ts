@@ -66,6 +66,12 @@ exports.deleteAdmById = async (req: FastifyRequest, res: FastifyReply) => {
 
   if (hasId) {
     try {
+      await prisma.empresa.deleteMany({
+        where: {
+          administradorId: Number(id),
+        },
+      });
+
       await prisma.administrador.delete({
         where: {
           id: Number(id),
@@ -74,9 +80,7 @@ exports.deleteAdmById = async (req: FastifyRequest, res: FastifyReply) => {
 
       return res.status(200).send({ message: "Usuário deletado com sucesso" });
     } catch (error) {
-      return res
-        .status(500)
-        .send({ message: "Ocorreu um erro interno no servidor" });
+      return res.status(500).send({ message: error });
     }
   } else {
     return res.status(400).send({ message: "Usuário não encontrado" });
