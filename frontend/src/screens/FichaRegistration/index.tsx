@@ -9,6 +9,7 @@ import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from '../../services/api';
 import axios from 'axios';
+import MaskedInput from '../../components/MaskedInput';
 
 interface FichaRegistrationProps {
   route: { params: { companyId: number } };
@@ -110,12 +111,14 @@ export default function FichaRegistration({ route }: FichaRegistrationProps) {
               onChange={(value: string) => setEmail(value)}
               value={email}
             />
-            <Input
+            <MaskedInput
               error={false}
               label="Nascimento:"
+              mask="99/99/9999"
               placeholder="dd/mm/aaaa"
               onChange={(value: string) => setNascimento(value)}
               value={nascimento}
+              keyboardType="numeric"
             />
             <Input
               error={false}
@@ -124,19 +127,23 @@ export default function FichaRegistration({ route }: FichaRegistrationProps) {
               onChange={(value: string) => setNacionalidade(value)}
               value={nacionalidade}
             />
-            <Input
-              error={false}
+          <MaskedInput
               label="CPF:"
+              mask="999.999.999-99"
               placeholder="000.000.000-00"
               onChange={(value: string) => setCpf(value)}
               value={cpf}
-            />
-            <Input
+              keyboardType="numeric" 
+              error={false}              
+              />
+            <MaskedInput
               error={false}
+              mask="9.999.999"
               label="RG:"
               placeholder="0.000.000"
               onChange={(value: string) => setRg(value)}
               value={rg}
+              keyboardType="numeric" 
             />
             <Input
               error={false}
@@ -152,19 +159,23 @@ export default function FichaRegistration({ route }: FichaRegistrationProps) {
               onChange={(value: string) => setEndereco(value)}
               value={endereco}
             />
-            <Input
+            <MaskedInput
               error={false}
+              mask='9.999.999.999-9'
               label="Número do PIS/PASEP:"
               placeholder="0.000.000.000-0"
               onChange={(value: string) => setPispasep(value)}
               value={pispasep}
+              keyboardType="numeric" 
             />
-            <Input
+            <MaskedInput
               error={false}
+              mask='99/99/9999'
               label="Ano de Admissão:"
               placeholder="dd/mm/aaaa"
               onChange={(value: string) => setAdmissao(value)}
               value={admissao}
+              keyboardType="numeric" 
             />
             <Input
               error={false}
@@ -173,12 +184,14 @@ export default function FichaRegistration({ route }: FichaRegistrationProps) {
               onChange={(value: string) => setFormacao(value)}
               value={formacao}
             />
-            <Input
+            <MaskedInput
               error={false}
+              mask='9999999/9999'
               label="CTPS:"
               placeholder="0000000/0000"
               onChange={(value: string) => setCtps(value)}
               value={ctps}
+              keyboardType="numeric" 
             />
           </View>
           <Button text="CADASTRAR FICHA" onPress={handleCreateEmployee} />
