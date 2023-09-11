@@ -33,6 +33,9 @@ export default function EditEmployer({ route }: EditEmployerProps) {
   const [pispasep, setPispasep] = useState('');
   const [admissao, setAdmissao] = useState('');
   const [formacao, setFormacao] = useState('');
+
+  const [selectedState, setSelectadeState] = useState('');
+
   const [ctps, setCtps] = useState('');
 
   const editMode = (route.params as RouteParams)?.editMode || false;
@@ -119,6 +122,50 @@ export default function EditEmployer({ route }: EditEmployerProps) {
     }
   };
 
+  const getRgMask = (state: string) => {
+    switch (state) {
+      case 'AC':
+      case 'AM':
+      case 'DF':
+      case 'ES':
+      case 'GO':
+      case 'MS':
+      case 'MT':
+      case 'PA':
+      case 'PB':
+      case 'RO':
+      case 'RR':
+      case 'SE':
+      case 'TO':
+        return '99.999.999-9';
+      case 'AL':
+      case 'BA':
+      case 'MA':
+      case 'PE':
+      case 'PI':
+        return '9999999-9';
+      case 'AP':
+      case 'CE':
+      case 'MG':
+      case 'PR':
+        return '99999999-9';
+      case 'RS':
+        return '9999999999';
+      case 'RJ':
+        return '99.999.99-9';
+      case 'RN':
+        return '99.99.999-9';
+      case 'SP':
+        return '99.999.999-9';
+      default:
+        return '99.999.999-9';
+    }
+  };
+
+  const handleStateSelection = (stateAbbreviation: string) => {
+    setSelectadeState(stateAbbreviation.toUpperCase());
+  };
+
   return (
     <View style={stylesEditEmployer.container}>
       <Navbar
@@ -169,9 +216,16 @@ export default function EditEmployer({ route }: EditEmployerProps) {
               keyboardType="numeric" 
               error={false}              
               />
+            <Input 
+              error={false}
+              placeholder={'Abreviação do Estado'} 
+              label={'Adicione a Abreviação do seu Estado'} 
+              onChange={(value: string) => handleStateSelection(value)}
+              value={selectedState}            
+            />
             <MaskedInput
               error={false}
-              mask="9.999.999"
+              mask={getRgMask(selectedState)}
               label="RG:"
               placeholder="0.000.000"
               onChange={(value: string) => setRg(value)}
